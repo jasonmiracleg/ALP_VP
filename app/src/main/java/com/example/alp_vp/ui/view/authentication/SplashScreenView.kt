@@ -11,6 +11,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.size
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import com.example.alp_vp.R
+
 
 @Composable
 fun SplashScreenView()
@@ -23,10 +29,10 @@ fun SplashScreenView()
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        Text(
-            text = "LOGO",
-            color = Color.White,
-            fontSize = 32.sp
+        Image(
+            painter = painterResource(R.drawable.logo_blue),
+            contentDescription = null,
+            modifier = Modifier.size(300.dp)
         )
     }
 }

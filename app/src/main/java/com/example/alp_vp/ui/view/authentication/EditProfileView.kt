@@ -373,7 +373,9 @@ fun EditProfileView() {
                 Text(
                     text = "Joined 30 August 2023",
                     fontFamily = poppins,
+                    fontSize = 12.sp,
                     fontWeight = FontWeight.SemiBold,
+                    color = Color.Gray,
                     modifier = Modifier.padding(start = 14.dp)
                 )
                 

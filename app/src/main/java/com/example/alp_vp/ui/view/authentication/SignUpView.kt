@@ -92,7 +92,17 @@ fun SignUpView() {
         verticalArrangement = Arrangement.Center
     ) {
 
-        // LOGO DAN NAMA APP
+       Row(
+           modifier = Modifier.fillMaxWidth(),
+           horizontalArrangement = Arrangement.Center,
+           verticalAlignment = Alignment.CenterVertically
+       ) {
+           Image(
+               painter = painterResource(id = R.drawable.logo_white),
+               contentDescription = null,
+               modifier = Modifier
+           )
+       }
 
         Text(
             text = "Sign Up",
