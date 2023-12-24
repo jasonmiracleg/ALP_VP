@@ -1,5 +1,7 @@
 package com.example.alp_vp.ui.view.authentication
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -14,8 +16,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -26,10 +33,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.alp_vp.R
+import com.example.alp_vp.navigation.Screen
 import com.example.alp_vp.ui.theme.poppins
+
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun AuthenticationView() {
+fun AuthenticationView(
+    navController: NavController
+) {
 
     Column(
         modifier = Modifier
@@ -76,7 +91,7 @@ fun AuthenticationView() {
         Spacer(Modifier.padding(bottom = 12.dp))
 
         Button(
-            onClick = { /*TODO*/ },
+            onClick = { navController.navigate( route = Screen.SignIn.route) },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFF38BDF8),
             ),
@@ -105,7 +120,7 @@ fun AuthenticationView() {
         Spacer(Modifier.padding(bottom = 18.dp))
 
         Button(
-            onClick = { /*TODO*/ },
+            onClick = { navController.navigate(route = Screen.SignUp.route) },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.White,
             ),
@@ -127,9 +142,9 @@ fun AuthenticationView() {
         }
     }
 }
-
+@RequiresApi(Build.VERSION_CODES.O)
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun AuthenticationPreview() {
-    return AuthenticationView()
+    return AuthenticationView(navController = rememberNavController())
 }

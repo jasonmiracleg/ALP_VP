@@ -13,14 +13,26 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.size
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.alp_vp.R
+import com.example.alp_vp.navigation.Screen
+import kotlinx.coroutines.delay
 
 
 @Composable
-fun SplashScreenView()
+fun SplashScreenView(
+    navController: NavController
+)
 {
+    LaunchedEffect(key1 = true) {
+        delay(3000)
+        navController.navigate(route = Screen.Authentication.route)
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -40,5 +52,5 @@ fun SplashScreenView()
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun SplashScreenPreview() {
-    return SplashScreenView()
+    return SplashScreenView(navController = rememberNavController())
 }
