@@ -11,3 +11,5 @@ val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
 
 val BlueTheme = Color(0xFF22D3EE)
+val BlueOutline = Color(0xFFC9EFFF)
+val ButtonColor = Color(0xFF38BDF8)
