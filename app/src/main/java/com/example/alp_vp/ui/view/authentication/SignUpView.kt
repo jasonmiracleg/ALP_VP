@@ -60,6 +60,8 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -241,7 +243,7 @@ fun SignUpView(
             value = password,
             onValueChange = { password = it },
             keyboardOptions = KeyboardOptions.Default.copy(
-                keyboardType = if (passwordVisibility) KeyboardType.Text else KeyboardType.Password,
+                keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Next
             ),
             colors = OutlinedTextFieldDefaults.colors(
@@ -269,7 +271,8 @@ fun SignUpView(
                             .width(24.dp)
                     )
                 }
-            }
+            },
+            visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation()
         )
 
         Spacer(modifier = Modifier.padding(bottom = 24.dp))

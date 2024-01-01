@@ -32,6 +32,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -126,7 +128,7 @@ fun SignInView(
             value = password,
             onValueChange = { password = it },
             keyboardOptions = KeyboardOptions.Default.copy(
-                keyboardType = if (passwordVisibility) KeyboardType.Text else KeyboardType.Password,
+                keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Next
             ),
             colors = OutlinedTextFieldDefaults.colors(
@@ -153,12 +155,14 @@ fun SignInView(
                     )
                 }
             },
+            visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation()
 
         )
 
         Spacer(modifier = Modifier.padding(bottom = 24.dp))
 
         Button(
+            enabled = email.isNotBlank() && password.isNotBlank(),
             onClick = { signInViewModel.logIn(email, password, navController) },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFF38BDF8),
