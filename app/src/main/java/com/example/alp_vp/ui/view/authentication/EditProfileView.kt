@@ -1,12 +1,13 @@
 package com.example.alp_vp.ui.view.authentication
 
-import android.inputmethodservice.Keyboard
+import android.net.Uri
 import android.os.Build
-import android.widget.ImageButton
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,17 +18,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -49,6 +47,7 @@ import com.example.alp_vp.R
 import com.example.alp_vp.ui.theme.poppins
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
@@ -63,22 +62,49 @@ import java.time.LocalDate
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import androidx.compose.material.Divider
-
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import coil.compose.rememberAsyncImagePainter
+import com.example.alp_vp.viewmodel.authentication.EditProfileViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun EditProfileView() {
+fun EditProfileView(
+    navController: NavController,
+    editProfileViewModel: EditProfileViewModel = viewModel(),
+) {
+    val editProfileUIState by editProfileViewModel.userData.collectAsState()
+
+    var imageUri by rememberSaveable {
+        mutableStateOf("")
+    }
+    val painter = rememberAsyncImagePainter(
+        imageUri?.ifEmpty {
+            R.drawable.profile
+        }
+    )
+    val launcher = rememberLauncherForActivityResult(
+        ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        uri?.let { imageUri = it.toString() }
+    }
 
     var email by rememberSaveable {
-        mutableStateOf("jerry@gmail.com")
+        mutableStateOf("")
     }
-    var username by rememberSaveable {
-        mutableStateOf("JerryNiBos")
+    var name by rememberSaveable {
+        mutableStateOf("")
     }
     var password by rememberSaveable {
-        mutableStateOf("12345678")
+        mutableStateOf("")
     }
     var passwordVisibility by rememberSaveable {
         mutableStateOf(false)
@@ -89,6 +115,9 @@ fun EditProfileView() {
     val datePickerState = rememberDatePickerState(
         initialSelectedDateMillis = Instant.now().toEpochMilli()
     )
+    var confirmPass by rememberSaveable {
+        mutableStateOf("")
+    }
 
     Column(
         modifier = Modifier
@@ -135,41 +164,51 @@ fun EditProfileView() {
 
         Spacer(modifier = Modifier.padding(bottom = 20.dp))
 
-        Box(
-            modifier = Modifier
-                .background(
-                    color = Color.LightGray,
-                    shape = RoundedCornerShape(50.dp)
-                )
-                .size(100.dp),
-            contentAlignment = Alignment.Center
-        ) {
+        Box {
 
-            IconButton(
-                onClick = { /*TODO*/ },
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
-                    .background(Color(0x38BDF8))
-                    .size(50.dp)
+                    .height(130.dp)
+                    .fillMaxWidth(),
+                verticalArrangement = Arrangement.Center
             ) {
 
                 Image(
-                    painter = painterResource(id = R.drawable.visibility),
-                    contentDescription = null
+                    painter = painter,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .size(120.dp)
+                        .border(
+                            width = 1.dp,
+                            color = Color.Black,
+                            shape = CircleShape
+                        )
+                )
+
+            }
+            Box(
+                modifier = Modifier
+                    .padding(
+                        top = 86.dp,
+                        start = 190.dp
+                    )
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.camera),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(40.dp)
+                        .clickable {
+                            launcher.launch("image/*")
+                        }
                 )
             }
         }
 
         Spacer(modifier = Modifier.padding(bottom = 16.dp))
-
-        Text(
-            text = "Jerry Tri Tjahyono",
-            fontWeight = FontWeight.Bold,
-            fontFamily = poppins,
-            color = Color.Gray,
-            fontSize = 22.sp,
-            modifier = Modifier
-                .padding(bottom = 20.dp)
-        )
 
         Column(
             modifier = Modifier
@@ -177,7 +216,7 @@ fun EditProfileView() {
         ) {
 
             Text(
-                text = "Email Address",
+                text = "Name",
                 fontWeight = FontWeight.Bold,
                 fontFamily = poppins,
                 color = Color.LightGray,
@@ -186,8 +225,10 @@ fun EditProfileView() {
             )
 
             TextField(
-                value = email,
-                onValueChange = { email = it },
+                value = "${editProfileUIState.name}",
+                onValueChange = {
+                                editProfileViewModel.changeName(it)
+                                },
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = Color(0xFF38BDF8),
                     unfocusedBorderColor = Color.LightGray,
@@ -204,7 +245,7 @@ fun EditProfileView() {
             Spacer(modifier = Modifier.padding(bottom = 16.dp))
 
             Text(
-                text = "Username",
+                text = "Email",
                 fontWeight = FontWeight.Bold,
                 fontFamily = poppins,
                 color = Color.LightGray,
@@ -213,14 +254,14 @@ fun EditProfileView() {
             )
 
             TextField(
-                value = username,
-                onValueChange = { username = it },
+                value = email,
+                onValueChange = { email = it },
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = Color(0xFF38BDF8),
                     unfocusedBorderColor = Color.LightGray,
                 ),
                 keyboardOptions = KeyboardOptions.Default.copy(
-                    keyboardType = KeyboardType.Text,
+                    keyboardType = KeyboardType.Email,
                     imeAction = ImeAction.Next
                 ),
                 modifier = Modifier
@@ -243,7 +284,7 @@ fun EditProfileView() {
                 value = password,
                 onValueChange = { password = it },
                 keyboardOptions = KeyboardOptions.Default.copy(
-                    keyboardType = if (passwordVisibility) KeyboardType.Text else KeyboardType.Password,
+                    keyboardType = KeyboardType.Text,
                     imeAction = ImeAction.Next
                 ),
                 colors = OutlinedTextFieldDefaults.colors(
@@ -266,7 +307,8 @@ fun EditProfileView() {
                                 .width(24.dp)
                         )
                     }
-                }
+                },
+                visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation()
             )
 
             Spacer(modifier = Modifier.padding(bottom = 16.dp))
@@ -281,10 +323,10 @@ fun EditProfileView() {
             )
 
             TextField(
-                value = password,
-                onValueChange = { password = it },
+                value = confirmPass,
+                onValueChange = { confirmPass = it },
                 keyboardOptions = KeyboardOptions.Default.copy(
-                    keyboardType = if (passwordVisibility) KeyboardType.Text else KeyboardType.Password,
+                    keyboardType = KeyboardType.Text,
                     imeAction = ImeAction.Next
                 ),
                 colors = OutlinedTextFieldDefaults.colors(
@@ -307,7 +349,8 @@ fun EditProfileView() {
                                 .width(24.dp)
                         )
                     }
-                }
+                },
+                visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation()
             )
 
             Spacer(modifier = Modifier.padding(bottom = 16.dp))
@@ -380,7 +423,15 @@ fun EditProfileView() {
                 )
                 
                 Button(
-                    onClick = { /*TODO*/ },
+                    onClick = {
+                        editProfileViewModel.updateData(
+                        imageUri,
+                        name,
+                        email,
+                        password,
+                        bornDate1 = datePickerState.selectedDateMillis.changeToString(),
+                        navController
+                    ) },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color(0xFF38BDF8),
                     ),
@@ -467,5 +518,5 @@ fun Long?.changeToStringg(): String {
 @Composable
 @Preview(showSystemUi = true, showBackground = true)
 fun EditProfilePreview() {
-    return EditProfileView()
+    return EditProfileView(navController = rememberNavController())
 }

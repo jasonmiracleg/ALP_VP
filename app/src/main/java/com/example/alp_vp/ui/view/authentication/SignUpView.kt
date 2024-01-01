@@ -1,15 +1,17 @@
 package com.example.alp_vp.ui.view.authentication
 
-import android.app.DatePickerDialog
+import android.net.Uri
 import android.os.Build
-import android.util.Log
-import android.widget.DatePicker
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -17,7 +19,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -31,7 +35,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -55,6 +58,13 @@ import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import coil.compose.rememberAsyncImagePainter
+import com.example.alp_vp.viewmodel.authentication.SignUpViewModel
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
@@ -63,8 +73,13 @@ import java.time.format.DateTimeFormatter
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignUpView() {
-
+fun SignUpView(
+    signUpViewModel: SignUpViewModel = viewModel(),
+    navController: NavController
+) {
+    var check by rememberSaveable {
+        mutableStateOf(false)
+    }
     var name by rememberSaveable {
         mutableStateOf("")
     }
@@ -80,9 +95,25 @@ fun SignUpView() {
     var isClicked by rememberSaveable {
         mutableStateOf(false)
     }
+    var bornDate by rememberSaveable {
+        mutableStateOf("")
+    }
     val datePickerState = rememberDatePickerState(
         initialSelectedDateMillis = Instant.now().toEpochMilli()
     )
+    var imageUri by rememberSaveable {
+        mutableStateOf("")
+    }
+    val painter = rememberAsyncImagePainter(
+        imageUri.ifEmpty {
+            R.drawable.profile
+        }
+    )
+    val launcher = rememberLauncherForActivityResult(
+        ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        uri?.let { imageUri = it.toString() }
+    }
 
     Column(
         modifier = Modifier
@@ -92,17 +123,51 @@ fun SignUpView() {
         verticalArrangement = Arrangement.Center
     ) {
 
-       Row(
-           modifier = Modifier.fillMaxWidth(),
-           horizontalArrangement = Arrangement.Center,
-           verticalAlignment = Alignment.CenterVertically
-       ) {
-           Image(
-               painter = painterResource(id = R.drawable.logo_white),
-               contentDescription = null,
-               modifier = Modifier
-           )
-       }
+        Box {
+
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .height(130.dp)
+                    .fillMaxWidth(),
+                verticalArrangement = Arrangement.Center
+            ) {
+
+                Image(
+                    painter = painter,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .size(120.dp)
+                        .border(
+                            width = 1.dp,
+                            color = Color.Black,
+                            shape = CircleShape
+                        )
+                )
+
+            }
+            Box(
+                modifier = Modifier
+                    .padding(
+                        top = 86.dp,
+                        start = 190.dp
+                    )
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.camera),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(40.dp)
+                        .clickable {
+                            launcher.launch("image/*")
+                        }
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.padding(bottom = 10.dp))
 
         Text(
             text = "Sign Up",
@@ -207,7 +272,7 @@ fun SignUpView() {
             }
         )
 
-        Spacer(modifier = Modifier.padding(bottom = 16.dp))
+        Spacer(modifier = Modifier.padding(bottom = 24.dp))
 
         Row(
             modifier = Modifier
@@ -217,14 +282,14 @@ fun SignUpView() {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
 
-        ) {
+            ) {
 
             Text(
                 text = datePickerState.selectedDateMillis.changeToString(),
                 fontFamily = poppins,
                 color = Color.Gray,
                 modifier = Modifier.padding(start = 12.dp),
-                fontSize = 16.sp
+                fontSize = 16.sp,
             )
 
             IconButton(
@@ -251,7 +316,16 @@ fun SignUpView() {
         Spacer(modifier = Modifier.padding(bottom = 16.dp))
 
         Button(
-            onClick = { /*TODO*/ },
+            onClick = {
+                signUpViewModel.fillUserData(
+                    imageUri,
+                    name,
+                    email,
+                    password,
+                    bornDate = datePickerState.selectedDateMillis.changeToString(),
+                    navController
+                )
+            },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFF38BDF8),
             ),
@@ -262,7 +336,7 @@ fun SignUpView() {
                     ambientColor = Color(0x33FF8D4D)
                 )
                 .fillMaxWidth()
-                .height(66.dp)
+                .height(66.dp),
         ) {
 
             Text(
@@ -333,5 +407,5 @@ fun Long?.changeToString() : String {
 @Composable
 @Preview(showSystemUi = true, showBackground = true)
 fun SignUpPreview() {
-    return SignUpView()
+    return SignUpView(navController = rememberNavController())
 }

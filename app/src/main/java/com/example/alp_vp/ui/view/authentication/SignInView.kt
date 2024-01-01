@@ -15,19 +15,16 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
@@ -39,12 +36,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.alp_vp.R
 import com.example.alp_vp.ui.theme.poppins
+import com.example.alp_vp.viewmodel.authentication.SignInViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignInView() {
+fun SignInView(
+    navController: NavController,
+    signInViewModel: SignInViewModel = viewModel()
+) {
 
     var email by rememberSaveable {
         mutableStateOf("")
@@ -144,16 +147,19 @@ fun SignInView() {
                     Icon(
                         painter = if (passwordVisibility) painterResource(id = R.drawable.visibility) else painterResource(id = R.drawable.visibilityoff),
                         contentDescription = "Visibility Icon",
-                        modifier = Modifier.height(24.dp).width(24.dp)
+                        modifier = Modifier
+                            .height(24.dp)
+                            .width(24.dp)
                     )
                 }
-            }
+            },
+
         )
 
         Spacer(modifier = Modifier.padding(bottom = 24.dp))
 
         Button(
-            onClick = { /*TODO*/ },
+            onClick = { signInViewModel.logIn(email, password, navController) },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFF38BDF8),
             ),
@@ -185,5 +191,5 @@ fun SignInView() {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun SignInPreview() {
-    return SignInView()
+    return SignInView(navController = rememberNavController())
 }

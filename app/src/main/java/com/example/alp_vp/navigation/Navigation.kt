@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.alp_vp.ui.view.authentication.AuthenticationView
+import com.example.alp_vp.ui.view.authentication.EditProfileView
 import com.example.alp_vp.ui.view.authentication.SignInView
 import com.example.alp_vp.ui.view.authentication.SignUpView
 import com.example.alp_vp.ui.view.authentication.SplashScreenView
@@ -14,7 +15,7 @@ import com.example.alp_vp.ui.view.authentication.SplashScreenView
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Navigation(
-    navController: NavHostController
+    navController: NavHostController,
 ) {
 
     NavHost(
@@ -37,13 +38,19 @@ fun Navigation(
         composable(
             route = Screen.SignIn.route
         ) {
-            SignInView()
+            SignInView(navController = navController)
         }
 
         composable(
             route = Screen.SignUp.route
         ) {
-            SignUpView()
+            SignUpView(navController = navController)
+        }
+
+        composable(
+            route = Screen.EditProfile.route
+        ) {
+            EditProfileView(navController = navController)
         }
 
     }
