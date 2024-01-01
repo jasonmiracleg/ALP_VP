@@ -1,6 +1,5 @@
 package com.example.alp_vp.ui.view.to_do_list
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,12 +11,17 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.KeyboardArrowLeft
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,6 +38,8 @@ import com.example.alp_vp.ui.theme.poppins
 
 @Composable
 fun ViewTimer() {
+    var isPlayed by rememberSaveable { mutableStateOf(false) }
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.padding(horizontal = 24.dp, vertical = 24.dp)
@@ -120,7 +126,7 @@ fun ViewTimer() {
             )
         }
         Row(
-            horizontalArrangement = Arrangement.Center,
+            horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 120.dp)
@@ -132,7 +138,27 @@ fun ViewTimer() {
                 )
             ) {
                 Icon(
-                    painter = painterResource(id = R.drawable.baseline_play_circle_outline_24),
+                    imageVector = Icons.Outlined.Check,
+                    contentDescription = "Done",
+                    modifier = Modifier
+                        .padding(horizontal = 30.dp)
+                        .size(40.dp),
+                    tint = Color.White
+                )
+            }
+            Button(
+                onClick = { isPlayed = !isPlayed }, shape = RoundedCornerShape(20),
+                colors = ButtonDefaults.buttonColors(
+                    BlueTheme
+                )
+            ) {
+                Icon(
+                    painter =
+                    if (!isPlayed) {
+                        painterResource(id = R.drawable.baseline_play_circle_outline_24)
+                    } else {
+                        painterResource(id = R.drawable.baseline_pause_circle_outline_24)
+                    },
                     contentDescription = "Play",
                     modifier = Modifier
                         .padding(horizontal = 30.dp)
