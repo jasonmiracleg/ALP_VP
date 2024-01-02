@@ -1,21 +1,24 @@
 package com.example.alp_vp.ui.view.category
 
-import android.util.Log
+
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
-import androidx.compose.material.icons.outlined.KeyboardArrowRight
+import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -26,56 +29,90 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.alp_vp.R
 import com.example.alp_vp.ui.theme.BlueOutline
 import com.example.alp_vp.ui.theme.ButtonColor
 import com.example.alp_vp.ui.theme.poppins
-import com.github.skydoves.colorpicker.compose.ColorPickerController
+import com.example.alp_vp.viewmodel.category.CategoryViewModel
 import com.github.skydoves.colorpicker.compose.HsvColorPicker
 import com.github.skydoves.colorpicker.compose.drawColorIndicator
 import com.github.skydoves.colorpicker.compose.rememberColorPickerController
 
 @Composable
-fun ViewCategory() {
-    Column(modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp)) {
-        TopNavBar()
-        Row(verticalAlignment = Alignment.Bottom) {
-            Image(
-                painter = painterResource(id = R.drawable.to_do_list),
-                contentDescription = "To Do List Icon"
-            )
-            Text(
-                text = "Task Categories",
-                fontFamily = poppins,
-                fontWeight = FontWeight.Bold,
-                fontSize = 20.sp,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 8.dp)
-            )
-        }
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.padding(top = 30.dp)
+fun ViewCategory(categoryViewModel: CategoryViewModel = viewModel()) {
+    val categoryUIState by categoryViewModel.data.collectAsState()
+    var isPopUpVisible by rememberSaveable {
+        mutableStateOf(false)
+    }
+    Box(modifier = Modifier.fillMaxWidth()) {
+        Column(
+            modifier = Modifier
+                .padding(horizontal = 24.dp, vertical = 16.dp)
         ) {
-            item { CategoryCard("Add new Category", true) }
-            items(5) {
-                CategoryCard("Add", false, Color.Blue)
+            TopNavBar()
+            Row(verticalAlignment = Alignment.Bottom) {
+                Image(
+                    painter = painterResource(id = R.drawable.to_do_list),
+                    contentDescription = "To Do List Icon"
+                )
+                Text(
+                    text = "Task Categories",
+                    fontFamily = poppins,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 8.dp)
+                )
             }
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                modifier = Modifier.padding(top = 30.dp)
+            ) {
+                item {
+                    CategoryCard("Add new Category", isNewCategory = true) {
+                        isPopUpVisible = true
+                    }
+                }
+                items(categoryUIState.categories.size) {
+                    CategoryCard(
+                        categoryName = categoryUIState.categories[it].category_title,
+                        isNewCategory = false,
+                        colorBackground = Color(android.graphics.Color.parseColor("#${categoryUIState.categories[it].color}"))
+                    ) {
+
+                    }
+                }
+            }
+            if (isPopUpVisible) {
+                Popup(onDismiss = { isPopUpVisible = false }, categoryViewModel)
+            }
+        }
+        Column(
+            modifier = Modifier.background(
+                Color.LightGray.copy(alpha = if (isPopUpVisible) 0.5f else 0f)
+            )
+        ) {
+            Box(modifier = Modifier.fillMaxSize())
         }
     }
 }
@@ -84,7 +121,8 @@ fun ViewCategory() {
 fun CategoryCard(
     categoryName: String,
     isNewCategory: Boolean,
-    colorBackground: Color = Color(0xFFEBEBEB)
+    colorBackground: Color = Color(0xFFEBEBEB),
+    onClick: () -> Unit,
 ) {
     Card(
         colors = CardDefaults.cardColors(colorBackground),
@@ -95,7 +133,10 @@ fun CategoryCard(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 8.dp),
+                .padding(horizontal = 16.dp, vertical = 8.dp)
+                .clickable {
+                    onClick()
+                },
         ) {
             Column(
                 modifier = Modifier
@@ -120,7 +161,7 @@ fun CategoryCard(
                     imageVector = if (isNewCategory) {
                         Icons.Outlined.Add
                     } else {
-                        Icons.Outlined.KeyboardArrowRight
+                        Icons.Outlined.MoreVert
                     },
                     contentDescription = "Action",
                     tint = if (isNewCategory) {
@@ -148,11 +189,18 @@ fun TopNavBar() {
 }
 
 @Composable
-fun Popup() {
+fun Popup(
+    onDismiss: () -> Unit,
+    categoryViewModel: CategoryViewModel
+) {
     val controller = rememberColorPickerController()
-
-
-    Dialog(onDismissRequest = { /*TODO*/ }) {
+    var title by rememberSaveable {
+        mutableStateOf("")
+    }
+    var hexCode by remember {
+        mutableStateOf("")
+    }
+    Dialog(onDismissRequest = { onDismiss() }) {
         Card(
             colors = CardDefaults.cardColors(Color.White),
             border = BorderStroke(1.dp, color = Color.Black)
@@ -179,8 +227,8 @@ fun Popup() {
                     fontSize = 18.sp
                 )
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
+                    value = title,
+                    onValueChange = { title = it },
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedContainerColor = BlueOutline,
                         unfocusedContainerColor = BlueOutline,
@@ -194,6 +242,10 @@ fun Popup() {
                             fontWeight = FontWeight.SemiBold
                         )
                     },
+                    keyboardOptions = KeyboardOptions().copy(
+                        keyboardType = KeyboardType.Text,
+                        imeAction = ImeAction.Done
+                    ),
                     shape = RoundedCornerShape(35),
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -214,7 +266,7 @@ fun Popup() {
                         modifier = Modifier
                             .padding(start = 8.dp)
                             .size(height = 40.dp, width = 100.dp)
-                            .background(Color.Magenta)
+                            .background(color = controller.selectedColor.value)
                     )
                     Icon(
                         painter = painterResource(id = R.drawable.outline_colorize_24),
@@ -222,7 +274,27 @@ fun Popup() {
                         modifier = Modifier.size(30.dp)
                     )
                 }
-                ColorPicker(controller = controller)
+                var textColor by remember { mutableStateOf(Color.Transparent) }
+
+                Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()) {
+                    HsvColorPicker(
+                        modifier = Modifier
+                            .size(150.dp)
+                            .padding(10.dp),
+                        controller = controller,
+                        drawOnPosSelected = {
+                            drawColorIndicator(
+                                controller.selectedPoint.value,
+                                controller.selectedColor.value,
+                            )
+                        },
+                        onColorChanged = { colorEnvelope ->
+                            hexCode = colorEnvelope.hexCode
+                            textColor = colorEnvelope.color
+                        },
+                        initialColor = Color.Red,
+                    )
+                }
                 Row(
                     horizontalArrangement = Arrangement.Center,
                     modifier = Modifier
@@ -230,7 +302,13 @@ fun Popup() {
                         .padding(top = 4.dp)
                 ) {
                     Button(
-                        onClick = { /*TODO*/ },
+                        onClick = {
+                            categoryViewModel.addCategory(
+                                title,
+                                hexCode
+                            )
+                            onDismiss()
+                        },
                         colors = ButtonDefaults.buttonColors(ButtonColor)
                     ) {
                         Text(
@@ -246,34 +324,9 @@ fun Popup() {
     }
 }
 
-@Composable
-fun ColorPicker(controller: ColorPickerController){
-    var hexCode by remember { mutableStateOf("") }
-    var textColor by remember { mutableStateOf(Color.Transparent) }
-
-    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()) {
-        HsvColorPicker(
-            modifier = Modifier
-                .size(150.dp)
-                .padding(10.dp),
-            controller = controller,
-            drawOnPosSelected = {
-                drawColorIndicator(
-                    controller.selectedPoint.value,
-                    controller.selectedColor.value,
-                )
-            },
-            onColorChanged = { colorEnvelope ->
-                hexCode = colorEnvelope.hexCode
-                textColor = colorEnvelope.color
-            },
-            initialColor = Color.Red,
-        )
-    }
-}
-
-@Preview(showBackground = false, showSystemUi = false)
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun PreviewCategory() {
-    Popup()
+//    Popup()
+    ViewCategory()
 }
