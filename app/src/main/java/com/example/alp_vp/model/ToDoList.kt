@@ -4,5 +4,5 @@ import androidx.compose.ui.graphics.Color
 
 class ToDoList (
     val judul: String,
-    val listCategory: ArrayList<Category> = arrayListOf()
+    val listCategory:  ArrayList<Category> = arrayListOf()
 )

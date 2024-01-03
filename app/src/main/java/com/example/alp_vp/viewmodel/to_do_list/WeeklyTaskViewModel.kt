@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class WeeklyTaskViewModel: ViewModel()  {
-    private val _uiState = MutableStateFlow(WeeklyTaskUiState())
+     private val _uiState = MutableStateFlow(WeeklyTaskUiState())
     val uiState: StateFlow<WeeklyTaskUiState> = _uiState.asStateFlow()
 
 }

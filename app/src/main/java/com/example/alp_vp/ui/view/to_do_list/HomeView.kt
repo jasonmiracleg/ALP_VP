@@ -60,7 +60,7 @@ fun HomeView(
             fontWeight = FontWeight.Bold
         )
         Text(
-            text = "Ready to finish your task for today",
+             text = "Ready to finish your task for today",
             modifier = Modifier
                 .padding(horizontal = 20.dp),
             color = Color.Gray,

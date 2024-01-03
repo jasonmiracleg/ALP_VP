@@ -66,7 +66,7 @@ fun FormEditView(){
     val snackbarHostState = remember { SnackbarHostState() }
 
     Scaffold(
-        snackbarHost = { SnackbarHost(snackbarHostState) },
+         snackbarHost = { SnackbarHost(snackbarHostState) },
         content = {
             Column {
                 Row(
