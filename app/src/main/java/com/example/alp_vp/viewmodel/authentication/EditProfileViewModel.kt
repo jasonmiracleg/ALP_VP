@@ -13,8 +13,6 @@ class EditProfileViewModel : ViewModel() {
 
     private val _userData = MutableStateFlow(User())
     val userData: StateFlow<User> = _userData.asStateFlow()
-
-
     fun updateData(image1: String, name1: String, email1: String, password1: String, bornDate1: String, navController: NavController) {
         _userData.update {
             it.copy (
