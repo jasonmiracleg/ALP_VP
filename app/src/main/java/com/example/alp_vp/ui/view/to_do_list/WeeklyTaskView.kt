@@ -46,7 +46,7 @@ import com.example.alp_vp.viewmodel.to_do_list.WeeklyTaskViewModel
 fun WeeklyTaskView(
     weeklyTaskViewModel: WeeklyTaskViewModel = viewModel()
 ){
-    val weeklyTaskUiState by weeklyTaskViewModel.uiState.collectAsState()
+     val weeklyTaskUiState by weeklyTaskViewModel.uiState.collectAsState()
      Column (
          horizontalAlignment = Alignment.CenterHorizontally,
          modifier = Modifier

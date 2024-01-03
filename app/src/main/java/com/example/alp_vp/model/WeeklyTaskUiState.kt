@@ -1,7 +1,7 @@
 package com.example.alp_vp.model
 
 class WeeklyTaskUiState (
-    val listDay: ArrayList<ToDoListWeekly> = arrayListOf(
+    val listDay: ArrayList<ToDoListWeekly> =  arrayListOf(
         ToDoListWeekly(
             day = "Mon",
             arrayListOf(

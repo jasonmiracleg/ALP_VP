@@ -4,7 +4,7 @@ data class HomeUiState(
     val user: String = "Yobel",
     val todoList: ArrayList<ToDoList> = arrayListOf(
         ToDoList(
-            judul = "Pemrograman Android",
+            judul =  "Pemrograman Android",
             listCategory = arrayListOf(
                 Category(title = "Group", color = "FFDC2626"),
                 Category(title = "Urgent", color = "FF22D3EE"),
