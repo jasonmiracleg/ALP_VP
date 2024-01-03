@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -40,14 +41,10 @@ import com.example.alp_vp.viewmodel.to_do_list.HomeViewModel
 
 
 @Composable
-fun todoListCard(
-    homeViewModel: HomeViewModel = viewModel(),
+fun todolistOneweekCard(
     toDoList: ToDoList,
     category: ArrayList<Category>
 ){
-    val homeUiState by homeViewModel.uiState.collectAsState()
-    var isChecked by rememberSaveable { mutableStateOf(false) }
-
     Box(
         modifier = Modifier
             .padding(20.dp, 8.dp)
@@ -63,7 +60,8 @@ fun todoListCard(
     ){
         Column (
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(),
+            Arrangement.SpaceEvenly
         ){
             Row (
                 verticalAlignment = Alignment.CenterVertically,
@@ -89,7 +87,10 @@ fun todoListCard(
                                 text = category[it].title,
                                 modifier = Modifier
                                     .padding(top = 4.dp, bottom = 4.dp, end = 8.dp)
-                                    .background(Color(android.graphics.Color.parseColor("#${category[it].color}")), shape = CircleShape)
+                                    .background(
+                                        Color(android.graphics.Color.parseColor("#${category[it].color}")),
+                                        shape = CircleShape
+                                    )
                                     .padding(5.dp)
                                     .width(28.dp)
                                     .height(12.dp),
@@ -100,34 +101,26 @@ fun todoListCard(
                         }
                     }
                 }
-
-                if (isChecked){
-                    Icon(
-                        painterResource(id = R.drawable.checkbox_selesai),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .size(45.dp)
-                            .width(1.dp)
-                            .clickable {
-                                isChecked = false;
-                            },
-                        tint = Color.Gray,
+                Icon(
+                    painterResource(id = R.drawable.edit),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(28.dp)
+                        .width(1.dp),
+                    tint = Color.Black
                     )
-                }
-                else{
-                    Icon(
-                        painterResource(id = R.drawable.checkbox_blank),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .size(45.dp)
-                            .width(1.dp)
-                            .clickable {
-                                isChecked =true;
-                            },
-                        tint = Color.Gray,
+                Spacer(
+                    modifier = Modifier
+                        .padding(5.dp)
+                )
+                Icon(
+                    painterResource (id = R.drawable.trash),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(29.dp)
+                        .width(1.dp),
+                    tint = Color.Red
                     )
-                }
-
             }
         }
     }
