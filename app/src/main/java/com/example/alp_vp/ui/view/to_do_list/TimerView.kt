@@ -18,6 +18,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -32,12 +33,20 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.alp_vp.R
+import com.example.alp_vp.model.ToDoList
+import com.example.alp_vp.model.isComplete
+import com.example.alp_vp.model.isGroup
 import com.example.alp_vp.ui.theme.BlueTheme
 import com.example.alp_vp.ui.theme.poppins
+import com.example.alp_vp.viewmodel.to_do_list.TimerViewModel
+import java.sql.Time
+
 
 @Composable
-fun ViewTimer() {
+fun ViewTimer (timerViewModel: TimerViewModel = viewModel()) {
+    val timerUIState by timerViewModel.data.collectAsState()
     var isPlayed by rememberSaveable { mutableStateOf(false) }
 
     Column(
@@ -90,7 +99,7 @@ fun ViewTimer() {
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "02",
+                text = timerUIState.timerHours.toString().padStart(2, '0'),
                 fontFamily = FontFamily.Monospace,
                 fontSize = 40.sp,
                 modifier = Modifier.weight(0.1f),
@@ -104,7 +113,7 @@ fun ViewTimer() {
             )
             Spacer(modifier = Modifier.width(16.dp))
             Text(
-                text = "59",
+                text = timerUIState.timerMinutes.toString().padStart(2, '0'),
                 fontFamily = FontFamily.Monospace,
                 fontSize = 40.sp,
                 modifier = Modifier.weight(0.05f),
@@ -118,7 +127,7 @@ fun ViewTimer() {
                 textAlign = TextAlign.Center
             )
             Text(
-                text = "59",
+                text = timerUIState.timerSeconds.toString().padStart(2, '0'),
                 fontFamily = FontFamily.Monospace,
                 fontSize = 40.sp,
                 modifier = Modifier.weight(0.1f),
@@ -147,7 +156,10 @@ fun ViewTimer() {
                 )
             }
             Button(
-                onClick = { isPlayed = !isPlayed }, shape = RoundedCornerShape(20),
+                onClick = {
+                    isPlayed = !isPlayed
+                    timerViewModel.toggleTimer()
+                }, shape = RoundedCornerShape(20),
                 colors = ButtonDefaults.buttonColors(
                     BlueTheme
                 )
@@ -159,7 +171,7 @@ fun ViewTimer() {
                     } else {
                         painterResource(id = R.drawable.baseline_pause_circle_outline_24)
                     },
-                    contentDescription = "Play",
+                    contentDescription = if (!isPlayed) "Play" else "Pause",
                     modifier = Modifier
                         .padding(horizontal = 30.dp)
                         .size(40.dp)
