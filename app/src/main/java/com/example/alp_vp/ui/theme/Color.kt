@@ -12,3 +12,4 @@ val Pink40 = Color(0xFF7D5260)
 
 val merah = Color(0xFFDC2626)
 val biru = Color(0xFF2563EB)
+val biruMuda = Color(0xFF41BBF1)
