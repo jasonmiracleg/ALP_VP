@@ -8,6 +8,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.alp_vp.model.TimerUIState
 import com.example.alp_vp.model.ToDoList
+import com.example.alp_vp.model.isComplete
+import com.example.alp_vp.model.isGroup
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -18,7 +20,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.sql.Time
 
-class TimerViewModel(toDoList: ToDoList) : ViewModel() {
+class TimerViewModel(toDoList: ToDoList = ToDoList("", "", isGroup.group, isComplete.done, Time.valueOf("12:15:00"))) :
+    ViewModel() {
     private val currentData = MutableStateFlow(TimerUIState())
     val data: StateFlow<TimerUIState> = currentData.asStateFlow()
 
@@ -51,9 +54,7 @@ class TimerViewModel(toDoList: ToDoList) : ViewModel() {
                     delay(1000)
                     remainingTimeInSeconds--
                     totalElapsedTimeInSeconds++
-                    withContext(Dispatchers.Main) {
-                        updateTimerState()
-                    }
+                    updateTimerState()
                 }
             }
         }

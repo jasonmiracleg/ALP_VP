@@ -5,9 +5,8 @@ data class TimerUIState(
     var timerHours: Int = 0,
     var timerMinutes: Int = 0,
     var timerSeconds: Int = 0,
-    var toDoList: ToDoList? = null
 ) {
-
+    var toDoList: ToDoList? = null
     init {
         this.toDoList?.let { setToDoListCustom(it) }
     }
