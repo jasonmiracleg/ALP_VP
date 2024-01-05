@@ -7,9 +7,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -22,19 +20,17 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -47,7 +43,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -58,7 +53,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.alp_vp.R
-import kotlin.math.pow
 import androidx.compose.material3.Icon as Icon
 
 val poppins = FontFamily(
@@ -171,12 +165,25 @@ fun createTeam(){
                     .weight(1f)
                     .padding(top = 8.dp, bottom = 8.dp)
             )
-            Image(painter = painterResource(id = R.drawable.add_group),
-                contentDescription = "tambah grup",
+//            Image(painter = painterResource(id = R.drawable.add_group),
+//                contentDescription = "tambah grup",
+//                modifier = Modifier
+//                    .size(80.dp)
+//                    .padding(12.dp)
+//            )
+            Button(
+                onClick = {
+                    // logics
+                },
                 modifier = Modifier
-                    .size(80.dp)
-                    .padding(12.dp)
-            )
+                    .size(width = 80.dp, height = 80.dp)
+                    .padding(12.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF22D3EE)),
+            ) {
+                Icon(imageVector = Icons.Default.Add,
+                    contentDescription = "Tambah Grup",
+                    modifier = Modifier.size(48.dp))
+            }
 
         }
 
@@ -185,37 +192,127 @@ fun createTeam(){
 
 
 @Composable
-fun ListGroupCard(colorBackground: Color = Color(0xFFEBEBEB)){
+fun ListGroupCard(colorBackground: Color = Color(0xFFEBEBEB)) {
     ElevatedCard(
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 50.dp
+            defaultElevation = 2.dp
         ),
         modifier = Modifier
             .fillMaxWidth()
     ) {
-        Row {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
             Column {
                 Text(
                     text = "Team Kerja VisProg",
                     fontFamily = poppins,
                     modifier = Modifier
-                        .padding(16.dp),
+                        .padding(start = 16.dp, top = 5.dp, bottom = 2.dp, end = 16.dp),
                     textAlign = TextAlign.Center,
                 )
 
+                ProfileUserLain(modifier = Modifier.padding(start = 16.dp, top = 2.dp, bottom = 5.dp, end = 16.dp))
             }
-            Button(onClick={},colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF22D3EE),
-            ),){
-                Text(text="Open", fontFamily = poppins)
+            Row (modifier = Modifier.align(Alignment.CenterVertically)){
+                Button(
+                    onClick = {
+                        // logics
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF22D3EE)),
+                ) {
+                    Text(text = "Open", fontFamily = poppins)
+                }
             }
 
         }
-
     }
 }
 
+
+@Composable
+fun ProfileUserLain(modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier
+            .requiredWidth(width = 79.dp)
+            .requiredHeight(height = 35.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .requiredSize(size = 35.dp)
+                .clip(shape = CircleShape)
+                .background(color = Color(0xffd9d9d9))
+                .border(
+                    border = BorderStroke(2.dp, Color.White),
+                    shape = CircleShape
+                ))
+        Image(
+            painter = painterResource(id = R.drawable.wajahorang),
+            contentDescription = "face_FILL0_wght400_GRAD0_opsz24 1",
+            colorFilter = ColorFilter.tint(Color(0xff757575)),
+            modifier = Modifier
+                .align(alignment = Alignment.TopStart)
+                .offset(
+                    x = 6.dp,
+                    y = 6.dp
+                )
+                .requiredSize(size = 23.dp))
+        Box(
+            modifier = Modifier
+                .align(alignment = Alignment.TopStart)
+                .offset(
+                    x = 22.dp,
+                    y = 0.dp
+                )
+                .requiredSize(size = 35.dp)
+                .clip(shape = CircleShape)
+                .background(color = Color(0xffd9d9d9))
+                .border(
+                    border = BorderStroke(2.dp, Color.White),
+                    shape = CircleShape
+                ))
+        Image(
+            painter = painterResource(id = R.drawable.wajahorang),
+            contentDescription = "face_FILL0_wght400_GRAD0_opsz24 2",
+            colorFilter = ColorFilter.tint(Color(0xff757575)),
+            modifier = Modifier
+                .align(alignment = Alignment.TopStart)
+                .offset(
+                    x = 28.dp,
+                    y = 6.dp
+                )
+                .requiredSize(size = 23.dp))
+        Box(
+            modifier = Modifier
+                .align(alignment = Alignment.TopStart)
+                .offset(
+                    x = 44.dp,
+                    y = 0.dp
+                )
+                .requiredSize(size = 35.dp)
+                .clip(shape = CircleShape)
+                .background(color = Color(0xffd9d9d9))
+                .border(
+                    border = BorderStroke(2.dp, Color.White),
+                    shape = CircleShape
+                ))
+        Image(
+            painter = painterResource(id = R.drawable.wajahorang),
+            contentDescription = "face_FILL0_wght400_GRAD0_opsz24 3",
+            colorFilter = ColorFilter.tint(Color(0xff757575)),
+            modifier = Modifier
+                .align(alignment = Alignment.TopStart)
+                .offset(
+                    x = 50.dp,
+                    y = 6.dp
+                )
+                .requiredSize(size = 23.dp))
+    }
+}
 
 
 @OptIn(ExperimentalMaterial3Api::class)
