@@ -152,9 +152,6 @@ fun FormCreateView(
                         fontWeight = FontWeight.Bold
                     )
 
-<<<<<<< Updated upstream
-                    category()
-=======
                     LazyVerticalGrid(
                         columns = GridCells.Adaptive(minSize = 85.dp),
                         modifier = Modifier
@@ -164,7 +161,6 @@ fun FormCreateView(
                             category(index = it)
                         }
                     }
->>>>>>> Stashed changes
 
                     Text(
                         text = "Alarm",
@@ -394,27 +390,55 @@ fun simpleTextField(
 
 @Composable
 fun category(
-    formCreateViewModel: FormCreateViewModel = viewModel()
+    formCreateViewModel: FormCreateViewModel = viewModel(),
+    index:Int
 ) {
     val formCreateUiState by formCreateViewModel.uiState.collectAsState()
-    LazyVerticalGrid(
-        columns = GridCells.Adaptive(minSize = 85.dp)
-    ) {
-        items (formCreateUiState.category.size){
-            Text(
-                text = formCreateUiState.category[it].todoList[it].listCategory[it].title,
-                modifier = Modifier
-                    .padding(top = 4.dp, bottom = 4.dp, end = 8.dp)
-                    .background(merah, shape = CircleShape)
-                    .padding(5.dp)
-                    .height(20.dp),
-                fontFamily = poppins,
-                fontSize = 12.sp,
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.Bold,
-                color = Color(android.graphics.Color.parseColor("#${formCreateUiState.category.color}"))
-            )
-        }
+    var isClick by remember { mutableStateOf(false) }
+
+    if (isClick){
+
+
+        Text(
+            text = formCreateUiState.category.categories[index].title,
+            modifier = Modifier
+                .padding(top = 4.dp, bottom = 4.dp, end = 8.dp)
+                .background(
+                    Color(android.graphics.Color.parseColor("#${formCreateUiState.category.categories[index].color}")),
+                    shape = CircleShape
+                )
+                .padding(5.dp)
+                .height(20.dp)
+                .clickable(onClick = {
+                    isClick = false
+                }),
+            fontFamily = poppins,
+            fontSize = 12.sp,
+            textAlign = TextAlign.Center,
+            fontWeight = FontWeight.Bold,
+            color = Color.White
+        )
+
+    } else {
+        Text(
+            text = formCreateUiState.category.categories[index].title,
+            modifier = Modifier
+                .padding(top = 4.dp, bottom = 4.dp, end = 8.dp)
+                .background(
+                    Color.Gray,
+                    shape = CircleShape
+                )
+                .padding(5.dp)
+                .height(20.dp)
+                .clickable(onClick = {
+                    isClick = true
+                }),
+            fontFamily = poppins,
+            fontSize = 12.sp,
+            textAlign = TextAlign.Center,
+            fontWeight = FontWeight.Bold,
+            color = Color.White
+        )
     }
 }
 
