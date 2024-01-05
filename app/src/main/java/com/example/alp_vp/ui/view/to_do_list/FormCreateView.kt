@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -52,12 +53,14 @@ import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.alp_vp.R
+import com.example.alp_vp.model.Category
 import com.example.alp_vp.ui.theme.biru
+import com.example.alp_vp.ui.theme.biruMuda
 import com.example.alp_vp.ui.theme.merah
 import com.example.alp_vp.ui.theme.poppins
 import com.example.alp_vp.viewmodel.to_do_list.FormCreateViewModel
 
-private val biruMuda = Color(0xFF41BBF1)
+
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "RememberReturnType")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -146,7 +149,13 @@ fun FormCreateView(
                         fontWeight = FontWeight.Bold
                     )
 
-                    category()
+                    LazyVerticalGrid(
+                        columns = GridCells.Adaptive(minSize = 85.dp)
+                    ) {
+                        items(formCreateUiState.category.categories.size) {
+                            category(index = it)
+                        }
+                    }
 
                     Text(
                         text = "Alarm",
@@ -376,28 +385,57 @@ fun simpleTextField(
 
 @Composable
 fun category(
-    formCreateViewModel: FormCreateViewModel = viewModel()
+    formCreateViewModel: FormCreateViewModel = viewModel(),
+    index:Int
 ) {
     val formCreateUiState by formCreateViewModel.uiState.collectAsState()
-    LazyVerticalGrid(
-        columns = GridCells.Adaptive(minSize = 85.dp)
-    ) {
-        items (formCreateUiState.category.size){
-            Text(
-                text = formCreateUiState.category[it].todoList[it].listCategory[it].title,
-                modifier = Modifier
-                    .padding(top = 4.dp, bottom = 4.dp, end = 8.dp)
-                    .background(merah, shape = CircleShape)
-                    .padding(5.dp)
-                    .height(20.dp),
-                fontFamily = poppins,
-                fontSize = 12.sp,
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.Bold,
-                color = Color(android.graphics.Color.parseColor("#${formCreateUiState.category.color}"))
-            )
-        }
-    }
+    var isClick by remember { mutableStateOf(false) }
+
+            if (isClick){
+
+
+                    Text(
+                        text = formCreateUiState.category.categories[index].title,
+                        modifier = Modifier
+                            .padding(top = 4.dp, bottom = 4.dp, end = 8.dp)
+                            .background(
+                                Color(android.graphics.Color.parseColor("#${formCreateUiState.category.categories[index].color}")),
+                                shape = CircleShape
+                            )
+                            .padding(5.dp)
+                            .height(20.dp)
+                            .clickable(onClick = {
+                                isClick = false
+                            }),
+                        fontFamily = poppins,
+                        fontSize = 12.sp,
+                        textAlign = TextAlign.Center,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+
+            } else {
+                Text(
+                    text = formCreateUiState.category.categories[index].title,
+                    modifier = Modifier
+                        .padding(top = 4.dp, bottom = 4.dp, end = 8.dp)
+                        .background(
+                            Color.Gray,
+                            shape = CircleShape
+                        )
+                        .padding(5.dp)
+                        .height(20.dp)
+                        .clickable(onClick = {
+                            isClick = true
+                        }),
+                    fontFamily = poppins,
+                    fontSize = 12.sp,
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White
+                )
+            }
+
 }
 
 
