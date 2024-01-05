@@ -44,7 +44,7 @@ fun BottomNavbar() {
                     .shadow(elevation = 15.dp, spotColor = Color(0xFF000000), ambientColor = Color(
                         0xFF000000
                     ),shape = RoundedCornerShape(topEnd = 40.dp, topStart = 40.dp))
-                    .background(color = Color(0xFFF8F8F8), shape = RoundedCornerShape(topEnd = 40.dp, topStart = 40.dp)),
+                    .background(color = Color(0xFFF0F0F0), shape = RoundedCornerShape(topEnd = 40.dp, topStart = 40.dp)),
                 containerColor = Color.Transparent
             ) {
                 Row(

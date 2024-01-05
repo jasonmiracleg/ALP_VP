@@ -8,6 +8,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -15,9 +16,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material3.Button
@@ -76,7 +79,10 @@ fun FormCreateView(
     Scaffold(
          snackbarHost = { SnackbarHost(snackbarHostState) },
         content = {
-            Column {
+            Column (
+                modifier = Modifier
+                    .verticalScroll(rememberScrollState())
+            ){
                 Row(
                     modifier = Modifier
                         .background(biruMuda, shape = RectangleShape)
@@ -146,7 +152,19 @@ fun FormCreateView(
                         fontWeight = FontWeight.Bold
                     )
 
+<<<<<<< Updated upstream
                     category()
+=======
+                    LazyVerticalGrid(
+                        columns = GridCells.Adaptive(minSize = 85.dp),
+                        modifier = Modifier
+                            .height(100.dp)
+                    ) {
+                        items(formCreateUiState.category.categories.size) {
+                            category(index = it)
+                        }
+                    }
+>>>>>>> Stashed changes
 
                     Text(
                         text = "Alarm",
