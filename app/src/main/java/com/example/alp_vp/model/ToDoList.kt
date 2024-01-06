@@ -8,6 +8,8 @@ data class ToDoList(
     val title: String,
     val listCategory:  ArrayList<Category> = arrayListOf(),
     val description: String?,
+    val isGroup: isGroup,
+    val isComplete: isComplete,
     val timer: Time = Time.valueOf("12:30:00"),
     var totalSeconds: Int = 0
 ) {

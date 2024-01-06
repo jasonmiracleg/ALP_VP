@@ -6,7 +6,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,9 +15,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material3.Button
@@ -52,10 +53,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.alp_vp.R
-import com.example.alp_vp.model.Category
-import com.example.alp_vp.ui.theme.biru
 import com.example.alp_vp.ui.theme.biruMuda
-import com.example.alp_vp.ui.theme.merah
 import com.example.alp_vp.ui.theme.poppins
 import com.example.alp_vp.viewmodel.to_do_list.FormCreateViewModel
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "RememberReturnType")
@@ -77,7 +75,10 @@ fun FormCreateView(
     Scaffold(
          snackbarHost = { SnackbarHost(snackbarHostState) },
         content = {
-            Column {
+            Column (
+                modifier = Modifier
+                    .verticalScroll(rememberScrollState())
+            ){
                 Row(
                     modifier = Modifier
                         .background(biruMuda, shape = RectangleShape)
@@ -148,11 +149,13 @@ fun FormCreateView(
                     )
 
                     LazyVerticalGrid(
-                        columns = GridCells.Adaptive(minSize = 85.dp)
+                        columns = GridCells.Adaptive(minSize = 85.dp),
+                        modifier = Modifier
+                            .height(100.dp)
                     ) {
-////                        items(formCreateUiState.category.categories.size) {
-//                            category(index = it)
-//                        }
+                        items(formCreateUiState.category.categories.size) {
+                            category(index = it)
+                        }
                     }
 
                     Text(
@@ -419,18 +422,18 @@ fun category(
 
     if (isClick) {
         Text(
-            text = "formCreateUiState.category.categories[index].title",
-//            modifier = Modifier
-//                .padding(top = 4.dp, bottom = 4.dp, end = 8.dp)
-//                .background(
-//                    Color(android.graphics.Color.parseColor("#${formCreateUiState.category.categories[index].color}")),
-//                    shape = CircleShape
-//                )
-//                .padding(5.dp)
-//                .height(20.dp)
-//                .clickable(onClick = {
-//                    isClick = false
-//                }),
+            text = formCreateUiState.category.categories[index].category_title,
+            modifier = Modifier
+                .padding(top = 4.dp, bottom = 4.dp, end = 8.dp)
+                .background(
+                    Color(android.graphics.Color.parseColor("#${formCreateUiState.category.categories[index].color}")),
+                    shape = CircleShape
+                )
+                .padding(5.dp)
+                .height(20.dp)
+                .clickable(onClick = {
+                    isClick = false
+                }),
             fontFamily = poppins,
             fontSize = 12.sp,
             textAlign = TextAlign.Center,
@@ -440,7 +443,7 @@ fun category(
 
     } else {
         Text(
-            text = "formCreateUiState.category.categories[index].title",
+            text = formCreateUiState.category.categories[index].category_title,
             modifier = Modifier
                 .padding(top = 4.dp, bottom = 4.dp, end = 8.dp)
                 .background(
@@ -450,7 +453,7 @@ fun category(
                 .padding(5.dp)
                 .height(20.dp)
                 .clickable(onClick = {
-                    isClick = true
+                    isClick = false
                 }),
             fontFamily = poppins,
             fontSize = 12.sp,

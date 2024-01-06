@@ -15,6 +15,8 @@ class WeeklyTaskUiState (
                         Category(category_title = "Project", color = "FF2563EB")
                     ),
                     description = "Pengerjaan Android studio",
+                    isGroup.group,
+                    isComplete.done,
                     Time.valueOf("12:15:00"),
                     totalSeconds = 1
                 ),
@@ -25,6 +27,8 @@ class WeeklyTaskUiState (
                         Category(category_title = "Shoping", color = "FF4CAF50"),
                     ),
                     description = "Semangat ALP VP",
+                    isGroup.individu,
+                    isComplete.progress,
                     Time.valueOf("12:15:00"),
                     totalSeconds = 1
                 ),
@@ -36,6 +40,8 @@ class WeeklyTaskUiState (
                         Category(category_title = "Project", color = "FF2563EB")
                     ),
                     description = "Semangat ALP VP",
+                    isGroup.individu,
+                    isComplete.progress,
                     Time.valueOf("12:15:00"),
                     totalSeconds = 1
                 )
@@ -50,6 +56,8 @@ class WeeklyTaskUiState (
                         Category(category_title = "Individual", color = "FFFFC107")
                     ),
                     description = "Semangat Mancing",
+                    isGroup.group,
+                    isComplete.done,
                     Time.valueOf("12:15:00"),
                     totalSeconds = 1
                 )
@@ -64,6 +72,8 @@ class WeeklyTaskUiState (
                         Category(category_title = "Individual", color = "FFFFC107")
                     ),
                     description = "Ethika hidup",
+                    isGroup.individu,
+                    isComplete.done,
                     Time.valueOf("12:15:00"),
                     totalSeconds = 1
                 ),
@@ -73,6 +83,8 @@ class WeeklyTaskUiState (
                         Category(category_title = "Shoping", color = "FF673AB7"),
                     ),
                     description = "Math presentasi",
+                    isGroup.group,
+                    isComplete.done,
                     Time.valueOf("12:15:00"),
                     totalSeconds = 1
                 )
@@ -90,6 +102,8 @@ class WeeklyTaskUiState (
                         Category(category_title = "Shoping", color = "FF3F51B5"),
                     ),
                     description = "Bisnis Management",
+                    isGroup.individu,
+                    isComplete.progress,
                     Time.valueOf("12:15:00"),
                     totalSeconds = 1
                 )

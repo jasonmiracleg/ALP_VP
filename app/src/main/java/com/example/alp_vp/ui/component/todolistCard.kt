@@ -37,8 +37,6 @@ import com.example.alp_vp.model.ToDoList
 import com.example.alp_vp.ui.theme.poppins
 import com.example.alp_vp.viewmodel.to_do_list.HomeViewModel
 
-
-
 @Composable
 fun todoListCard(
     homeViewModel: HomeViewModel = viewModel(),

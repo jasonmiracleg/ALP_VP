@@ -49,10 +49,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.alp_vp.R
 import com.example.alp_vp.ui.theme.biru
+import com.example.alp_vp.ui.theme.biruMuda
 import com.example.alp_vp.ui.theme.merah
 import com.example.alp_vp.ui.theme.poppins
-
-val biruMuda = Color(0xFF41BBF1)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "RememberReturnType")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -1,5 +1,6 @@
 package com.example.alp_vp.model
 
+import com.example.alp_vp.ui.view.to_do_list.category
 import java.sql.Time
 
 data class HomeUiState(
@@ -13,6 +14,8 @@ data class HomeUiState(
                 Category(category_title = "Project", color = "FF2563EB")
             ),
             description = "Pengerjaan Android studio",
+            isGroup.individu,
+            isComplete.progress,
             Time.valueOf("12:15:00"),
             totalSeconds = 1
         ),
@@ -23,6 +26,8 @@ data class HomeUiState(
                 Category(category_title = "Shoping", color = "FF4CAF50"),
             ),
             description = "Semangat ALP VP",
+            isGroup.individu,
+            isComplete.done,
             Time.valueOf("12:15:00"),
             totalSeconds = 1
         ),
@@ -34,6 +39,8 @@ data class HomeUiState(
                 Category(category_title = "Project", color = "FF2563EB")
             ),
             description = "Semangat ALP VP",
+            isGroup.individu,
+            isComplete.done,
             Time.valueOf("12:15:00"),
             totalSeconds = 1
         ),
@@ -44,6 +51,8 @@ data class HomeUiState(
                 Category(category_title = "Shoping", color = "FF4CAF50"),
             ),
             description = "Civics buat proposal",
+            isGroup.individu,
+            isComplete.done,
             Time.valueOf("12:15:00"),
             totalSeconds = 1
         ),
@@ -53,6 +62,8 @@ data class HomeUiState(
                 Category(category_title = "Individual", color = "FFFFC107")
             ),
             description = "Ethics Individu",
+            isGroup.individu,
+            isComplete.done,
             Time.valueOf("12:15:00"),
             totalSeconds = 1
         ),
@@ -62,6 +73,8 @@ data class HomeUiState(
                 Category(category_title = "Shoping", color = "FF673AB7"),
             ),
             description = "Math buat presentasi",
+            isGroup.individu,
+            isComplete.done,
             Time.valueOf("12:15:00"),
             totalSeconds = 1
         ),
@@ -71,6 +84,8 @@ data class HomeUiState(
                 Category(category_title = "Shoping", color = "FF3F51B5"),
             ),
             description = "Kerja Rodi bagai kuda",
+            isGroup.individu,
+            isComplete.progress,
             Time.valueOf("12:15:00"),
             totalSeconds = 1
         )
