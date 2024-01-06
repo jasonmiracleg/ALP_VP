@@ -67,18 +67,25 @@ fun todoListCard(
         ){
             Row (
                 verticalAlignment = Alignment.CenterVertically,
-
                 ){
                 Column (
                     modifier = Modifier
                         .weight(0.8f)
                 ){
                     Text(
-                        text = toDoList.judul,
+                        text = toDoList.title,
                         fontFamily = poppins,
                         fontWeight = FontWeight.Bold,
                         fontSize = 16.sp
                     )
+                    toDoList.description?.let {
+                        Text(
+                            text = it,
+                            fontFamily = poppins,
+                            modifier = Modifier,
+                            fontSize = 10.sp
+                        )
+                    }
                     LazyRow (
                         horizontalArrangement = Arrangement.SpaceEvenly
                     ){
@@ -86,10 +93,13 @@ fun todoListCard(
                             category.size
                         ){
                             Text(
-                                text = category[it].title,
+                                text = category[it].category_title,
                                 modifier = Modifier
                                     .padding(top = 4.dp, bottom = 4.dp, end = 8.dp)
-                                    .background(Color(android.graphics.Color.parseColor("#${category[it].color}")), shape = CircleShape)
+                                    .background(
+                                        Color(android.graphics.Color.parseColor("#${category[it].color}")),
+                                        shape = CircleShape
+                                    )
                                     .padding(5.dp)
                                     .width(28.dp)
                                     .height(12.dp),
@@ -122,7 +132,7 @@ fun todoListCard(
                             .size(45.dp)
                             .width(1.dp)
                             .clickable {
-                                isChecked =true;
+                                isChecked = true;
                             },
                         tint = Color.Gray,
                     )

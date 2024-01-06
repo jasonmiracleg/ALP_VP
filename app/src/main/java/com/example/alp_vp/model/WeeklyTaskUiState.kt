@@ -1,30 +1,43 @@
 package com.example.alp_vp.model
 
+import java.sql.Time
+
 class WeeklyTaskUiState (
     val listDay: ArrayList<ToDoListWeekly> =  arrayListOf(
         ToDoListWeekly(
             day = "Mon",
             arrayListOf(
                 ToDoList(
-                    judul = "Pemrograman Android",
+                    title =  "Pemrograman Android",
                     listCategory = arrayListOf(
-                        Category(title = "Group", color = "FFDC2626"),
-                        Category(title = "Urgent", color = "FF22D3EE"),
-                        Category(title = "Project", color = "FF2563EB")
-                    )
+                        Category(category_title = "Group", color = "FFDC2626"),
+                        Category(category_title = "Urgent", color = "FF22D3EE"),
+                        Category(category_title = "Project", color = "FF2563EB")
+                    ),
+                    description = "Pengerjaan Android studio",
+                    Time.valueOf("12:15:00"),
+                    totalSeconds = 1
                 ),
                 ToDoList(
-                    judul = "VisProg",
+                    title = "Kerja Progress ALP VP",
                     listCategory = arrayListOf(
-                        Category(title = "Urgent", color = "FF22D3EE"),
-                        Category(title = "Project", color = "FF2563EB")
-                    )
+                        Category(category_title = "Individual", color = "FFFFC107"),
+                        Category(category_title = "Shoping", color = "FF4CAF50"),
+                    ),
+                    description = "Semangat ALP VP",
+                    Time.valueOf("12:15:00"),
+                    totalSeconds = 1
                 ),
                 ToDoList(
-                    judul = "Civics",
+                    title = "WebProg",
                     listCategory = arrayListOf(
-                        Category(title = "Project", color = "FF2563EB")
-                    )
+                        Category(category_title = "Group", color = "FFDC2626"),
+                        Category(category_title = "Urgent", color = "FF22D3EE"),
+                        Category(category_title = "Project", color = "FF2563EB")
+                    ),
+                    description = "Semangat ALP VP",
+                    Time.valueOf("12:15:00"),
+                    totalSeconds = 1
                 )
             )
         ),
@@ -32,10 +45,13 @@ class WeeklyTaskUiState (
             day = "Tue",
             arrayListOf(
                 ToDoList(
-                    judul = "Mancing",
+                    title = "Mancing",
                     listCategory = arrayListOf(
-                        Category(title = "Individual", color = "FFFFC107")
-                    )
+                        Category(category_title = "Individual", color = "FFFFC107")
+                    ),
+                    description = "Semangat Mancing",
+                    Time.valueOf("12:15:00"),
+                    totalSeconds = 1
                 )
             )
         ),
@@ -43,16 +59,22 @@ class WeeklyTaskUiState (
             day = "Wed",
             arrayListOf(
                 ToDoList(
-                    judul = "Ethics",
+                    title = "Ethics",
                     listCategory = arrayListOf(
-                        Category(title = "Individual", color = "FFFFC107")
-                    )
+                        Category(category_title = "Individual", color = "FFFFC107")
+                    ),
+                    description = "Ethika hidup",
+                    Time.valueOf("12:15:00"),
+                    totalSeconds = 1
                 ),
                 ToDoList(
-                    judul = "MathDesc",
+                    title = "MathDesc",
                     listCategory = arrayListOf(
-                        Category(title = "Shoping", color = "FF673AB7"),
-                    )
+                        Category(category_title = "Shoping", color = "FF673AB7"),
+                    ),
+                    description = "Math presentasi",
+                    Time.valueOf("12:15:00"),
+                    totalSeconds = 1
                 )
             )
         ),
@@ -63,10 +85,13 @@ class WeeklyTaskUiState (
             day = "Fri",
             arrayListOf(
                 ToDoList(
-                    judul = "Bisnis",
+                    title = "Bisnis",
                     listCategory = arrayListOf(
-                        Category(title = "Shoping", color = "FF3F51B5"),
-                    )
+                        Category(category_title = "Shoping", color = "FF3F51B5"),
+                    ),
+                    description = "Bisnis Management",
+                    Time.valueOf("12:15:00"),
+                    totalSeconds = 1
                 )
             )
         ),

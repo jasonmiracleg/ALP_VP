@@ -50,7 +50,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.graphics.toColorInt
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.alp_vp.R
 import com.example.alp_vp.model.Category
@@ -59,8 +58,6 @@ import com.example.alp_vp.ui.theme.biruMuda
 import com.example.alp_vp.ui.theme.merah
 import com.example.alp_vp.ui.theme.poppins
 import com.example.alp_vp.viewmodel.to_do_list.FormCreateViewModel
-
-
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "RememberReturnType")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -69,6 +66,7 @@ fun FormCreateView(
 ){
     val formCreateUiState by formCreateViewModel.uiState.collectAsState()
     var title by remember { mutableStateOf("")}
+    var date by remember { mutableStateOf("") }
     var hourse by remember { mutableStateOf("")}
     var minutes by remember { mutableStateOf("")}
     var seconds by remember { mutableStateOf("")}
@@ -152,10 +150,38 @@ fun FormCreateView(
                     LazyVerticalGrid(
                         columns = GridCells.Adaptive(minSize = 85.dp)
                     ) {
-                        items(formCreateUiState.category.categories.size) {
-                            category(index = it)
-                        }
+////                        items(formCreateUiState.category.categories.size) {
+//                            category(index = it)
+//                        }
                     }
+
+                    Text(
+                        text = "Date",
+                        fontFamily = poppins,
+                        fontSize = 15.sp,
+                        modifier = Modifier
+                            .padding(vertical = 7.dp),
+                        fontWeight = FontWeight.Bold
+                    )
+                    simpleTextField(
+                        value = date,
+                        onValueChanged = { date = it },
+                        placeholder = "Date",
+                        keyboardOptions =
+                        KeyboardOptions(
+                            keyboardType = KeyboardType.Number,
+                            imeAction = ImeAction.Next
+                        ),
+                        modifier = Modifier
+                            .border(
+                                width = 1.6.dp,
+                                color = Color(0xFFCECECE),
+                                shape = RoundedCornerShape(size = 20.dp)
+                            )
+                            .width(80.dp)
+                            .height(50.dp)
+                    )
+
 
                     Text(
                         text = "Alarm",
@@ -391,53 +417,49 @@ fun category(
     val formCreateUiState by formCreateViewModel.uiState.collectAsState()
     var isClick by remember { mutableStateOf(false) }
 
-            if (isClick){
+    if (isClick) {
+        Text(
+            text = "formCreateUiState.category.categories[index].title",
+//            modifier = Modifier
+//                .padding(top = 4.dp, bottom = 4.dp, end = 8.dp)
+//                .background(
+//                    Color(android.graphics.Color.parseColor("#${formCreateUiState.category.categories[index].color}")),
+//                    shape = CircleShape
+//                )
+//                .padding(5.dp)
+//                .height(20.dp)
+//                .clickable(onClick = {
+//                    isClick = false
+//                }),
+            fontFamily = poppins,
+            fontSize = 12.sp,
+            textAlign = TextAlign.Center,
+            fontWeight = FontWeight.Bold,
+            color = Color.White
+        )
 
-
-                    Text(
-                        text = formCreateUiState.category.categories[index].title,
-                        modifier = Modifier
-                            .padding(top = 4.dp, bottom = 4.dp, end = 8.dp)
-                            .background(
-                                Color(android.graphics.Color.parseColor("#${formCreateUiState.category.categories[index].color}")),
-                                shape = CircleShape
-                            )
-                            .padding(5.dp)
-                            .height(20.dp)
-                            .clickable(onClick = {
-                                isClick = false
-                            }),
-                        fontFamily = poppins,
-                        fontSize = 12.sp,
-                        textAlign = TextAlign.Center,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
-                    )
-
-            } else {
-                Text(
-                    text = formCreateUiState.category.categories[index].title,
-                    modifier = Modifier
-                        .padding(top = 4.dp, bottom = 4.dp, end = 8.dp)
-                        .background(
-                            Color.Gray,
-                            shape = CircleShape
-                        )
-                        .padding(5.dp)
-                        .height(20.dp)
-                        .clickable(onClick = {
-                            isClick = true
-                        }),
-                    fontFamily = poppins,
-                    fontSize = 12.sp,
-                    textAlign = TextAlign.Center,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White
+    } else {
+        Text(
+            text = "formCreateUiState.category.categories[index].title",
+            modifier = Modifier
+                .padding(top = 4.dp, bottom = 4.dp, end = 8.dp)
+                .background(
+                    Color.Gray,
+                    shape = CircleShape
                 )
-            }
-
+                .padding(5.dp)
+                .height(20.dp)
+                .clickable(onClick = {
+                    isClick = true
+                }),
+            fontFamily = poppins,
+            fontSize = 12.sp,
+            textAlign = TextAlign.Center,
+            fontWeight = FontWeight.Bold,
+            color = Color.White
+        )
+    }
 }
-
 
 
 @Preview(showBackground = true, showSystemUi = true)

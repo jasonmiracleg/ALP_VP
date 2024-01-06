@@ -52,7 +52,7 @@ import com.example.alp_vp.ui.theme.biru
 import com.example.alp_vp.ui.theme.merah
 import com.example.alp_vp.ui.theme.poppins
 
-private val biruMuda = Color(0xFF41BBF1)
+val biruMuda = Color(0xFF41BBF1)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "RememberReturnType")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
