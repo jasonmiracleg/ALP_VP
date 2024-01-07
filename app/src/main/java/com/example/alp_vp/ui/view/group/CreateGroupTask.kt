@@ -206,7 +206,6 @@ fun CreateGroupTask(
                         )
                     },
                     colors = TextFieldDefaults.textFieldColors(
-                        textColor = Color.Black,
                         disabledTextColor = Color.Transparent,
                         focusedIndicatorColor = Color.Transparent,
                         unfocusedIndicatorColor = Color.Transparent,
@@ -272,7 +271,6 @@ fun CustomTitleDesc(
             .fillMaxWidth()
             .padding(horizontal = 20.dp),
         colors = TextFieldDefaults.textFieldColors(
-            textColor = Color.Black,
             disabledTextColor = Color.Transparent,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
