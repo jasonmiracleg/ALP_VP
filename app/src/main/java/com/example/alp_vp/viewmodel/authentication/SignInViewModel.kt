@@ -8,13 +8,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-class SignUpViewModel : ViewModel() {
+class SignInViewModel : ViewModel(){
     private val _userData = MutableStateFlow(User())
     val userData: StateFlow<User> = _userData.asStateFlow()
-    fun fillUserData(image: String, name: String, email: String, password: String, bornDate: String, navController: NavController) {
-        val user = User(image, name, email, password, bornDate)
-        _userData.value = user
-        navController.navigate(Screen.SignIn.route)
+    fun logIn(email: String, password: String, navController: NavController) {
+        if (_userData.value.email == email && _userData.value.password == password) {
+            navController.navigate(Screen.EditProfile.route)
+        }
     }
-
 }
