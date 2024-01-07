@@ -15,11 +15,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -32,24 +33,18 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.alp_vp.R
 import com.example.alp_vp.ui.theme.poppins
-import com.example.alp_vp.viewmodel.authentication.SignInViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignInView(
-    navController: NavController,
-    signInViewModel: SignInViewModel = viewModel()
-) {
+fun SignInView(navController: NavController) {
 
     var email by rememberSaveable {
         mutableStateOf("")
@@ -57,9 +52,7 @@ fun SignInView(
     var password by rememberSaveable {
         mutableStateOf("")
     }
-    var passwordVisibility by rememberSaveable {
-        mutableStateOf(false)
-    }
+    var passwordVisibility by rememberSaveable { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -104,7 +97,7 @@ fun SignInView(
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
-            colors = OutlinedTextFieldDefaults.colors(
+            colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = Color(0xFF38BDF8),
                 unfocusedBorderColor = Color.LightGray,
             ),
@@ -128,10 +121,10 @@ fun SignInView(
             value = password,
             onValueChange = { password = it },
             keyboardOptions = KeyboardOptions.Default.copy(
-                keyboardType = KeyboardType.Text,
+                keyboardType = if (passwordVisibility) KeyboardType.Text else KeyboardType.Password,
                 imeAction = ImeAction.Next
             ),
-            colors = OutlinedTextFieldDefaults.colors(
+            colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = Color(0xFF38BDF8),
                 unfocusedBorderColor = Color.LightGray,
             ),
@@ -154,16 +147,13 @@ fun SignInView(
                             .width(24.dp)
                     )
                 }
-            },
-            visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation()
-
+            }
         )
 
         Spacer(modifier = Modifier.padding(bottom = 24.dp))
 
         Button(
-            enabled = email.isNotBlank() && password.isNotBlank(),
-            onClick = { signInViewModel.logIn(email, password, navController) },
+            onClick = { /*TODO*/ },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFF38BDF8),
             ),
