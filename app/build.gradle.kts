@@ -74,6 +74,7 @@ dependencies {
     implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0") // add library to convert the json
     implementation("com.squareup.okhttp3:okhttp:4.11.0") // add library REST function
     implementation("androidx.datastore:datastore-preferences:1.0.0") // store token
+    implementation("com.squareup.retrofit2:retrofit:2.9.0") // add library retrofit
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
