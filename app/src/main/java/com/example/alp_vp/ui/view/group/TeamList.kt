@@ -1,26 +1,24 @@
 package com.example.alp_vp.ui.view.group
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredHeight
-import androidx.compose.foundation.layout.requiredSize
-import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material3.Button
@@ -32,6 +30,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -40,7 +39,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
@@ -52,7 +50,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.alp_vp.R
+import com.example.alp_vp.viewmodel.group.GroupViewModel
 import androidx.compose.material3.Icon as Icon
 
 val poppins = FontFamily(
@@ -62,7 +62,8 @@ val poppins = FontFamily(
     Font(R.font.poppins_semibold, FontWeight.SemiBold),
 )
 @Composable
-fun TeamListView(){
+fun TeamListView(groupViewModel: GroupViewModel = viewModel()){
+    val groupUIState by groupViewModel.data.collectAsState()
     Column(
         modifier = Modifier
             .padding(20.dp),
@@ -72,21 +73,22 @@ fun TeamListView(){
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 20.dp, top = 10.dp, end = 20.dp, bottom = 10.dp)
+                .padding(start = 20.dp, top = 10.dp, end = 20.dp)
         ) {
             Text(
                 text = "Team List",
                 fontSize = 20.sp,
                 fontFamily = poppins,
                 fontWeight = FontWeight.ExtraBold,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f).align(Alignment.CenterVertically)
             )
-            Icon(
-                imageVector = Icons.Outlined.Notifications,
-                contentDescription = "Notif"
-            )
+            IconButton(onClick = { /*route(team_notif)*/ } ,
+                modifier = Modifier.align(Alignment.Top)) {
+                Icon(Icons.Outlined.Notifications, "notif")
+
+            }
         }
-        createTeam()
+        createTeam(groupViewModel)
         Image(
             painter = painterResource(id = R.drawable.line),
             contentDescription = "divider",
@@ -96,18 +98,38 @@ fun TeamListView(){
 
         )
         //lazycolumn
-        ListGroupCard()
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+
+        ){
+            items(groupUIState.groups.size){
+                ListGroupCard(
+                    group_name = groupUIState.groups[it].group_name,
+                    onClick = {
+                        // Define your onClick logic here
+                    },
+                    onDeleteClick = {
+                        groupViewModel.deleteGroup(groupUIState.groups[it])
+                    }
+                )
+            }
+        }
+
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun createTeam(){
+fun createTeam(
+    groupViewModel: GroupViewModel
+){
+
     var searchusername by rememberSaveable { mutableStateOf("") }
-    var team_description by rememberSaveable { mutableStateOf("") }
+    var description by rememberSaveable { mutableStateOf("") }
+    var group_name by rememberSaveable { mutableStateOf("") }
     Column (
         modifier = Modifier
-            .padding(20.dp),
+            .padding(16.dp),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start
     ){
@@ -118,7 +140,7 @@ fun createTeam(){
             fontWeight = FontWeight.Medium,
             textAlign = TextAlign.Start,
             modifier = Modifier
-                .padding(start = 4.dp, bottom = 20.dp, top = 4.dp)
+                .padding(start = 4.dp, bottom = 4.dp)
         )
         //LazyRow(){} untuk profile picts users
         Row {
@@ -142,19 +164,33 @@ fun createTeam(){
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .height(70.dp)
+                .height(80.dp)
+                .padding(vertical = 8.dp)
+
+        )
+        CustomGroupName(
+            value = group_name,
+            onValueChanged = {group_name = it} ,
+            text = "Group Name",
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Done
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(80.dp)
                 .padding(vertical = 8.dp)
 
         )
         Row (
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
                 
 
         ){
             CustomTeamDescriptionField(
-                value = team_description,
-                onValueChanged = {team_description = it} ,
+                value = description,
+                onValueChanged = {description = it} ,
                 text = "Description Team",
                 keyboardOptions = KeyboardOptions.Default.copy(
                     keyboardType = KeyboardType.Text,
@@ -165,25 +201,15 @@ fun createTeam(){
                     .weight(1f)
                     .padding(top = 8.dp, bottom = 8.dp)
             )
-//            Image(painter = painterResource(id = R.drawable.add_group),
-//                contentDescription = "tambah grup",
-//                modifier = Modifier
-//                    .size(80.dp)
-//                    .padding(12.dp)
-//            )
-            Button(
-                onClick = {
-                    // logics
-                },
+            Image(
                 modifier = Modifier
-                    .size(width = 80.dp, height = 80.dp)
-                    .padding(12.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF22D3EE)),
-            ) {
-                Icon(imageVector = Icons.Default.Add,
-                    contentDescription = "Tambah Grup",
-                    modifier = Modifier.size(48.dp))
-            }
+                    .clickable { groupViewModel.addGroup(group_name, description) }
+                    .size(60.dp),
+                painter = painterResource(id = R.drawable.add_group),
+                contentDescription = "Tambah group",
+                alignment = Alignment.Center
+            )
+
 
         }
 
@@ -192,12 +218,15 @@ fun createTeam(){
 
 
 @Composable
-fun ListGroupCard(colorBackground: Color = Color(0xFFEBEBEB)) {
+fun ListGroupCard(
+    colorBackground: Color = Color(0xFFEBEBEB),
+    onClick: () -> Unit,
+    group_name: String,
+    onDeleteClick: () -> Unit,
+    ) {
     ElevatedCard(
         colors = CardDefaults.cardColors(containerColor = Color.White),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 2.dp
-        ),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         modifier = Modifier
             .fillMaxWidth()
     ) {
@@ -209,23 +238,31 @@ fun ListGroupCard(colorBackground: Color = Color(0xFFEBEBEB)) {
         ) {
             Column {
                 Text(
-                    text = "Team Kerja VisProg",
+                    text = group_name,
                     fontFamily = poppins,
                     modifier = Modifier
-                        .padding(start = 16.dp, top = 5.dp, bottom = 2.dp, end = 16.dp),
+                        .padding(top = 2.dp, bottom = 6.dp, end = 16.dp),
                     textAlign = TextAlign.Center,
                 )
 
-                ProfileUserLain(modifier = Modifier.padding(start = 16.dp, top = 2.dp, bottom = 5.dp, end = 16.dp))
+                Row(){
+                    ProfileUserLain()
+                }
+
             }
             Row (modifier = Modifier.align(Alignment.CenterVertically)){
                 Button(
                     onClick = {
-                        // logics
+                        // routing msh belum jadi
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF22D3EE)),
                 ) {
                     Text(text = "Open", fontFamily = poppins)
+                }
+                IconButton(onClick = onDeleteClick ,
+                    modifier = Modifier.align(Alignment.Top)) {
+                    Icon(Icons.Default.Delete, "delete", tint = Color.Red)
+
                 }
             }
 
@@ -236,82 +273,14 @@ fun ListGroupCard(colorBackground: Color = Color(0xFFEBEBEB)) {
 
 @Composable
 fun ProfileUserLain(modifier: Modifier = Modifier) {
-    Box(
-        modifier = modifier
-            .requiredWidth(width = 79.dp)
-            .requiredHeight(height = 35.dp)
-    ) {
-        Box(
-            modifier = Modifier
-                .requiredSize(size = 35.dp)
-                .clip(shape = CircleShape)
-                .background(color = Color(0xffd9d9d9))
-                .border(
-                    border = BorderStroke(2.dp, Color.White),
-                    shape = CircleShape
-                ))
         Image(
-            painter = painterResource(id = R.drawable.wajahorang),
-            contentDescription = "face_FILL0_wght400_GRAD0_opsz24 1",
-            colorFilter = ColorFilter.tint(Color(0xff757575)),
+            painter = painterResource(id = R.drawable.profilepict),
+            contentDescription = "Profile Picture",
+            contentScale = ContentScale.FillBounds,
             modifier = Modifier
-                .align(alignment = Alignment.TopStart)
-                .offset(
-                    x = 6.dp,
-                    y = 6.dp
-                )
-                .requiredSize(size = 23.dp))
-        Box(
-            modifier = Modifier
-                .align(alignment = Alignment.TopStart)
-                .offset(
-                    x = 22.dp,
-                    y = 0.dp
-                )
-                .requiredSize(size = 35.dp)
-                .clip(shape = CircleShape)
-                .background(color = Color(0xffd9d9d9))
-                .border(
-                    border = BorderStroke(2.dp, Color.White),
-                    shape = CircleShape
-                ))
-        Image(
-            painter = painterResource(id = R.drawable.wajahorang),
-            contentDescription = "face_FILL0_wght400_GRAD0_opsz24 2",
-            colorFilter = ColorFilter.tint(Color(0xff757575)),
-            modifier = Modifier
-                .align(alignment = Alignment.TopStart)
-                .offset(
-                    x = 28.dp,
-                    y = 6.dp
-                )
-                .requiredSize(size = 23.dp))
-        Box(
-            modifier = Modifier
-                .align(alignment = Alignment.TopStart)
-                .offset(
-                    x = 44.dp,
-                    y = 0.dp
-                )
-                .requiredSize(size = 35.dp)
-                .clip(shape = CircleShape)
-                .background(color = Color(0xffd9d9d9))
-                .border(
-                    border = BorderStroke(2.dp, Color.White),
-                    shape = CircleShape
-                ))
-        Image(
-            painter = painterResource(id = R.drawable.wajahorang),
-            contentDescription = "face_FILL0_wght400_GRAD0_opsz24 3",
-            colorFilter = ColorFilter.tint(Color(0xff757575)),
-            modifier = Modifier
-                .align(alignment = Alignment.TopStart)
-                .offset(
-                    x = 50.dp,
-                    y = 6.dp
-                )
-                .requiredSize(size = 23.dp))
-    }
+                .size(35.dp)
+                .clip(CircleShape)
+        )
 }
 
 
@@ -345,6 +314,26 @@ fun CustomSearchUsernameField(
         modifier = modifier.fillMaxWidth()
         )
 }
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CustomGroupName(
+    value: String,
+    onValueChanged: (String) -> Unit,
+    text: String,
+    keyboardOptions: KeyboardOptions,
+    modifier: Modifier = Modifier,
+
+    ) {
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChanged,
+        shape = RoundedCornerShape(50.dp),
+        label = { Text(text = text, color = Color.Gray) },
+        keyboardOptions = keyboardOptions,
+        modifier = modifier.fillMaxWidth()
+    )
+}
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

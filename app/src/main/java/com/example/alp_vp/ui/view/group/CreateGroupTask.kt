@@ -1,7 +1,6 @@
 package com.example.alp_vp.ui.view.group
 
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -17,14 +16,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
-import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -37,10 +34,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -49,13 +44,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.alp_vp.R
+import com.example.alp_vp.viewmodel.group.GroupTodolistViewModel
 
 private val blue = Color(0xFF41BBF1)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CreateToDoList() {
-    var taskTitle by rememberSaveable { mutableStateOf("") }
-    var taskDesc by rememberSaveable { mutableStateOf("") }
+fun CreateGroupTask(
+    groupTodolistViewModel: GroupTodolistViewModel
+) {
+    var task_title by rememberSaveable { mutableStateOf("") }
+    var description by rememberSaveable { mutableStateOf("") }
     val options = listOf("Jerry", "Jason", "Yobel", "Marshanda")
     var expanded by remember { mutableStateOf(false) }
     var selectedOptionText by remember { mutableStateOf(options[0]) }
@@ -98,7 +96,7 @@ fun CreateToDoList() {
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { /**/ },
+                onClick = { groupTodolistViewModel.addGroupTask(task_title, description) },
 
                 containerColor = Color(android.graphics.Color.parseColor("#38BDF8")),
                 modifier = Modifier
@@ -139,8 +137,8 @@ fun CreateToDoList() {
                 )
 
             CustomTitleDesc(
-                value = taskTitle,
-                onValueChanged = {taskTitle = it} ,
+                value = task_title,
+                onValueChanged = {task_title = it} ,
                 text = "Mengerjakan Figma",
                 keyboardOptions = KeyboardOptions.Default.copy(
                     keyboardType = KeyboardType.Text,
@@ -167,8 +165,8 @@ fun CreateToDoList() {
             )
 
             CustomTitleDesc(
-                value = taskDesc,
-                onValueChanged = {taskDesc = it} ,
+                value = description,
+                onValueChanged = {description = it} ,
                 text = "Deadline hari minggu, pukul 23.59",
                 keyboardOptions = KeyboardOptions.Default.copy(
                     keyboardType = KeyboardType.Text,
@@ -284,8 +282,15 @@ fun CustomTitleDesc(
     )
 }
 
+@Composable
+fun CreateGroupTaskWrapper() {
+    val groupTodolistViewModel = GroupTodolistViewModel()
+
+    CreateGroupTask(groupTodolistViewModel = groupTodolistViewModel)
+}
+
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-private fun CreateToDoListPreview() {
-    CreateToDoList()
+fun CreateGroupTaskPreview() {
+    CreateGroupTaskWrapper()
 }
