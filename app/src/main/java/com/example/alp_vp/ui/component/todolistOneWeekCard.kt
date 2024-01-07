@@ -1,11 +1,11 @@
 package com.example.alp_vp.ui.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -17,11 +17,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -30,22 +25,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.alp_vp.R
 import com.example.alp_vp.model.Category
 import com.example.alp_vp.model.ToDoList
 import com.example.alp_vp.ui.theme.poppins
-import com.example.alp_vp.viewmodel.to_do_list.HomeViewModel
 
 @Composable
-fun todoListCard(
-    homeViewModel: HomeViewModel = viewModel(),
+fun todolistOneweekCard(
     toDoList: ToDoList,
     category: ArrayList<Category>
 ){
-    val homeUiState by homeViewModel.uiState.collectAsState()
-    var isChecked by rememberSaveable { mutableStateOf(false) }
-
     Box(
         modifier = Modifier
             .padding(20.dp, 8.dp)
@@ -61,10 +50,12 @@ fun todoListCard(
     ){
         Column (
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(),
+            Arrangement.SpaceEvenly
         ){
             Row (
                 verticalAlignment = Alignment.CenterVertically,
+
                 ){
                 Column (
                     modifier = Modifier
@@ -76,6 +67,7 @@ fun todoListCard(
                         fontWeight = FontWeight.Bold,
                         fontSize = 16.sp
                     )
+
                     toDoList.description?.let {
                         Text(
                             text = it,
@@ -108,34 +100,26 @@ fun todoListCard(
                         }
                     }
                 }
-
-                if (isChecked){
-                    Icon(
-                        painterResource(id = R.drawable.checkbox_selesai),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .size(45.dp)
-                            .width(1.dp)
-                            .clickable {
-                                isChecked = false;
-                            },
-                        tint = Color.Gray,
+                Icon(
+                    painterResource(id = R.drawable.edit),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(28.dp)
+                        .width(1.dp),
+                    tint = Color.Black
                     )
-                }
-                else{
-                    Icon(
-                        painterResource(id = R.drawable.checkbox_blank),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .size(45.dp)
-                            .width(1.dp)
-                            .clickable {
-                                isChecked = true;
-                            },
-                        tint = Color.Gray,
+                Spacer(
+                    modifier = Modifier
+                        .padding(5.dp)
+                )
+                Icon(
+                    painterResource (id = R.drawable.trash),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(29.dp)
+                        .width(1.dp),
+                    tint = Color.Red
                     )
-                }
-
             }
         }
     }

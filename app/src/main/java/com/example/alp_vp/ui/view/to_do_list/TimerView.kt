@@ -35,14 +35,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.alp_vp.R
-import com.example.alp_vp.model.ToDoList
-import com.example.alp_vp.model.isComplete
-import com.example.alp_vp.model.isGroup
 import com.example.alp_vp.ui.theme.BlueTheme
 import com.example.alp_vp.ui.theme.poppins
 import com.example.alp_vp.viewmodel.to_do_list.TimerViewModel
-import java.sql.Time
-
 
 @Composable
 fun ViewTimer (timerViewModel: TimerViewModel = viewModel()) {
