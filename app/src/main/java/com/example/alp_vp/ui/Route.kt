@@ -182,7 +182,7 @@ fun Route(
             }
 
             composable(ListScreen.SignIn.name) {
-                if (MyDBContainer.ACCESS_TOKEN.isEmpty() || MyDBContainer.ACCESS_TOKEN == "") {
+                if (MyDBContainer.ACCESS_TOKEN.isEmpty()) {
                     canNavigate = false
                     val signInViewModel: SignInViewModel = viewModel()
                     SignInView(
@@ -191,15 +191,15 @@ fun Route(
                         dataStore = dataStore
                     )
                 } else {
-//                    navController.navigate(ListScreen.Home.name) {
-//                        popUpTo(ListScreen.SignIn.name) { inclusive = true }
-//                    }
-                    val signInViewModel: SignInViewModel = viewModel()
-                    SignInView(
-                        navController = navController,
-                        signInViewModel = signInViewModel,
-                        dataStore = dataStore
-                    )
+                    navController.navigate(ListScreen.Home.name) {
+                        popUpTo(ListScreen.SignIn.name) { inclusive = true }
+                    }
+//                    val signInViewModel: SignInViewModel = viewModel()
+//                    SignInView(
+//                        navController = navController,
+//                        signInViewModel = signInViewModel,
+//                        dataStore = dataStore
+//                    )
                 }
             }
 

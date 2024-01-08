@@ -18,9 +18,10 @@ class DataStoreManager(context: Context) {
         val USER_ID = intPreferencesKey("user_id")
     }
 
-    suspend fun saveToken(token: String){
+    suspend fun saveToken(token: String, userId: Int){
         dataStore.edit { preferences ->
             preferences[TOKEN] = token
+            preferences[USER_ID] = userId
         }
     }
 

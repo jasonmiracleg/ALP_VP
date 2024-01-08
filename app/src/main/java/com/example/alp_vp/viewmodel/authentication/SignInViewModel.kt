@@ -31,16 +31,14 @@ class SignInViewModel : ViewModel() {
             val token: SignInResponse =
                 MyDBContainer().tiemerDBRepositories.login(email, password)
             when {
-                (token.equals("Incorrect Password") || token.equals("User Not Found")) -> {
+                (token.message == "Incorrect Password" || token.message == "User Not Found") -> {
                     Toast.makeText(context, "Please Retry the Login", Toast.LENGTH_LONG).show()
                 }
-
                 else -> {
-                    MyDBContainer.ACCESS_TOKEN = token.token
-                    dataStore.saveToken(token.token)
-                    dataStore.getToken.collect { token1 ->
-                        MyDBContainer.ACCESS_TOKEN = token1.toString()
-                        MyDBContainer.USER_ID = token.userId
+                    dataStore.saveToken(token.token, token.userId)
+                    MyDBContainer.USER_ID = token.userId
+                    dataStore.getToken.collect { currentToken ->
+                        MyDBContainer.ACCESS_TOKEN = currentToken.toString()
                         navController.navigate(ListScreen.Home.name) {
                             popUpTo(ListScreen.SignIn.name) { inclusive = true }
                         }

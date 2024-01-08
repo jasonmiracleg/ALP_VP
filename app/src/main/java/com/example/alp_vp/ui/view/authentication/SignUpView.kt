@@ -62,11 +62,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.alp_vp.data.DataStoreManager
+import com.example.alp_vp.ui.ListScreen
 import com.example.alp_vp.viewmodel.authentication.SignUpViewModel
 import java.time.Instant
 import java.time.LocalDate
@@ -352,6 +354,25 @@ fun SignUpView(
                     color = Color(0xFFFFFFFF),
                     textAlign = TextAlign.Center,
                 )
+            )
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = "Already have an account? Login Now!",
+                style = TextStyle(
+                    fontSize = 16.sp,
+                    fontFamily = poppins,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color(0xFF38BDF8),
+                    textAlign = TextAlign.Center,
+                    textDecoration = TextDecoration.Underline
+                ),
+                modifier = Modifier.clickable { navController.navigate(ListScreen.SignIn.name) }
             )
         }
     }

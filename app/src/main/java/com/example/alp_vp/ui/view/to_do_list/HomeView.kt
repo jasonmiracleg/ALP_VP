@@ -54,7 +54,7 @@ fun HomeView(
                 modifier = Modifier
                     .size(30.dp)
                     .clickable {
-
+                        homeViewModel.logout(dataStore, navController)
                     },
                 tint = Color.Gray
 
