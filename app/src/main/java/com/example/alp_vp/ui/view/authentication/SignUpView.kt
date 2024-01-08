@@ -326,7 +326,7 @@ fun SignUpView(
                     name,
                     email,
                     password,
-                    bornDate = datePickerState.selectedDateMillis.changeToString(),
+                    datePickerState.selectedDateMillis.changeToString(),
                     navController
                 )
             },
@@ -405,7 +405,7 @@ fun Long?.changeToString() : String {
             .atZone(ZoneId.systemDefault())
             .toLocalDate()
     } ?: LocalDate.now()
-    return date.format(DateTimeFormatter.ofPattern("dd MM yyyy"))
+    return date.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")).toString()
 }
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable

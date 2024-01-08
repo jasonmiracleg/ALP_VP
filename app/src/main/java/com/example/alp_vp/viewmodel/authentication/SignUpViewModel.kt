@@ -19,12 +19,12 @@ class SignUpViewModel : ViewModel() {
         name: String,
         email: String,
         password: String,
-        bornDate: String,
+        born_date: String,
         navController: NavController,
     ) {
         viewModelScope.launch {
-            Log.d("coba", bornDate)
-            MyDBContainer().tiemerDBRepositories.register(name, email, password, bornDate)
+            Log.d("coba", born_date)
+            MyDBContainer().tiemerDBRepositories.register(name, email, password, born_date)
             navController.navigate(ListScreen.SignIn.name)
         }
     }

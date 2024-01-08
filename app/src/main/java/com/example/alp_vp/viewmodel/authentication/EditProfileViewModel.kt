@@ -20,7 +20,7 @@ class EditProfileViewModel : ViewModel() {
                 name = "hahoh",
                 email = email1,
                 password = password1,
-                bornDate = bornDate1
+                born_date = bornDate1
             )
 
         }

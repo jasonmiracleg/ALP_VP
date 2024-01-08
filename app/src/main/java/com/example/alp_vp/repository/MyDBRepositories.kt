@@ -17,6 +17,7 @@ class MyDBRepositories(private val myDBService: MyDBService) {
         if (result.status.toInt() == HttpURLConnection.HTTP_OK) {
             return result
         }
+        Log.d("coba", result.toString())
         return result
     }
 
@@ -29,14 +30,15 @@ class MyDBRepositories(private val myDBService: MyDBService) {
         name: String,
         email: String,
         password: String,
-        bornDate: String
+        born_date: String
     ): String {
-        val user = User(name, email, password, bornDate)
-        Log.d("coba", user.toString())
+        val user = User(name, email, password, born_date)
+
         val result = myDBService.register(user)
 //        if (result.status.toInt() == HttpURLConnection.HTTP_OK) {
 //            return result.message
 //        }
+        Log.d("coba", result.toString())
         return result.message
     }
 
