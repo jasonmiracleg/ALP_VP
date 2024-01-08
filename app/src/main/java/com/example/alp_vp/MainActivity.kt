@@ -29,6 +29,7 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.alp_vp.navigation.Navigation
+import com.example.alp_vp.ui.Route
 import com.example.alp_vp.ui.theme.ALP_VPTheme
 import com.example.alp_vp.ui.view.category.NotificationService
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -49,49 +50,50 @@ class MainActivity : ComponentActivity() {
         setContent {
             ALP_VPTheme {
 
-                val notificationService = NotificationService(applicationContext)
-                val coroutineScope = rememberCoroutineScope()
-
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                        val permissionState =
-                            rememberPermissionState(permission = android.Manifest.permission.POST_NOTIFICATIONS)
-                        if (!permissionState.status.isGranted) {
-                            Button(onClick = { permissionState.launchPermissionRequest() }) {
-                                Text(
-                                    text = "allow notification",
-                                    fontSize = 22.sp
-                                )
-                            }
-                        }
-
-                    }
-
-                    Spacer(modifier = Modifier.padding(bottom = 16.dp))
-
-                    val calendar = Calendar.getInstance()
-                    calendar.set(Calendar.HOUR_OF_DAY, 18)
-                    calendar.set(Calendar.MINUTE, 0)
-                    val timeDiff = calendar.timeInMillis - System.currentTimeMillis()
-
-                    Button(
-                        onClick = {
-                            coroutineScope.launch {
-                                delay(timeDiff)
-                                notificationService.showNotification()
-                            }
-                        }
-                    ) {
-                        Text(
-                            text = "show notification",
-                            fontSize = 22.sp
-                        )
-                    }
-                }
+                Route()
+//                val notificationService = NotificationService(applicationContext)
+//                val coroutineScope = rememberCoroutineScope()
+//
+//                Column(
+//                    modifier = Modifier.fillMaxSize(),
+//                    horizontalAlignment = Alignment.CenterHorizontally,
+//                    verticalArrangement = Arrangement.Center
+//                ) {
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//                        val permissionState =
+//                            rememberPermissionState(permission = android.Manifest.permission.POST_NOTIFICATIONS)
+//                        if (!permissionState.status.isGranted) {
+//                            Button(onClick = { permissionState.launchPermissionRequest() }) {
+//                                Text(
+//                                    text = "allow notification",
+//                                    fontSize = 22.sp
+//                                )
+//                            }
+//                        }
+//
+//                    }
+//
+//                    Spacer(modifier = Modifier.padding(bottom = 16.dp))
+//
+//                    val calendar = Calendar.getInstance()
+//                    calendar.set(Calendar.HOUR_OF_DAY, 18)
+//                    calendar.set(Calendar.MINUTE, 0)
+//                    val timeDiff = calendar.timeInMillis - System.currentTimeMillis()
+//
+//                    Button(
+//                        onClick = {
+//                            coroutineScope.launch {
+//                                delay(timeDiff)
+//                                notificationService.showNotification()
+//                            }
+//                        }
+//                    ) {
+//                        Text(
+//                            text = "show notification",
+//                            fontSize = 22.sp
+//                        )
+//                    }
+//                }
 
 //                navController = rememberNavController()
 //                Navigation(navController = navController)

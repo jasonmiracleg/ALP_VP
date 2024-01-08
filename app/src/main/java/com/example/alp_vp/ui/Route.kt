@@ -1,5 +1,7 @@
 package com.example.alp_vp.ui
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -9,6 +11,12 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.alp_vp.navigation.Screen
+import com.example.alp_vp.ui.view.authentication.AuthenticationView
+import com.example.alp_vp.ui.view.authentication.EditProfileView
+import com.example.alp_vp.ui.view.authentication.SignInView
+import com.example.alp_vp.ui.view.authentication.SignUpView
+import com.example.alp_vp.ui.view.authentication.SplashScreenView
 import com.example.alp_vp.viewmodel.to_do_list.FormCreateViewModel
 import com.example.alp_vp.viewmodel.to_do_list.HomeViewModel
 import com.example.alp_vp.viewmodel.to_do_list.WeeklyTaskViewModel
@@ -17,18 +25,24 @@ enum class ListScreen(){
     Home,
     WeeklyTask,
     FormCreate,
-    FormEdit
+    FormEdit,
+    splash_screen,
+    authentication,
+    sign_in,
+    sign_up,
+    edit_profile
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ToDoListRoute(){
+fun Route(){
     val navController = rememberNavController()
 
     Scaffold { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = ListScreen.Home.name,
+            startDestination = ListScreen.splash_screen.name,
             modifier = Modifier
                 .padding(innerPadding)
         ){
@@ -45,7 +59,26 @@ fun ToDoListRoute(){
             }
 
             composable(ListScreen.FormEdit.name){
+            }
 
+            composable(ListScreen.splash_screen.name){
+                SplashScreenView(navController = navController)
+            }
+
+            composable(ListScreen.sign_in.name){
+                SignInView(navController = navController)
+            }
+
+            composable(ListScreen.sign_up.name){
+                SignUpView(navController = navController)
+            }
+
+            composable(ListScreen.edit_profile.name) {
+                EditProfileView(navController = navController)
+            }
+
+            composable(ListScreen.authentication.name){
+                AuthenticationView(navController = navController)
             }
         }
 
