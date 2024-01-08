@@ -20,7 +20,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.sql.Time
 
-class TimerViewModel(toDoList: ToDoList = ToDoList("", "", isGroup.group, isComplete.done, Time.valueOf("12:15:00"))) :
+class TimerViewModel(toDoList: ToDoList = ToDoList("", arrayListOf(),
+    "", isGroup.group, isComplete.done, Time.valueOf("12:15:00"))) :
     ViewModel() {
     private val currentData = MutableStateFlow(TimerUIState())
     val data: StateFlow<TimerUIState> = currentData.asStateFlow()

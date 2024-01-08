@@ -6,6 +6,7 @@ import kotlin.time.Duration.Companion.hours
 @Suppress("DEPRECATION")
 data class ToDoList(
     val title: String,
+    val listCategory:  ArrayList<Category> = arrayListOf(),
     val description: String?,
     val isGroup: isGroup,
     val isComplete: isComplete,

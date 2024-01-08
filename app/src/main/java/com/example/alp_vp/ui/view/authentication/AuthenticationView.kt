@@ -38,6 +38,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.alp_vp.R
 import com.example.alp_vp.navigation.Screen
+import com.example.alp_vp.ui.ListScreen
 import com.example.alp_vp.ui.theme.poppins
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -53,7 +54,7 @@ fun AuthenticationView(
             .padding(horizontal = 28.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
-    ){
+    ) {
 
         Image(
             painter = painterResource(id = R.drawable.authentication_illustration),
@@ -91,7 +92,7 @@ fun AuthenticationView(
         Spacer(Modifier.padding(bottom = 12.dp))
 
         Button(
-            onClick = { navController.navigate( route = Screen.SignIn.route) },
+            onClick = { navController.navigate(ListScreen.SignIn.name) },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFF38BDF8),
             ),
@@ -120,7 +121,7 @@ fun AuthenticationView(
         Spacer(Modifier.padding(bottom = 18.dp))
 
         Button(
-            onClick = { navController.navigate(route = Screen.SignUp.route) },
+            onClick = { navController.navigate(ListScreen.SignUp.name) },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.White,
             ),
@@ -142,6 +143,7 @@ fun AuthenticationView(
         }
     }
 }
+
 @RequiresApi(Build.VERSION_CODES.O)
 @Preview(showBackground = true, showSystemUi = true)
 @Composable

@@ -16,7 +16,7 @@ class EditProfileViewModel : ViewModel() {
     fun updateData(image1: String, name1: String, email1: String, password1: String, bornDate1: String, navController: NavController) {
         _userData.update {
             it.copy (
-                image = image1,
+//                image = image1,
                 name = "hahoh",
                 email = email1,
                 password = password1,

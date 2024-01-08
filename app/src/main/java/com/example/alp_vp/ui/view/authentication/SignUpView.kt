@@ -66,6 +66,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
+import com.example.alp_vp.data.DataStoreManager
 import com.example.alp_vp.viewmodel.authentication.SignUpViewModel
 import java.time.Instant
 import java.time.LocalDate
@@ -77,7 +78,8 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun SignUpView(
     signUpViewModel: SignUpViewModel = viewModel(),
-    navController: NavController
+    navController: NavController,
+    dataStore: DataStoreManager
 ) {
     var check by rememberSaveable {
         mutableStateOf(false)
@@ -150,23 +152,23 @@ fun SignUpView(
                 )
 
             }
-            Box(
-                modifier = Modifier
-                    .padding(
-                        top = 86.dp,
-                        start = 190.dp
-                    )
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.camera),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(40.dp)
-                        .clickable {
-                            launcher.launch("image/*")
-                        }
-                )
-            }
+//            Box(
+//                modifier = Modifier
+//                    .padding(
+//                        top = 86.dp,
+//                        start = 190.dp
+//                    )
+//            ) {
+//                Image(
+//                    painter = painterResource(id = R.drawable.camera),
+//                    contentDescription = null,
+//                    modifier = Modifier
+//                        .size(40.dp)
+//                        .clickable {
+//                            launcher.launch("image/*")
+//                        }
+//                )
+//            }
         }
 
         Spacer(modifier = Modifier.padding(bottom = 10.dp))
@@ -321,7 +323,7 @@ fun SignUpView(
         Button(
             onClick = {
                 signUpViewModel.fillUserData(
-                    imageUri,
+//                    imageUri,
                     name,
                     email,
                     password,
@@ -397,8 +399,8 @@ fun BornDatePicker(
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
-fun Long?.changeToString() : String {
-    val date: LocalDate = this?.let{
+fun Long?.changeToString(): String {
+    val date: LocalDate = this?.let {
         Instant
             .ofEpochMilli(it)
             .atZone(ZoneId.systemDefault())
@@ -406,9 +408,10 @@ fun Long?.changeToString() : String {
     } ?: LocalDate.now()
     return date.format(DateTimeFormatter.ofPattern("dd MM yyyy"))
 }
+
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 @Preview(showSystemUi = true, showBackground = true)
 fun SignUpPreview() {
-    return SignUpView(navController = rememberNavController())
+//    return SignUpView(navController = rememberNavController())
 }
