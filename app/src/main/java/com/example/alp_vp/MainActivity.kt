@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TimePicker
 import androidx.compose.runtime.getValue
@@ -49,8 +50,12 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ALP_VPTheme {
+                Surface(
+                    modifier = Modifier.fillMaxSize()
+                ){
+                    Route()
+                }
 
-                Route()
 //                val notificationService = NotificationService(applicationContext)
 //                val coroutineScope = rememberCoroutineScope()
 //

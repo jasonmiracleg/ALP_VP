@@ -17,11 +17,11 @@ class AuthInterceptor(private val bearerToken: String) : Interceptor {
 }
 class MyDBContainer {
     companion object{ // Basically like static function
-        val BASE_IMG = ""
+        var USER_ID = -1
         var ACCESS_TOKEN = ""
     }
 
-    private val BASE_URL = "http://192.168.174.233/laravel-projects/visprog/public/api/"
+    private val BASE_URL = "http://192.168.230.233/laravel-projects/vp_api/public/api"
 
     private val client = OkHttpClient.Builder()
         .addInterceptor(AuthInterceptor(ACCESS_TOKEN))

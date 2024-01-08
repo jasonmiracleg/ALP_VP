@@ -66,6 +66,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
+import com.example.alp_vp.data.DataStoreManager
 import com.example.alp_vp.viewmodel.authentication.SignUpViewModel
 import java.time.Instant
 import java.time.LocalDate
@@ -76,8 +77,9 @@ import java.time.format.DateTimeFormatter
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignUpView(
-    signUpViewModel: SignUpViewModel = viewModel(),
-    navController: NavController
+    signUpViewModel: SignUpViewModel,
+    navController: NavController,
+    dataStore : DataStoreManager
 ) {
     var check by rememberSaveable {
         mutableStateOf(false)
@@ -326,7 +328,8 @@ fun SignUpView(
                     email,
                     password,
                     bornDate = datePickerState.selectedDateMillis.changeToString(),
-                    navController
+                    navController,
+                    dataStore
                 )
             },
             colors = ButtonDefaults.buttonColors(
@@ -410,5 +413,5 @@ fun Long?.changeToString() : String {
 @Composable
 @Preview(showSystemUi = true, showBackground = true)
 fun SignUpPreview() {
-    return SignUpView(navController = rememberNavController())
+//    return SignUpView(navController = rememberNavController())
 }

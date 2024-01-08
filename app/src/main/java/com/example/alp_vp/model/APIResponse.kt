@@ -5,3 +5,10 @@ data class APIResponse (
     val message:String = "",
     val data: Any
 )
+
+data class SignInResponse(
+    val status: String = "",
+    val message: String = "",
+    val userId : Int = 0,
+    val token: String = ""
+)

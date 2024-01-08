@@ -18,41 +18,41 @@ fun Navigation(
     navController: NavHostController,
 ) {
 
-    NavHost(
-        navController = navController,
-        startDestination = Screen.Splash.route
-    ) {
-
-        composable(
-            route = Screen.Splash.route
-        ) {
-            SplashScreenView(navController = navController)
-        }
-
-        composable(
-            route = Screen.Authentication.route
-        ) {
-            AuthenticationView(navController = navController)
-        }
-
-        composable(
-            route = Screen.SignIn.route
-        ) {
-            SignInView(navController = navController)
-        }
-
-        composable(
-            route = Screen.SignUp.route
-        ) {
-            SignUpView(navController = navController)
-        }
-
-        composable(
-            route = Screen.EditProfile.route
-        ) {
-            EditProfileView(navController = navController)
-        }
-
-
-    }
+//    NavHost(
+//        navController = navController,
+//        startDestination = Screen.Splash.route
+//    ) {
+//
+//        composable(
+//            route = Screen.Splash.route
+//        ) {
+//            SplashScreenView(navController = navController)
+//        }
+//
+//        composable(
+//            route = Screen.Authentication.route
+//        ) {
+//            AuthenticationView(navController = navController)
+//        }
+//
+//        composable(
+//            route = Screen.SignIn.route
+//        ) {
+//            SignInView(navController = navController)
+//        }
+//
+//        composable(
+//            route = Screen.SignUp.route
+//        ) {
+//            SignUpView(navController = navController)
+//        }
+//
+//        composable(
+//            route = Screen.EditProfile.route
+//        ) {
+//            EditProfileView(navController = navController)
+//        }
+//
+//
+//    }
 }

@@ -28,6 +28,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -38,10 +40,15 @@ fun BottomNavbar() {
         bottomBar = {
             BottomAppBar(
                 Modifier
-                    .shadow(elevation = 15.dp, spotColor = Color(0xFF000000), ambientColor = Color(
-                        0xFF000000
-                    ),shape = RoundedCornerShape(topEnd = 40.dp, topStart = 40.dp))
-                    .background(color = Color(0xFFF0F0F0), shape = RoundedCornerShape(topEnd = 40.dp, topStart = 40.dp)),
+                    .shadow(
+                        elevation = 15.dp, spotColor = Color(0xFF000000), ambientColor = Color(
+                            0xFF000000
+                        ), shape = RoundedCornerShape(topEnd = 40.dp, topStart = 40.dp)
+                    )
+                    .background(
+                        color = Color(0xFFF0F0F0),
+                        shape = RoundedCornerShape(topEnd = 40.dp, topStart = 40.dp)
+                    ),
                 containerColor = Color.Transparent
             ) {
                 Row(

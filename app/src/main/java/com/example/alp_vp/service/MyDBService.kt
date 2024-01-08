@@ -1,6 +1,7 @@
 package com.example.alp_vp.service
 
 import com.example.alp_vp.model.APIResponse
+import com.example.alp_vp.model.SignInResponse
 import com.example.alp_vp.model.User
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -10,7 +11,7 @@ import retrofit2.http.Path
 
 interface MyDBService {
 
-    @GET("Categories")
+    @GET("categories")
     suspend fun getCategories(): APIResponse
 
     @GET("toDoList-category/{category}")
@@ -49,8 +50,8 @@ interface MyDBService {
     @GET("timer_state")
     suspend fun getTimerState(): APIResponse
 
-    @POST("login")
-    suspend fun login(@Body user: User): APIResponse
+    @POST("logIn")
+    suspend fun login(@Body user: User): SignInResponse
 
     @POST("create_user")
     suspend fun register(@Body user: User): APIResponse
