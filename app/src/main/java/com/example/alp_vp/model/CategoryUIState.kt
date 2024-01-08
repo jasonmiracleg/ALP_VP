@@ -6,6 +6,6 @@ data class CategoryUIState(
         Category(category_title = "Urgent", color = "FF22D3EE"),
         Category(category_title = "Project", color = "FF2563EB"),
         Category(category_title = "Individual", color = "FFFFC107"),
-        Category(category_title = "Shoping", color = "FF4CAF50")
+        Category(category_title = "Shoping", color = "FF4CAF50"),
     )
 )
