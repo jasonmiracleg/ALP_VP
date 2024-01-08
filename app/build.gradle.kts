@@ -60,7 +60,8 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
     implementation("com.github.skydoves:colorpicker-compose:1.0.7")
-    implementation("androidx.compose.material:material-icons-extended") // Add Material Icon
+    implementation("androidx.compose.material:material-icons-extended")
+    implementation("androidx.navigation:navigation-runtime-ktx:2.7.6") // Add Material Icon
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -68,5 +69,4 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
-
 }
