@@ -328,8 +328,7 @@ fun SignUpView(
                     email,
                     password,
                     bornDate = datePickerState.selectedDateMillis.changeToString(),
-                    navController,
-                    dataStore
+                    navController
                 )
             },
             colors = ButtonDefaults.buttonColors(

@@ -50,7 +50,7 @@ interface MyDBService {
     @GET("timer_state")
     suspend fun getTimerState(): APIResponse
 
-    @POST("logIn")
+    @POST("login")
     suspend fun login(@Body user: User): SignInResponse
 
     @POST("create_user")

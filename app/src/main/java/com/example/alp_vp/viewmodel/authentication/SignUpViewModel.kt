@@ -1,5 +1,6 @@
 package com.example.alp_vp.viewmodel.authentication
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
@@ -21,16 +22,11 @@ class SignUpViewModel : ViewModel() {
         password: String,
         bornDate: String,
         navController: NavController,
-        dataStore: DataStoreManager
     ) {
         viewModelScope.launch {
-            val user = User(image, name, email, password, bornDate)
-            try {
-                val token = MyDBContainer().tiemerDBRepositories.register(user)
-                navController.navigate(ListScreen.SignIn.name)
-            } catch (e: Exception){
-                e.printStackTrace()
-            }
+            val user = User(image, name, email, password, "12/01/2024")
+            val token = MyDBContainer().tiemerDBRepositories.register(user)
+            navController.navigate(ListScreen.SignIn.name)
         }
     }
 

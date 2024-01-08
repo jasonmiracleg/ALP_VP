@@ -1,5 +1,7 @@
 package com.example.alp_vp.repository
 
+import android.util.Log
+import com.example.alp_vp.model.APIResponse
 import com.example.alp_vp.model.SignInResponse
 import com.example.alp_vp.model.User
 import com.example.alp_vp.service.MyDBService
@@ -23,12 +25,13 @@ class MyDBRepositories(private val myDBService: MyDBService) {
         return result.message
     }
 
-    suspend fun register(user: User): String {
+    suspend fun register(user: User): APIResponse {
+        Log.d("coba", user.toString())
         val result = myDBService.register(user)
         if (result.status.toInt() == HttpURLConnection.HTTP_OK) {
-            return result.data as String
+            return result
         }
-        return result.message
+        return result
     }
 
 }

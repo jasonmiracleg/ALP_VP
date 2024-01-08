@@ -3,7 +3,9 @@ package com.example.alp_vp.ui
 import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CalendarMonth
@@ -23,9 +25,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -95,17 +100,21 @@ fun BottomNavBar(navController: NavController) {
                 },
                 selected = currentDestination?.hierarchy?.any { it.route == item.route } == true,
                 onClick = {
-                    navController.navigate(item.route) {
-                        popUpTo(navController.graph.findStartDestination().id) {
-                            saveState = true
-                        }
-                        launchSingleTop = true
-                        restoreState = true
-                    }
+                    navController.navigate(item.route)
                 },
                 colors = NavigationBarItemDefaults.colors(
                     indicatorColor = BlueTheme
-                )
+                ),
+                modifier = Modifier
+                    .shadow(
+                        elevation = 15.dp, spotColor = Color(0xFF000000), ambientColor = Color(
+                            0xFF000000
+                        ), shape = RoundedCornerShape(topEnd = 40.dp, topStart = 40.dp)
+                    )
+                    .background(
+                        color = Color(0xFFF0F0F0),
+                        shape = RoundedCornerShape(topEnd = 40.dp, topStart = 40.dp)
+                    ),
             )
         }
     }
@@ -148,6 +157,7 @@ fun Route(
             composable(ListScreen.Home.name) {
                 canNavigate = true
                 val homeViewModel: HomeViewModel = viewModel()
+
             }
 
             composable(ListScreen.WeeklyTask.name) {

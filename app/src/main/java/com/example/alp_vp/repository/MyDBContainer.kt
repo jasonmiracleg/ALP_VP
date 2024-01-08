@@ -1,8 +1,11 @@
 package com.example.alp_vp.repository
 
+import android.util.Log
 import com.example.alp_vp.service.MyDBService
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import retrofit2.Callback
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -21,7 +24,7 @@ class MyDBContainer {
         var ACCESS_TOKEN = ""
     }
 
-    private val BASE_URL = "http://192.168.230.233/laravel-projects/vp_api/public/api"
+    private val BASE_URL = "http://192.168.65.233/laravel-projects/vp_api/public/api/"
 
     private val client = OkHttpClient.Builder()
         .addInterceptor(AuthInterceptor(ACCESS_TOKEN))
@@ -29,7 +32,6 @@ class MyDBContainer {
 
     private val retrofit =  Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create())
-//        .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
         .baseUrl(BASE_URL)
         .client(client)
         .build()

@@ -27,32 +27,25 @@ class SignInViewModel : ViewModel() {
         context: Context,
         dataStore: DataStoreManager
     ) {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val token: SignInResponse =
-                    MyDBContainer().tiemerDBRepositories.login(email, password)
-                Log.d("cek", token.toString())
-                when {
-                    token.equals("Sign In Successful") -> {
-                        MyDBContainer.ACCESS_TOKEN = token.token
-                        dataStore.saveToken(token.token)
-                        dataStore.getToken.collect { token1 ->
-                            MyDBContainer.ACCESS_TOKEN = token1.toString()
-                            MyDBContainer.USER_ID = token.userId
+        viewModelScope.launch() {
+            val token: SignInResponse =
+                MyDBContainer().tiemerDBRepositories.login(email, password)
+            when {
+                (token.equals("Incorrect Password") || token.equals("User Not Found")) -> {
+                    Toast.makeText(context, "Please Retry the Login", Toast.LENGTH_LONG).show()
+                }
 
-                            navController.navigate(ListScreen.Home.name) {
-                                popUpTo(ListScreen.SignIn.name) { inclusive = true }
-                            }
+                else -> {
+                    MyDBContainer.ACCESS_TOKEN = token.token
+                    dataStore.saveToken(token.token)
+                    dataStore.getToken.collect { token1 ->
+                        MyDBContainer.ACCESS_TOKEN = token1.toString()
+                        MyDBContainer.USER_ID = token.userId
+                        navController.navigate(ListScreen.Home.name) {
+                            popUpTo(ListScreen.SignIn.name) { inclusive = true }
                         }
                     }
-
-                    else -> {
-                        Toast.makeText(context, "Please Retry the Login", Toast.LENGTH_LONG).show()
-                    }
                 }
-            } catch (e: Exception) {
-                e.printStackTrace()
-
             }
         }
     }
