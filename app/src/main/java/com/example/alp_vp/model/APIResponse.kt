@@ -12,3 +12,9 @@ data class SignInResponse(
     val userId : Int = 0,
     val token: String = ""
 )
+
+data class CategoryResponse(
+    val status:String = "",
+    val message:String = "",
+    val data: List<Category>
+)

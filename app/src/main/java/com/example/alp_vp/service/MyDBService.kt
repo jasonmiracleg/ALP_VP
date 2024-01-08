@@ -1,18 +1,24 @@
 package com.example.alp_vp.service
 
 import com.example.alp_vp.model.APIResponse
+import com.example.alp_vp.model.Category
+import com.example.alp_vp.model.CategoryResponse
 import com.example.alp_vp.model.SignInResponse
 import com.example.alp_vp.model.User
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface MyDBService {
 
-    @GET("categories")
-    suspend fun getCategories(): APIResponse
+    @GET("categories/{userId}")
+    suspend fun getCategories(
+        @Header("Authorization") token: String,
+        @Path("userId") userId: Int
+    ): CategoryResponse
 
     @GET("toDoList-category/{category}")
     suspend fun getCategoryWithTDL(
@@ -39,6 +45,7 @@ interface MyDBService {
 
     @GET("groups/{userId}")
     suspend fun getGroups(
+
         @Path("userId") userId: String
     ): APIResponse
 
@@ -60,7 +67,10 @@ interface MyDBService {
     suspend fun updateUser(): APIResponse
 
     @POST("create_category")
-    suspend fun createCategory(): APIResponse
+    suspend fun createCategory(
+        @Header("Authorization") token: String,
+        @Body category: Category
+    ): APIResponse
 
     @POST("categorizing/{toDoList}") // category_ids bentuk array
     suspend fun setCategory(

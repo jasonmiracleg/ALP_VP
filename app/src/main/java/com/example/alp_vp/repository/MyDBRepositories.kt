@@ -2,6 +2,8 @@ package com.example.alp_vp.repository
 
 import android.util.Log
 import com.example.alp_vp.model.APIResponse
+import com.example.alp_vp.model.Category
+import com.example.alp_vp.model.CategoryResponse
 import com.example.alp_vp.model.SignInResponse
 import com.example.alp_vp.model.User
 import com.example.alp_vp.service.MyDBService
@@ -42,4 +44,22 @@ class MyDBRepositories(private val myDBService: MyDBService) {
         return result.message
     }
 
+    suspend fun createCategory(
+        category_title: String,
+        color: String,
+        user_id: Int,
+        token: String
+    ): APIResponse {
+        val category = Category(category_title = category_title, color = color, user_id = user_id)
+        val result = myDBService.createCategory(token, category)
+        if (result.status.toInt() == HttpURLConnection.HTTP_OK) {
+            return result
+        }
+        return result
+    }
+
+    suspend fun getCategories(token: String, user_id: Int): CategoryResponse {
+        val categories = myDBService.getCategories(token, user_id)
+        return categories
+    }
 }

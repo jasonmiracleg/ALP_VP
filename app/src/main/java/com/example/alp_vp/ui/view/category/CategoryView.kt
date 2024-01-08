@@ -48,6 +48,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.alp_vp.R
 import com.example.alp_vp.ui.theme.BlueOutline
 import com.example.alp_vp.ui.theme.ButtonColor
@@ -58,8 +59,10 @@ import com.github.skydoves.colorpicker.compose.drawColorIndicator
 import com.github.skydoves.colorpicker.compose.rememberColorPickerController
 
 @Composable
-fun ViewCategory(categoryViewModel: CategoryViewModel = viewModel()) {
-    val categoryUIState by categoryViewModel.data.collectAsState()
+fun ViewCategory(categoryViewModel: CategoryViewModel, navController: NavController) {
+//    val categoryUIState by categoryViewModel.data.collectAsState()
+    val categoriesData by categoryViewModel.categoriesData.collectAsState()
+
     var isPopUpVisible by rememberSaveable {
         mutableStateOf(false)
     }
@@ -93,14 +96,16 @@ fun ViewCategory(categoryViewModel: CategoryViewModel = viewModel()) {
                         isPopUpVisible = true
                     }
                 }
-                items(categoryUIState.categories.size) {
-                    CategoryCard(
-                        categoryName = categoryUIState.categories[it].category_title,
-                        isNewCategory = false,
-                        colorBackground = Color(android.graphics.Color.parseColor("#${categoryUIState.categories[it].color}"))
-                    ) {
+                categoriesData?.data?.let {
+                    items(it.size) {index ->
+                                CategoryCard(
+                                    categoryName = categoriesData?.data!![index].category_title,
+                                    isNewCategory = false,
+                                    colorBackground = Color(android.graphics.Color.parseColor("#${categoriesData?.data!![index].color}"))
+                                ) {
 
-                    }
+                                }
+                            }
                 }
             }
             if (isPopUpVisible) {
@@ -303,7 +308,7 @@ fun Popup(
                 ) {
                     Button(
                         onClick = {
-                            categoryViewModel.addCategory(
+                            categoryViewModel.createCategory(
                                 title,
                                 hexCode
                             )
@@ -328,5 +333,5 @@ fun Popup(
 @Composable
 fun PreviewCategory() {
 //    Popup()
-    ViewCategory()
+//    ViewCategory()
 }
