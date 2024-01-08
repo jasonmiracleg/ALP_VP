@@ -61,8 +61,6 @@ dependencies {
     implementation("androidx.compose.material3:material3")
     implementation("com.github.skydoves:colorpicker-compose:1.0.7")
     implementation("androidx.compose.material:material-icons-extended") // Add Material Icon
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
-    implementation("androidx.navigation:navigation-compose:2.7.4") // add navigation library
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
