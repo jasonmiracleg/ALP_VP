@@ -16,7 +16,6 @@ import kotlinx.coroutines.launch
 
 class SignUpViewModel : ViewModel() {
     fun fillUserData(
-        image: String,
         name: String,
         email: String,
         password: String,
@@ -24,8 +23,8 @@ class SignUpViewModel : ViewModel() {
         navController: NavController,
     ) {
         viewModelScope.launch {
-            val user = User(image, name, email, password, "12/01/2024")
-            val token = MyDBContainer().tiemerDBRepositories.register(user)
+            Log.d("coba", bornDate)
+            MyDBContainer().tiemerDBRepositories.register(name, email, password, bornDate)
             navController.navigate(ListScreen.SignIn.name)
         }
     }

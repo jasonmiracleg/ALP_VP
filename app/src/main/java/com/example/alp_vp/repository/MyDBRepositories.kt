@@ -25,13 +25,19 @@ class MyDBRepositories(private val myDBService: MyDBService) {
         return result.message
     }
 
-    suspend fun register(user: User): APIResponse {
+    suspend fun register(
+        name: String,
+        email: String,
+        password: String,
+        bornDate: String
+    ): String {
+        val user = User(name, email, password, bornDate)
         Log.d("coba", user.toString())
         val result = myDBService.register(user)
-        if (result.status.toInt() == HttpURLConnection.HTTP_OK) {
-            return result
-        }
-        return result
+//        if (result.status.toInt() == HttpURLConnection.HTTP_OK) {
+//            return result.message
+//        }
+        return result.message
     }
 
 }

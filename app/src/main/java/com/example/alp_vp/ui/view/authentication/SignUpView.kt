@@ -323,7 +323,6 @@ fun SignUpView(
         Button(
             onClick = {
                 signUpViewModel.fillUserData(
-                    imageUri,
                     name,
                     email,
                     password,

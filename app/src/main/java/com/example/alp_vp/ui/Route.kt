@@ -50,6 +50,7 @@ import com.example.alp_vp.ui.view.authentication.EditProfileView
 import com.example.alp_vp.ui.view.authentication.SignInView
 import com.example.alp_vp.ui.view.authentication.SignUpView
 import com.example.alp_vp.ui.view.authentication.SplashScreenView
+import com.example.alp_vp.ui.view.to_do_list.HomeView
 import com.example.alp_vp.viewmodel.authentication.SignInViewModel
 import com.example.alp_vp.viewmodel.authentication.SignUpViewModel
 import com.example.alp_vp.viewmodel.to_do_list.FormCreateViewModel
@@ -92,7 +93,18 @@ fun BottomNavBar(navController: NavController) {
         BottomNavBar.Urgency
     )
 
-    NavigationBar() {
+    NavigationBar(
+        modifier = Modifier
+            .shadow(
+                elevation = 15.dp, spotColor = Color(0xFF000000), ambientColor = Color(
+                    0xFF000000
+                ), shape = RoundedCornerShape(topEnd = 40.dp, topStart = 40.dp)
+            )
+            .background(
+                color = Color(0xFFF0F0F0),
+                shape = RoundedCornerShape(topEnd = 40.dp, topStart = 40.dp)
+            ),
+    ) {
         items.forEach { item ->
             NavigationBarItem(
                 icon = {
@@ -105,16 +117,6 @@ fun BottomNavBar(navController: NavController) {
                 colors = NavigationBarItemDefaults.colors(
                     indicatorColor = BlueTheme
                 ),
-                modifier = Modifier
-                    .shadow(
-                        elevation = 15.dp, spotColor = Color(0xFF000000), ambientColor = Color(
-                            0xFF000000
-                        ), shape = RoundedCornerShape(topEnd = 40.dp, topStart = 40.dp)
-                    )
-                    .background(
-                        color = Color(0xFFF0F0F0),
-                        shape = RoundedCornerShape(topEnd = 40.dp, topStart = 40.dp)
-                    ),
             )
         }
     }
@@ -157,7 +159,7 @@ fun Route(
             composable(ListScreen.Home.name) {
                 canNavigate = true
                 val homeViewModel: HomeViewModel = viewModel()
-
+                HomeView(homeViewModel = homeViewModel, dataStore = dataStore, navController = navController)
             }
 
             composable(ListScreen.WeeklyTask.name) {
@@ -180,7 +182,7 @@ fun Route(
             }
 
             composable(ListScreen.SignIn.name) {
-                if (MyDBContainer.ACCESS_TOKEN.isEmpty()) {
+                if (MyDBContainer.ACCESS_TOKEN.isEmpty() || MyDBContainer.ACCESS_TOKEN == "") {
                     val signInViewModel: SignInViewModel = viewModel()
                     SignInView(
                         navController = navController,
