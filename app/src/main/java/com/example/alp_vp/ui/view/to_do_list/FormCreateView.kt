@@ -6,7 +6,6 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,6 +14,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -47,15 +48,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.alp_vp.R
+import com.example.alp_vp.model.Category
+import com.example.alp_vp.repository.MyDBContainer
+import com.example.alp_vp.ui.ListScreen
 import com.example.alp_vp.ui.theme.biruMuda
 import com.example.alp_vp.ui.theme.poppins
-import com.example.alp_vp.viewmodel.to_do_list.FormCreateViewModel
+import com.example.alp_vp.viewmodel.category.CategoryViewModel
 import com.example.alp_vp.viewmodel.to_do_list.ToDoListViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -64,9 +67,10 @@ import com.example.alp_vp.viewmodel.to_do_list.ToDoListViewModel
 @Composable
 fun FormCreateView(
     toDoListViewModel: ToDoListViewModel,
+    categoryViewModel: CategoryViewModel = viewModel(),
     navController: NavController
 ){
-    val toDoList by toDoListViewModel.data.collectAsState()
+//    val toDoList by toDoListViewModel.data.collectAsState()
 
     var title by remember { mutableStateOf("")}
     var date by remember { mutableStateOf("") }
@@ -144,22 +148,26 @@ fun FormCreateView(
                             )
                             .fillMaxWidth()
                     )
-//                    Text(
-//                        text = "Category",
-//                        fontFamily = poppins,
-//                        fontSize = 15.sp,
-//                        modifier = Modifier
-//                            .padding(vertical = 7.dp),
-//                        fontWeight = FontWeight.Bold
-//                    )
+                    Text(
+                        text = "Category",
+                        fontFamily = poppins,
+                        fontSize = 15.sp,
+                        modifier = Modifier
+                            .padding(vertical = 7.dp),
+                        fontWeight = FontWeight.Bold
+                    )
 //
+//                    val categoryList: List<Category>  = toDoListViewModel.getAllCategoryForToDoList(
+//                        accessToken = MyDBContainer.ACCESS_TOKEN,
+//                        userId = MyDBContainer.USER_ID
+//                    )
 //                    LazyVerticalGrid(
 //                        columns = GridCells.Adaptive(minSize = 85.dp),
 //                        modifier = Modifier
 //                            .height(100.dp)
 //                    ) {
-//                        items(formCreateUiState.category.categories.size) {
-//                            category(index = it)
+//                        items(categoryList) {
+//
 //                        }
 //                    }
 
@@ -373,7 +381,9 @@ fun FormCreateView(
                             description = description,
                             date = "2024-01-09",
                             day = "2024-01-09"
-                        ) },
+                        )
+                            navController.navigate(ListScreen.Home.name)
+                                  },
                         modifier = Modifier
                             .padding(vertical = 10.dp)
                             .align(CenterHorizontally)

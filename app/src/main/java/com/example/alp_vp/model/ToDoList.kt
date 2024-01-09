@@ -4,11 +4,12 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.google.gson.annotations.SerializedName
 import java.sql.Time
+import java.util.Date
 
 @Suppress("DEPRECATION")
 data class ToDoList(
     val title: String,
-    val listCategory:  ArrayList<Category> = arrayListOf(),
+    val listCategory: ArrayList<Category> = arrayListOf(),
     val description: String?,
     val isGroup: isGroup,
     val isComplete: isComplete,
@@ -26,19 +27,23 @@ data class ToDoList(
 
 @RequiresApi(Build.VERSION_CODES.O)
 data class ToDoListV2(
-    @SerializedName("title") val title: String = "",
-    @SerializedName("user_id") val user_id: Any = "",
-    @SerializedName("is_group") val is_group: Any = "",
-    @SerializedName("is_complete") val is_complete: Any = "",
-    @SerializedName("description") val description: Any = "",
-    @SerializedName("timer") val timer: Any = "",
-    @SerializedName("total_seconds") val total_seconds: Int = 0,
-    @SerializedName("timer_started") val timer_started: Any = "",
-    @SerializedName("reminder_id") val reminder_id: Any = "",
-    @SerializedName("date") val date: Any = "",
-    @SerializedName("group_id") val group_id: Any = "",
-    @SerializedName("day") val day: Any = ""
+//    @SerializedName("id") val id: Int,
+    @SerializedName("title") val title: String,
+//    @SerializedName("is_group") val is_group: String,
+//    @SerializedName("is_complete") val is_complete: String,
+//    @SerializedName("description") val description: String?,
+//    @SerializedName("timer") val timer: String?,
+//    @SerializedName("total_seconds") val total_seconds: Int?,
+//    @SerializedName("timer_started") val timer_started: String?,
+//    @SerializedName("user_id") val user_id: Int,
+//    @SerializedName("group_id") val group_id: Int?,
+//    @SerializedName("reminder_id") val reminder_id: Int?,
+//    @SerializedName("date") val date: Date,
+//    @SerializedName("day") val day: Date,
+//    @SerializedName("created_at") val created_at: String,
+//    @SerializedName("updated_at") val updated_at: String
 )
+
 
 data class ToDoListCreate(
     @SerializedName("title") val title: String,
