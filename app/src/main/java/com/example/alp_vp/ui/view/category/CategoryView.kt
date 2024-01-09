@@ -65,7 +65,10 @@ import com.github.skydoves.colorpicker.compose.rememberColorPickerController
 import retrofit2.Response
 
 @Composable
-fun ViewCategory(categoryViewModel: CategoryViewModel, navController: NavController) {
+fun ViewCategory(
+    categoryViewModel: CategoryViewModel,
+    navController: NavController
+) {
 //    val categoryUIState by categoryViewModel.data.collectAsState()
 //    val categoriesData by categoryViewModel.categoriesData.collectAsState()
 
@@ -93,6 +96,8 @@ fun ViewCategory(categoryViewModel: CategoryViewModel, navController: NavControl
 
         CategoryUIState.Loading -> {
         }
+
+        else -> {}
     }
 
     val allCategory: APIListResponse<List<Category>>? = allCategoryBody?.body()

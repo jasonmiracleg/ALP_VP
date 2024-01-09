@@ -159,8 +159,26 @@ fun Route(
         ) {
             composable(ListScreen.Home.name) {
                 canNavigate = true
+//                HomeView(navController = navController, homeViewModel = HomeViewModel(), dataStore = DataStoreManager)
                 val homeViewModel: HomeViewModel = viewModel()
-                HomeView(homeViewModel = homeViewModel, dataStore = dataStore, navController = navController)
+                HomeView(
+                    homeViewModel = homeViewModel,
+                    dataStore = dataStore,
+                    navController = navController,
+                )
+//                when (val status = homeViewModel.homeuiState) {
+//
+//                    is HomeViewModel.HomeUIState.Loading -> {
+//                       HomeView(homeViewModel = homeViewModel, navController = navController, dataStore = dataStore, listData = null)
+//                    }
+//
+//                    is HomeViewModel.HomeUIState.Success -> {
+//                        HomeView(homeViewModel = homeViewModel, navController = navController, dataStore = dataStore, listData = status.data)
+//                    }
+//
+//                    is HomeViewModel.HomeUIState.Error -> { }
+//
+//                }
             }
 
             composable(ListScreen.WeeklyTask.name) {
@@ -170,7 +188,7 @@ fun Route(
 
             composable(ListScreen.FormCreate.name) {
                 canNavigate = true
-                val toDoListViewModel : ToDoListViewModel = viewModel()
+                val toDoListViewModel: ToDoListViewModel = viewModel()
                 FormCreateView(toDoListViewModel = toDoListViewModel, navController = navController)
             }
 

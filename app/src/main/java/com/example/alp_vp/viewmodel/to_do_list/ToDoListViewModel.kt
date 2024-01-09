@@ -4,7 +4,6 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.alp_vp.model.ToDoList
 import com.example.alp_vp.model.ToDoListV2
 import com.example.alp_vp.repository.MyDBContainer
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,11 +13,11 @@ import kotlinx.coroutines.launch
 
 class ToDoListViewModel : ViewModel() {
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private val currentData = MutableStateFlow(ToDoListV2())
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    val data: StateFlow<ToDoListV2> = currentData.asStateFlow()
+//    @RequiresApi(Build.VERSION_CODES.O)
+//    private val currentData = MutableStateFlow(ToDoListV2())
+//
+//    @RequiresApi(Build.VERSION_CODES.O)
+//    val data: StateFlow<ToDoListV2> = currentData.asStateFlow()
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun createToDoList(
@@ -40,4 +39,14 @@ class ToDoListViewModel : ViewModel() {
             )
         }
     }
+
+//    fun getAllCategoryForToDoList(accessToken: String, userId: Int) {
+//
+//        viewModelScope.launch {
+//            MyDBContainer().tiemerDBRepositories.getCategories(
+//                accessToken,
+//                userId
+//            )
+//        }
+//    }
 }
