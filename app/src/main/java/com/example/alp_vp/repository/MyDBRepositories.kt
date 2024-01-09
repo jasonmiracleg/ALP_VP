@@ -5,6 +5,7 @@ import com.example.alp_vp.model.APIListResponse
 import com.example.alp_vp.model.APIResponse
 import com.example.alp_vp.model.Category
 import com.example.alp_vp.model.SignInResponse
+import com.example.alp_vp.model.ToDoListCreate
 import com.example.alp_vp.model.User
 import com.example.alp_vp.service.MyDBService
 import retrofit2.Response
@@ -75,4 +76,25 @@ class MyDBRepositories(private val myDBService: MyDBService) {
         }
         return result
     }
+
+    suspend fun createToDoList(
+        token: String,
+        title: String,
+        is_group: String,
+        description: String,
+        date: String,
+        day: String
+        ) {
+        val toDoListCreateVar = ToDoListCreate(
+            title = title,
+            is_group = is_group,
+            description = description,
+            date = date,
+            day = day)
+        val createToDoList = myDBService.createToDoList(token, toDoListCreateVar)
+        Log.d("coba1", createToDoList.toString())
+        return createToDoList
+    }
+
+
 }

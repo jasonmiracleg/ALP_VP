@@ -89,16 +89,16 @@ fun WeeklyTaskView(
                  LazyRow (
                      horizontalArrangement = Arrangement.spacedBy(11.dp)
                  ){
-                     items(weeklyTaskUiState.listDay.size) {
-                         oneWeekCard(WeeklyTaskViewModel(), weeklyTaskUiState.listDay[it])
-                     }
+//                     items(weeklyTaskUiState.listDay.size) {
+//                         oneWeekCard(WeeklyTaskViewModel(), weeklyTaskUiState.listDay[it])
+//                     }
                  }
              }
 
          LazyColumn{
-             items(weeklyTaskUiState.listDay[0].todoList.size){
-                 todolistOneweekCard(weeklyTaskUiState.listDay[0].todoList[it],weeklyTaskUiState.listDay[0].todoList[it].listCategory)
-             }
+//             items(weeklyTaskUiState.listDay[0].todoList.size){
+//                 todolistOneweekCard(weeklyTaskUiState.listDay[0].todoList[it],weeklyTaskUiState.listDay[0].todoList[it].listCategory)
+//             }
          }
      }
 }

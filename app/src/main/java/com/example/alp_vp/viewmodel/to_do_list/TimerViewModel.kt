@@ -20,8 +20,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.sql.Time
 
-class TimerViewModel(toDoList: ToDoList = ToDoList("", ArrayList(), "", isGroup.group, isComplete.done, Time.valueOf("12:15:00"))) :
-    ViewModel() {
+class TimerViewModel(
+//    toDoList: ToDoList = ToDoList("", ArrayList(), "", isGroup.group, isComplete.done, Time.valueOf("12:15:00"))) :
+//    ViewModel()
+) : ViewModel()
+{
     private val currentData = MutableStateFlow(TimerUIState())
     val data: StateFlow<TimerUIState> = currentData.asStateFlow()
 
@@ -30,34 +33,36 @@ class TimerViewModel(toDoList: ToDoList = ToDoList("", ArrayList(), "", isGroup.
     private var totalElapsedTimeInSeconds by mutableIntStateOf(0)
 
     init {
-        setSelectedToDoList(toDoList)
+
     }
 
     private fun setSelectedToDoList(toDoList: ToDoList) {
         currentData.value.setToDoListCustom(toDoList)
-        remainingTimeInSeconds = toDoList.totalSeconds
+        remainingTimeInSeconds = 540000
         updateTimerState()
     }
 
     fun toggleTimer() {
-        if (timerJob?.isActive == true) {
-            timerJob?.cancel()
-            val updatedToDoList =
-                currentData.value.toDoList?.copy(totalSeconds = remainingTimeInSeconds)
-            if (updatedToDoList != null) {
-                currentData.value.setToDoListCustom(updatedToDoList)
-            }
-            updateTimerState() // Update the UI state
-        } else {
-            timerJob = viewModelScope.launch {
-                while (remainingTimeInSeconds > 0) {
-                    delay(1000)
-                    remainingTimeInSeconds--
-                    totalElapsedTimeInSeconds++
-                    updateTimerState()
-                }
-            }
-        }
+//        if (timerJob?.isActive == true) {
+//            timerJob?.cancel()
+//            val updatedToDoList =
+//                currentData.value.toDoList?.copy(
+//                    totalSeconds = remainingTimeInSeconds
+//                )
+//            if (updatedToDoList != null) {
+//                currentData.value.setToDoListCustom(updatedToDoList)
+//            }
+//            updateTimerState() // Update the UI state
+//        } else {
+//            timerJob = viewModelScope.launch {
+//                while (remainingTimeInSeconds > 0) {
+//                    delay(1000)
+//                    remainingTimeInSeconds--
+//                    totalElapsedTimeInSeconds++
+//                    updateTimerState()
+//                }
+//            }
+//        }
     }
 
 //    fun completeToDoList(){

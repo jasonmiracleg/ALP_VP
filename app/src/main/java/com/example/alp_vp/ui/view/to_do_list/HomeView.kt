@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.outlined.Logout
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Icon
@@ -25,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.alp_vp.data.DataStoreManager
+import com.example.alp_vp.ui.ListScreen
 import com.example.alp_vp.ui.component.todoListCard
 import com.example.alp_vp.ui.theme.poppins
 import com.example.alp_vp.viewmodel.to_do_list.HomeViewModel
@@ -35,7 +37,7 @@ fun HomeView(
     navController: NavController,
     dataStore: DataStoreManager
 ) {
-    val homeUiState by homeViewModel.uiState.collectAsState()
+//    val homeUiState by homeViewModel.uiState.collectAsState()
 
     Column {
         Row(
@@ -49,6 +51,13 @@ fun HomeView(
             )
             Spacer(modifier = Modifier.weight(1f))
             Icon(
+                imageVector = Icons.Filled.Add,
+                contentDescription = null,
+                modifier = Modifier.clickable {
+                    navController.navigate(ListScreen.FormCreate.name)
+                }
+            )
+            Icon(
                 imageVector = Icons.Outlined.Logout,
                 contentDescription = null,
                 modifier = Modifier
@@ -61,7 +70,7 @@ fun HomeView(
             )
         }
         Text(
-            text = "Hi " + homeUiState.user + " !",
+            text = "Hi " + " !",
             modifier = Modifier
                 .padding(horizontal = 20.dp),
             fontSize = 25.sp,
@@ -77,18 +86,18 @@ fun HomeView(
             fontFamily = poppins,
             fontWeight = FontWeight.Bold
         )
-        LazyColumn(
-            modifier = Modifier
-                .padding(vertical = 15.dp)
-        ) {
-            items(homeUiState.todoList.size) {
-                todoListCard(
-                    homeViewModel,
-                    homeUiState.todoList[it],
-                    homeUiState.todoList[it].listCategory
-                )
-            }
-        }
+//        LazyColumn(
+//            modifier = Modifier
+//                .padding(vertical = 15.dp)
+//        ) {
+//            items(homeUiState.todoList.size) {
+//                todoListCard(
+//                    homeViewModel,
+//                    homeUiState.todoList[it],
+//                    homeUiState.todoList[it].listCategory
+//                )
+//            }
+//        }
     }
 }
 
