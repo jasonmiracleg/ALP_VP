@@ -37,6 +37,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
@@ -137,7 +139,7 @@ fun SignInView(
             value = password,
             onValueChange = { password = it },
             keyboardOptions = KeyboardOptions.Default.copy(
-                keyboardType = if (passwordVisibility) KeyboardType.Text else KeyboardType.Password,
+                keyboardType = if (!passwordVisibility) KeyboardType.Text else KeyboardType.Password,
                 imeAction = ImeAction.Next
             ),
             colors = OutlinedTextFieldDefaults.colors(
@@ -156,7 +158,7 @@ fun SignInView(
 
                 IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
                     Icon(
-                        painter = if (passwordVisibility) painterResource(id = R.drawable.visibility) else painterResource(
+                        painter = if (!passwordVisibility) painterResource(id = R.drawable.visibility) else painterResource(
                             id = R.drawable.visibilityoff
                         ),
                         contentDescription = "Visibility Icon",
@@ -165,7 +167,8 @@ fun SignInView(
                             .width(24.dp)
                     )
                 }
-            }
+            },
+            visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation()
         )
 
         Spacer(modifier = Modifier.padding(bottom = 24.dp))
@@ -184,7 +187,8 @@ fun SignInView(
                     ambientColor = Color(0x33FF8D4D)
                 )
                 .fillMaxWidth()
-                .height(66.dp)
+                .height(66.dp),
+            enabled = email.isNotBlank() && password.isNotBlank()
         ) {
 
             Text(
