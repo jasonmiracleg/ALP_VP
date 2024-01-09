@@ -47,13 +47,13 @@ class CategoryViewModel : ViewModel() {
         }
     }
 
-    fun getCategories() {
+    fun deleteCategory(id: Int, navController: NavController) {
         viewModelScope.launch {
-
-            val userId = MyDBContainer.USER_ID
             val token = MyDBContainer.ACCESS_TOKEN
-
-            allCategory = MyDBContainer().tiemerDBRepositories.getCategories(token, userId)
+            MyDBContainer().tiemerDBRepositories.deleteCategory(
+                token, id
+            )
+            navController.navigate(ListScreen.Category.name)
         }
     }
 

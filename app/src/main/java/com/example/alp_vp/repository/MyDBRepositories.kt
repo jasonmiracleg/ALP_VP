@@ -59,8 +59,20 @@ class MyDBRepositories(private val myDBService: MyDBService) {
         return result
     }
 
-    suspend fun getCategories(token: String, userId: Int): Response<APIListResponse<List<Category>>> {
+    suspend fun getCategories(
+        token: String,
+        userId: Int
+    ): Response<APIListResponse<List<Category>>> {
         Log.d("Category", "${userId.toString()} ${token}")
         return myDBService.getCategories(token, userId)
+    }
+
+    suspend fun deleteCategory(token: String, id: Int): APIResponse {
+        Log.d("DeleteCategory", "${id.toString()} ${token}")
+        val result = myDBService.deleteCategory(token, id)
+        if (result.status.toInt() == HttpURLConnection.HTTP_OK) {
+            return result
+        }
+        return result
     }
 }

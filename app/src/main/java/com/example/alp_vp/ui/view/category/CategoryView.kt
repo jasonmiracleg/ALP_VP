@@ -129,7 +129,9 @@ fun ViewCategory(categoryViewModel: CategoryViewModel, navController: NavControl
                     CategoryCard(
                         "Add new Category",
                         isNewCategory = true,
-                        navController = navController
+                        navController = navController,
+                        categoryViewModel = categoryViewModel,
+                        index = -1
                     ) {
                         isPopUpVisible = true
                     }
@@ -140,7 +142,9 @@ fun ViewCategory(categoryViewModel: CategoryViewModel, navController: NavControl
                             categoryName = allCategory.data[it].title,
                             isNewCategory = false,
                             colorBackground = Color(android.graphics.Color.parseColor("#${allCategory.data[it].color}")),
-                            navController
+                            navController,
+                            categoryViewModel,
+                            allCategory.data[it].id // The ID
                         ) { // Put The Route Here
 
                         }
@@ -167,6 +171,8 @@ fun CategoryCard(
     isNewCategory: Boolean,
     colorBackground: Color = Color(0xFFEBEBEB),
     navController: NavController,
+    categoryViewModel: CategoryViewModel,
+    index: Int,
     onClick: () -> Unit
 ) {
     Card(
@@ -214,7 +220,13 @@ fun CategoryCard(
                     } else {
                         Color.White
                     },
-                    modifier = Modifier.size(45.dp)
+                    modifier = Modifier
+                        .size(45.dp)
+                        .clickable {
+                            if (!isNewCategory) {
+                                categoryViewModel.deleteCategory(index, navController)
+                            }
+                        }
                 )
             }
         }

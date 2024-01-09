@@ -12,6 +12,7 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface MyDBService {
 
@@ -19,7 +20,7 @@ interface MyDBService {
     suspend fun getCategories(
         @Header("Authorization") token: String,
         @Path("userId") userId: Int
-    ) : Response<APIListResponse<List<Category>>>
+    ): Response<APIListResponse<List<Category>>>
 
     @GET("toDoList-category/{category}")
     suspend fun getCategoryWithTDL(
@@ -110,7 +111,10 @@ interface MyDBService {
     suspend fun logout(): APIResponse
 
     @DELETE("delete_category")
-    suspend fun deleteCategory(): APIResponse
+    suspend fun deleteCategory(
+        @Header("Authorization") token: String,
+        @Query("id") id: Int
+    ): APIResponse
 
     @DELETE("delete_toDoList")
     suspend fun deleteTDL(): APIResponse
