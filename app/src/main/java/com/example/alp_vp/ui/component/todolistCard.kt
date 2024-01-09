@@ -43,100 +43,100 @@ fun todoListCard(
     toDoList: ToDoList,
     category: ArrayList<Category>
 ){
-    val homeUiState by homeViewModel.uiState.collectAsState()
-    var isChecked by rememberSaveable { mutableStateOf(false) }
-
-    Box(
-        modifier = Modifier
-            .padding(20.dp, 8.dp)
-            .shadow(
-                elevation = 2.dp,
-                spotColor = Color(0x40000000),
-                ambientColor = Color(0x40000000),
-                shape = RoundedCornerShape(15.dp)
-            )
-            .background(color = Color(0xFFFFFFFF), shape = RoundedCornerShape(15.dp))
-            .padding(20.dp, 10.dp)
-            .fillMaxWidth()
-    ){
-        Column (
-            modifier = Modifier
-                .fillMaxWidth()
-        ){
-            Row (
-                verticalAlignment = Alignment.CenterVertically,
-                ){
-                Column (
-                    modifier = Modifier
-                        .weight(0.8f)
-                ){
-                    Text(
-                        text = toDoList.title,
-                        fontFamily = poppins,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp
-                    )
-                    toDoList.description?.let {
-                        Text(
-                            text = it,
-                            fontFamily = poppins,
-                            modifier = Modifier,
-                            fontSize = 10.sp
-                        )
-                    }
-                    LazyRow (
-                        horizontalArrangement = Arrangement.SpaceEvenly
-                    ){
-                        items(
-                            category.size
-                        ){
-                            Text(
-                                text = category[it].title,
-                                modifier = Modifier
-                                    .padding(top = 4.dp, bottom = 4.dp, end = 8.dp)
-                                    .background(
-                                        Color(android.graphics.Color.parseColor("#${category[it].color}")),
-                                        shape = CircleShape
-                                    )
-                                    .padding(5.dp)
-                                    .width(28.dp)
-                                    .height(12.dp),
-                                color = Color.White,
-                                fontFamily = poppins,
-                                fontSize = 8.sp
-                            )
-                        }
-                    }
-                }
-
-                if (isChecked){
-                    Icon(
-                        painterResource(id = R.drawable.checkbox_selesai),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .size(45.dp)
-                            .width(1.dp)
-                            .clickable {
-                                isChecked = false
-                            },
-                        tint = Color.Gray,
-                    )
-                }
-                else{
-                    Icon(
-                        painterResource(id = R.drawable.checkbox_blank),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .size(45.dp)
-                            .width(1.dp)
-                            .clickable {
-                                isChecked = true
-                            },
-                        tint = Color.Gray,
-                    )
-                }
-
-            }
-        }
-    }
+//    val homeUiState by homeViewModel.uiState.collectAsState()
+//    var isChecked by rememberSaveable { mutableStateOf(false) }
+//
+//    Box(
+//        modifier = Modifier
+//            .padding(20.dp, 8.dp)
+//            .shadow(
+//                elevation = 2.dp,
+//                spotColor = Color(0x40000000),
+//                ambientColor = Color(0x40000000),
+//                shape = RoundedCornerShape(15.dp)
+//            )
+//            .background(color = Color(0xFFFFFFFF), shape = RoundedCornerShape(15.dp))
+//            .padding(20.dp, 10.dp)
+//            .fillMaxWidth()
+//    ){
+//        Column (
+//            modifier = Modifier
+//                .fillMaxWidth()
+//        ){
+//            Row (
+//                verticalAlignment = Alignment.CenterVertically,
+//                ){
+//                Column (
+//                    modifier = Modifier
+//                        .weight(0.8f)
+//                ){
+//                    Text(
+//                        text = toDoList.title,
+//                        fontFamily = poppins,
+//                        fontWeight = FontWeight.Bold,
+//                        fontSize = 16.sp
+//                    )
+//                    toDoList.description?.let {
+//                        Text(
+//                            text = it,
+//                            fontFamily = poppins,
+//                            modifier = Modifier,
+//                            fontSize = 10.sp
+//                        )
+//                    }
+//                    LazyRow (
+//                        horizontalArrangement = Arrangement.SpaceEvenly
+//                    ){
+//                        items(
+//                            category.size
+//                        ){
+//                            Text(
+//                                text = category[it].category_title,
+//                                modifier = Modifier
+//                                    .padding(top = 4.dp, bottom = 4.dp, end = 8.dp)
+//                                    .background(
+//                                        Color(android.graphics.Color.parseColor("#${category[it].color}")),
+//                                        shape = CircleShape
+//                                    )
+//                                    .padding(5.dp)
+//                                    .width(28.dp)
+//                                    .height(12.dp),
+//                                color = Color.White,
+//                                fontFamily = poppins,
+//                                fontSize = 8.sp
+//                            )
+//                        }
+//                    }
+//                }
+//
+//                if (isChecked){
+//                    Icon(
+//                        painterResource(id = R.drawable.checkbox_selesai),
+//                        contentDescription = null,
+//                        modifier = Modifier
+//                            .size(45.dp)
+//                            .width(1.dp)
+//                            .clickable {
+//                                isChecked = false;
+//                            },
+//                        tint = Color.Gray,
+//                    )
+//                }
+//                else{
+//                    Icon(
+//                        painterResource(id = R.drawable.checkbox_blank),
+//                        contentDescription = null,
+//                        modifier = Modifier
+//                            .size(45.dp)
+//                            .width(1.dp)
+//                            .clickable {
+//                                isChecked = true;
+//                            },
+//                        tint = Color.Gray,
+//                    )
+//                }
+//
+//            }
+//        }
+//    }
 }

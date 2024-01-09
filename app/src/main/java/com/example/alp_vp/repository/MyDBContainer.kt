@@ -18,13 +18,14 @@ class AuthInterceptor(private val bearerToken: String) : Interceptor {
         return chain.proceed(request)
     }
 }
+
 class MyDBContainer {
     companion object{ // Basically like static function
         var USER_ID = -1
         var ACCESS_TOKEN = ""
     }
 
-    private val BASE_URL = "http://192.168.34.233/laravel-projects/vp_api/public/api/"
+    private val BASE_URL = "http://192.168.100.18/VP_API/VP_API/public/api/"
 
     private val client = OkHttpClient.Builder()
         .addInterceptor(AuthInterceptor(ACCESS_TOKEN))

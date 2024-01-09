@@ -4,6 +4,7 @@ import com.example.alp_vp.model.APIListResponse
 import com.example.alp_vp.model.APIResponse
 import com.example.alp_vp.model.Category
 import com.example.alp_vp.model.SignInResponse
+import com.example.alp_vp.model.ToDoListCreate
 import com.example.alp_vp.model.User
 import retrofit2.Response
 import retrofit2.http.Body
@@ -79,10 +80,16 @@ interface MyDBService {
         @Path("toDoList") id: String
     ): APIResponse
 
-    @POST("create_toDoList/{userId}")
-    suspend fun createTDL(
-        @Path("userId") userId: String
-    ): APIResponse
+//    @POST("create_toDoList/{userId}")
+//    suspend fun createTDL(
+//        @Path("userId") userId: String
+//    ): APIResponse
+    // izin ganti juga ngilangin parameter
+    @POST("create_toDoList")
+    suspend fun createToDoList(
+        @Header("Authorization") token: String,
+        @Body request: ToDoListCreate
+    )
 
     @POST("update_toDoList/{toDoList")
     suspend fun updateTDL(

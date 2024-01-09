@@ -40,7 +40,9 @@ import com.example.alp_vp.ui.theme.poppins
 import com.example.alp_vp.viewmodel.to_do_list.TimerViewModel
 
 @Composable
-fun ViewTimer (timerViewModel: TimerViewModel = viewModel()) {
+fun ViewTimer (
+    timerViewModel: TimerViewModel = viewModel()
+) {
     val timerUIState by timerViewModel.data.collectAsState()
     var isPlayed by rememberSaveable { mutableStateOf(false) }
 

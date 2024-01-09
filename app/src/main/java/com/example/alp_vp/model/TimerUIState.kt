@@ -18,7 +18,7 @@ data class TimerUIState(
 
     private fun updateTimerForSpecificToDoList() {
         toDoList?.let {
-            val totalSeconds = it.totalSeconds
+            val totalSeconds = 5400000 // aku ganti dummy soalnmya error
             timerHours = totalSeconds / 3600
             timerMinutes = (totalSeconds % 3600) / 60
             timerSeconds = totalSeconds % 60
