@@ -91,7 +91,7 @@ fun todoListCard(
                             category.size
                         ){
                             Text(
-                                text = category[it].category_title,
+                                text = category[it].title,
                                 modifier = Modifier
                                     .padding(top = 4.dp, bottom = 4.dp, end = 8.dp)
                                     .background(

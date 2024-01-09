@@ -10,9 +10,9 @@ class WeeklyTaskUiState (
                 ToDoList(
                     title =  "Pemrograman Android",
                     listCategory = arrayListOf(
-                        Category(category_title = "Group", color = "FFDC2626"),
-                        Category(category_title = "Urgent", color = "FF22D3EE"),
-                        Category(category_title = "Project", color = "FF2563EB")
+                        Category(title = "Group", color = "FFDC2626"),
+                        Category(title = "Urgent", color = "FF22D3EE"),
+                        Category(title = "Project", color = "FF2563EB")
                     ),
                     description = "Pengerjaan Android studio",
                     isGroup.group,
@@ -23,8 +23,8 @@ class WeeklyTaskUiState (
                 ToDoList(
                     title = "Kerja Progress ALP VP",
                     listCategory = arrayListOf(
-                        Category(category_title = "Individual", color = "FFFFC107"),
-                        Category(category_title = "Shoping", color = "FF4CAF50"),
+                        Category(title = "Individual", color = "FFFFC107"),
+                        Category(title = "Shoping", color = "FF4CAF50"),
                     ),
                     description = "Semangat ALP VP",
                     isGroup.individu,
@@ -35,9 +35,9 @@ class WeeklyTaskUiState (
                 ToDoList(
                     title = "WebProg",
                     listCategory = arrayListOf(
-                        Category(category_title = "Group", color = "FFDC2626"),
-                        Category(category_title = "Urgent", color = "FF22D3EE"),
-                        Category(category_title = "Project", color = "FF2563EB")
+                        Category(title = "Group", color = "FFDC2626"),
+                        Category(title = "Urgent", color = "FF22D3EE"),
+                        Category(title = "Project", color = "FF2563EB")
                     ),
                     description = "Semangat ALP VP",
                     isGroup.individu,
@@ -53,7 +53,7 @@ class WeeklyTaskUiState (
                 ToDoList(
                     title = "Mancing",
                     listCategory = arrayListOf(
-                        Category(category_title = "Individual", color = "FFFFC107")
+                        Category(title = "Individual", color = "FFFFC107")
                     ),
                     description = "Semangat Mancing",
                     isGroup.group,
@@ -69,7 +69,7 @@ class WeeklyTaskUiState (
                 ToDoList(
                     title = "Ethics",
                     listCategory = arrayListOf(
-                        Category(category_title = "Individual", color = "FFFFC107")
+                        Category(title = "Individual", color = "FFFFC107")
                     ),
                     description = "Ethika hidup",
                     isGroup.individu,
@@ -80,7 +80,7 @@ class WeeklyTaskUiState (
                 ToDoList(
                     title = "MathDesc",
                     listCategory = arrayListOf(
-                        Category(category_title = "Shoping", color = "FF673AB7"),
+                        Category(title = "Shoping", color = "FF673AB7"),
                     ),
                     description = "Math presentasi",
                     isGroup.group,
@@ -99,7 +99,7 @@ class WeeklyTaskUiState (
                 ToDoList(
                     title = "Bisnis",
                     listCategory = arrayListOf(
-                        Category(category_title = "Shoping", color = "FF3F51B5"),
+                        Category(title = "Shoping", color = "FF3F51B5"),
                     ),
                     description = "Bisnis Management",
                     isGroup.individu,

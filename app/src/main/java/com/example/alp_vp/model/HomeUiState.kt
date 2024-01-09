@@ -1,6 +1,6 @@
 package com.example.alp_vp.model
 
-import com.example.alp_vp.ui.view.to_do_list.category
+
 import java.sql.Time
 
 data class HomeUiState(
@@ -9,9 +9,9 @@ data class HomeUiState(
         ToDoList(
             title =  "Pemrograman Android",
             listCategory = arrayListOf(
-                Category(category_title = "Group", color = "FFDC2626"),
-                Category(category_title = "Urgent", color = "FF22D3EE"),
-                Category(category_title = "Project", color = "FF2563EB")
+                Category(title = "Group", color = "FFDC2626"),
+                Category(title = "Urgent", color = "FF22D3EE"),
+                Category(title = "Project", color = "FF2563EB")
             ),
             description = "Pengerjaan Android studio",
             isGroup.individu,
@@ -22,8 +22,8 @@ data class HomeUiState(
         ToDoList(
             title = "Kerja Progress ALP VP",
             listCategory = arrayListOf(
-                Category(category_title = "Individual", color = "FFFFC107"),
-                Category(category_title = "Shoping", color = "FF4CAF50"),
+                Category(title = "Individual", color = "FFFFC107"),
+                Category(title = "Shoping", color = "FF4CAF50"),
             ),
             description = "Semangat ALP VP",
             isGroup.individu,
@@ -34,9 +34,9 @@ data class HomeUiState(
         ToDoList(
             title = "WebProg",
             listCategory = arrayListOf(
-                Category(category_title = "Group", color = "FFDC2626"),
-                Category(category_title = "Urgent", color = "FF22D3EE"),
-                Category(category_title = "Project", color = "FF2563EB")
+                Category(title = "Group", color = "FFDC2626"),
+                Category(title = "Urgent", color = "FF22D3EE"),
+                Category(title = "Project", color = "FF2563EB")
             ),
             description = "Semangat ALP VP",
             isGroup.individu,
@@ -47,8 +47,8 @@ data class HomeUiState(
         ToDoList(
             title = "Civics",
             listCategory = arrayListOf(
-                Category(category_title = "Individual", color = "FFFFC107"),
-                Category(category_title = "Shoping", color = "FF4CAF50"),
+                Category(title = "Individual", color = "FFFFC107"),
+                Category(title = "Shoping", color = "FF4CAF50"),
             ),
             description = "Civics buat proposal",
             isGroup.individu,
@@ -59,7 +59,7 @@ data class HomeUiState(
         ToDoList(
             title = "Ethics",
             listCategory = arrayListOf(
-                Category(category_title = "Individual", color = "FFFFC107")
+                Category(title = "Individual", color = "FFFFC107")
             ),
             description = "Ethics Individu",
             isGroup.individu,
@@ -70,7 +70,7 @@ data class HomeUiState(
         ToDoList(
             title = "MathDesc",
             listCategory = arrayListOf(
-                Category(category_title = "Shoping", color = "FF673AB7"),
+                Category(title = "Shoping", color = "FF673AB7"),
             ),
             description = "Math buat presentasi",
             isGroup.individu,
@@ -81,7 +81,7 @@ data class HomeUiState(
         ToDoList(
             title = "Bisnis",
             listCategory = arrayListOf(
-                Category(category_title = "Shoping", color = "FF3F51B5"),
+                Category(title = "Shoping", color = "FF3F51B5"),
             ),
             description = "Kerja Rodi bagai kuda",
             isGroup.individu,

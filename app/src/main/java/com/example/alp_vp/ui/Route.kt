@@ -50,9 +50,11 @@ import com.example.alp_vp.ui.view.authentication.EditProfileView
 import com.example.alp_vp.ui.view.authentication.SignInView
 import com.example.alp_vp.ui.view.authentication.SignUpView
 import com.example.alp_vp.ui.view.authentication.SplashScreenView
+import com.example.alp_vp.ui.view.category.ViewCategory
 import com.example.alp_vp.ui.view.to_do_list.HomeView
 import com.example.alp_vp.viewmodel.authentication.SignInViewModel
 import com.example.alp_vp.viewmodel.authentication.SignUpViewModel
+import com.example.alp_vp.viewmodel.category.CategoryViewModel
 import com.example.alp_vp.viewmodel.to_do_list.FormCreateViewModel
 import com.example.alp_vp.viewmodel.to_do_list.HomeViewModel
 import com.example.alp_vp.viewmodel.to_do_list.WeeklyTaskViewModel
@@ -159,12 +161,22 @@ fun Route(
             composable(ListScreen.Home.name) {
                 canNavigate = true
                 val homeViewModel: HomeViewModel = viewModel()
-                HomeView(homeViewModel = homeViewModel, dataStore = dataStore, navController = navController)
+                HomeView(
+                    homeViewModel = homeViewModel,
+                    dataStore = dataStore,
+                    navController = navController
+                )
             }
 
             composable(ListScreen.WeeklyTask.name) {
                 canNavigate = true
                 val weeklyTaskViewModel: WeeklyTaskViewModel = viewModel()
+            }
+
+            composable(ListScreen.Category.name) {
+                canNavigate = true
+                val categoryViewModel: CategoryViewModel = viewModel()
+                ViewCategory(categoryViewModel = categoryViewModel, navController = navController)
             }
 
             composable(ListScreen.FormCreate.name) {
@@ -182,7 +194,7 @@ fun Route(
             }
 
             composable(ListScreen.SignIn.name) {
-                if (MyDBContainer.ACCESS_TOKEN.isEmpty()) {
+                if (MyDBContainer.ACCESS_TOKEN.isEmpty() || MyDBContainer.USER_ID == -1) {
                     canNavigate = false
                     val signInViewModel: SignInViewModel = viewModel()
                     SignInView(
@@ -221,6 +233,8 @@ fun Route(
             composable(ListScreen.Authentication.name) {
                 AuthenticationView(navController = navController)
             }
+
+
         }
 
     }

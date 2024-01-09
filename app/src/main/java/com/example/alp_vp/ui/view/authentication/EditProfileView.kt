@@ -87,7 +87,7 @@ fun EditProfileView(
         mutableStateOf("")
     }
     val painter = rememberAsyncImagePainter(
-        imageUri?.ifEmpty {
+        imageUri.ifEmpty {
             R.drawable.profile
         }
     )
@@ -100,7 +100,7 @@ fun EditProfileView(
     var email by rememberSaveable {
         mutableStateOf("")
     }
-    var name by rememberSaveable {
+    val name by rememberSaveable {
         mutableStateOf("")
     }
     var password by rememberSaveable {
@@ -225,7 +225,7 @@ fun EditProfileView(
             )
 
             TextField(
-                value = "${editProfileUIState.name}",
+                value = editProfileUIState.name,
                 onValueChange = {
                                 editProfileViewModel.changeName(it)
                                 },

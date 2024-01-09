@@ -1,10 +1,11 @@
 package com.example.alp_vp.service
 
+import com.example.alp_vp.model.APIListResponse
 import com.example.alp_vp.model.APIResponse
 import com.example.alp_vp.model.Category
-import com.example.alp_vp.model.CategoryResponse
 import com.example.alp_vp.model.SignInResponse
 import com.example.alp_vp.model.User
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -18,7 +19,7 @@ interface MyDBService {
     suspend fun getCategories(
         @Header("Authorization") token: String,
         @Path("userId") userId: Int
-    ): CategoryResponse
+    ) : Response<APIListResponse<List<Category>>>
 
     @GET("toDoList-category/{category}")
     suspend fun getCategoryWithTDL(
