@@ -24,7 +24,7 @@ class MyDBContainer {
         var ACCESS_TOKEN = ""
     }
 
-    private val BASE_URL = "http://192.168.213.233/laravel-projects/vp_api/public/api/"
+    private val BASE_URL = "http://192.168.89.233/laravel-projects/vp_api/public/api/"
 
     private val client = OkHttpClient.Builder()
         .addInterceptor(AuthInterceptor(ACCESS_TOKEN))

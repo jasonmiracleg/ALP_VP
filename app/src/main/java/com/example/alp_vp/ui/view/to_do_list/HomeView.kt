@@ -71,8 +71,9 @@ fun HomeView(
                 .padding(20.dp, 25.dp)
         ) {
             Text(
-                text = "Logo + Nama app",
-                fontFamily = poppins
+                text = "Tiemer",
+                fontFamily = poppins,
+                fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.weight(1f))
             Icon(

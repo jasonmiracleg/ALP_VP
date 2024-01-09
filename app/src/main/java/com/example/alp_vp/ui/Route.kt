@@ -49,10 +49,12 @@ import com.example.alp_vp.ui.view.authentication.EditProfileView
 import com.example.alp_vp.ui.view.authentication.SignInView
 import com.example.alp_vp.ui.view.authentication.SignUpView
 import com.example.alp_vp.ui.view.authentication.SplashScreenView
+import com.example.alp_vp.ui.view.category.ViewCategory
 import com.example.alp_vp.ui.view.to_do_list.FormCreateView
 import com.example.alp_vp.ui.view.to_do_list.HomeView
 import com.example.alp_vp.viewmodel.authentication.SignInViewModel
 import com.example.alp_vp.viewmodel.authentication.SignUpViewModel
+import com.example.alp_vp.viewmodel.category.CategoryViewModel
 import com.example.alp_vp.viewmodel.to_do_list.FormCreateViewModel
 import com.example.alp_vp.viewmodel.to_do_list.HomeViewModel
 import com.example.alp_vp.viewmodel.to_do_list.ToDoListViewModel
@@ -241,6 +243,12 @@ fun Route(
             composable(ListScreen.Authentication.name) {
                 AuthenticationView(navController = navController)
             }
+            composable(ListScreen.Category.name) {
+                canNavigate = true
+                val categoryViewModel: CategoryViewModel = viewModel()
+                ViewCategory(categoryViewModel = categoryViewModel, navController = navController)
+            }
+
         }
 
     }

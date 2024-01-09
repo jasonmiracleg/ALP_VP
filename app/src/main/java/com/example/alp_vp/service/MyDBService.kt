@@ -6,8 +6,6 @@ import com.example.alp_vp.model.Category
 import com.example.alp_vp.model.SignInResponse
 import com.example.alp_vp.model.ToDoListCreate
 import com.example.alp_vp.model.ToDoListResponse
-import com.example.alp_vp.model.ToDoListV2
-import com.example.alp_vp.model.ToDoListV3
 import com.example.alp_vp.model.User
 import retrofit2.Response
 import retrofit2.http.Body
