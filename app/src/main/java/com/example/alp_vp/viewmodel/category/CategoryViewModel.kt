@@ -6,15 +6,19 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
 import com.example.alp_vp.model.APIListResponse
 import com.example.alp_vp.model.APIResponse
 import com.example.alp_vp.model.Category
 import com.example.alp_vp.repository.MyDBContainer
+import com.example.alp_vp.ui.ListScreen
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
 sealed interface CategoryUIState {
-    data class Success(val user: Int, val listCategory: Response<APIListResponse<List<Category>>>) : CategoryUIState
+    data class Success(val user: Int, val listCategory: Response<APIListResponse<List<Category>>>) :
+        CategoryUIState
+
     object Error : CategoryUIState
     object Loading : CategoryUIState
 }
@@ -32,18 +36,15 @@ class CategoryViewModel : ViewModel() {
         initialCategoryUIState()
     }
 
-    fun createCategory(category_title: String, color: String) {
+    fun createCategory(category_title: String, color: String, navController: NavController) {
         viewModelScope.launch {
             val userId = MyDBContainer.USER_ID
             val token = MyDBContainer.ACCESS_TOKEN
             MyDBContainer().tiemerDBRepositories.createCategory(
                 category_title, color, userId, token
             )
+            navController.navigate(ListScreen.Category.name)
         }
-//        val categoryList = currentData.value.categories.toMutableList()
-//        categoryList.add(Category(category_title = title, color = color))
-//        currentData.update {
-//            it.copy(categories = categoryList)
     }
 
     fun getCategories() {
@@ -56,7 +57,7 @@ class CategoryViewModel : ViewModel() {
         }
     }
 
-     private fun initialCategoryUIState() {
+    private fun initialCategoryUIState() {
         viewModelScope.launch {
             allCategory = MyDBContainer().tiemerDBRepositories.getCategories(
                 MyDBContainer.ACCESS_TOKEN,

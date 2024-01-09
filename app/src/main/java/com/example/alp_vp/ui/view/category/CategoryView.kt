@@ -18,6 +18,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.DeleteOutline
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Button
@@ -125,7 +126,11 @@ fun ViewCategory(categoryViewModel: CategoryViewModel, navController: NavControl
                 modifier = Modifier.padding(top = 30.dp)
             ) {
                 item {
-                    CategoryCard("Add new Category", isNewCategory = true) {
+                    CategoryCard(
+                        "Add new Category",
+                        isNewCategory = true,
+                        navController = navController
+                    ) {
                         isPopUpVisible = true
                     }
                 }
@@ -134,27 +139,16 @@ fun ViewCategory(categoryViewModel: CategoryViewModel, navController: NavControl
                         CategoryCard(
                             categoryName = allCategory.data[it].title,
                             isNewCategory = false,
-                            colorBackground = Color(android.graphics.Color.parseColor("#${allCategory.data[it].color}"))
-                        ) {
+                            colorBackground = Color(android.graphics.Color.parseColor("#${allCategory.data[it].color}")),
+                            navController
+                        ) { // Put The Route Here
 
                         }
                     }
                 }
-
-//                categoriesData?.data?.let {
-//                    items(it.size) {index ->
-//                                CategoryCard(
-//                                    categoryName = categoriesData?.data!![index].category_title,
-//                                    isNewCategory = false,
-//                                    colorBackground = Color(android.graphics.Color.parseColor("#${categoriesData?.data!![index].color}"))
-//                                ) {
-//
-//                                }
-//                            }
-//                }
             }
             if (isPopUpVisible) {
-                Popup(onDismiss = { isPopUpVisible = false }, categoryViewModel)
+                Popup(navController, onDismiss = { isPopUpVisible = false }, categoryViewModel)
             }
         }
         Column(
@@ -172,7 +166,8 @@ fun CategoryCard(
     categoryName: String,
     isNewCategory: Boolean,
     colorBackground: Color = Color(0xFFEBEBEB),
-    onClick: () -> Unit,
+    navController: NavController,
+    onClick: () -> Unit
 ) {
     Card(
         colors = CardDefaults.cardColors(colorBackground),
@@ -211,7 +206,7 @@ fun CategoryCard(
                     imageVector = if (isNewCategory) {
                         Icons.Outlined.Add
                     } else {
-                        Icons.Outlined.MoreVert
+                        Icons.Outlined.DeleteOutline
                     },
                     contentDescription = "Action",
                     tint = if (isNewCategory) {
@@ -240,6 +235,7 @@ fun TopNavBar() {
 
 @Composable
 fun Popup(
+    navController: NavController,
     onDismiss: () -> Unit,
     categoryViewModel: CategoryViewModel
 ) {
@@ -355,7 +351,8 @@ fun Popup(
                         onClick = {
                             categoryViewModel.createCategory(
                                 title,
-                                hexCode
+                                hexCode,
+                                navController
                             )
                             onDismiss()
                         },
