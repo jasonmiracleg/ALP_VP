@@ -2,9 +2,11 @@ package com.example.alp_vp.ui.view.authentication
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,7 +21,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -27,24 +28,36 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.alp_vp.R
+import com.example.alp_vp.data.DataStoreManager
+import com.example.alp_vp.ui.ListScreen
+import com.example.alp_vp.ui.theme.BlueOutline
+import com.example.alp_vp.ui.theme.BlueTheme
 import com.example.alp_vp.ui.theme.poppins
+import com.example.alp_vp.viewmodel.authentication.SignInViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignInView() {
+fun SignInView(
+    navController: NavController,
+    signInViewModel: SignInViewModel,
+    dataStore: DataStoreManager
+) {
 
     var email by rememberSaveable {
         mutableStateOf("")
@@ -52,9 +65,9 @@ fun SignInView() {
     var password by rememberSaveable {
         mutableStateOf("")
     }
-    var passwordVisibility by rememberSaveable {
-        mutableStateOf(false)
-    }
+    var passwordVisibility by rememberSaveable { mutableStateOf(false) }
+
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier
@@ -99,7 +112,7 @@ fun SignInView() {
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
-            colors = OutlinedTextFieldDefaults.colors(
+            colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = Color(0xFF38BDF8),
                 unfocusedBorderColor = Color.LightGray,
             ),
@@ -126,7 +139,7 @@ fun SignInView() {
                 keyboardType = if (passwordVisibility) KeyboardType.Text else KeyboardType.Password,
                 imeAction = ImeAction.Next
             ),
-            colors = OutlinedTextFieldDefaults.colors(
+            colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = Color(0xFF38BDF8),
                 unfocusedBorderColor = Color.LightGray,
             ),
@@ -142,9 +155,13 @@ fun SignInView() {
 
                 IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
                     Icon(
-                        painter = if (passwordVisibility) painterResource(id = R.drawable.visibility) else painterResource(id = R.drawable.visibilityoff),
+                        painter = if (passwordVisibility) painterResource(id = R.drawable.visibility) else painterResource(
+                            id = R.drawable.visibilityoff
+                        ),
                         contentDescription = "Visibility Icon",
-                        modifier = Modifier.height(24.dp).width(24.dp)
+                        modifier = Modifier
+                            .height(24.dp)
+                            .width(24.dp)
                     )
                 }
             }
@@ -153,7 +170,9 @@ fun SignInView() {
         Spacer(modifier = Modifier.padding(bottom = 24.dp))
 
         Button(
-            onClick = { /*TODO*/ },
+            onClick = {
+                signInViewModel.logIn(email, password, navController, context, dataStore)
+            },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFF38BDF8),
             ),
@@ -178,12 +197,30 @@ fun SignInView() {
                 )
             )
         }
-
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = "Sing Up Here",
+                style = TextStyle(
+                    fontSize = 16.sp,
+                    fontFamily = poppins,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color(0xFF38BDF8),
+                    textAlign = TextAlign.Center,
+                    textDecoration = TextDecoration.Underline
+                ),
+                modifier = Modifier.clickable { navController.navigate(ListScreen.SignUp.name) }
+            )
+        }
     }
 }
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun SignInPreview() {
-    return SignInView()
+//    return SignInView(navController = rememberNavController())
 }
