@@ -6,6 +6,7 @@ import com.example.alp_vp.model.APIResponse
 import com.example.alp_vp.model.Category
 import com.example.alp_vp.model.SignInResponse
 import com.example.alp_vp.model.ToDoListCreate
+import com.example.alp_vp.model.ToDoListResponse
 import com.example.alp_vp.model.ToDoListV2
 import com.example.alp_vp.model.User
 import com.example.alp_vp.service.MyDBService
@@ -99,11 +100,11 @@ class MyDBRepositories(private val myDBService: MyDBService) {
 
     suspend fun getAllToDoList(
         token: String,
-        userId: String
-    ): List<ToDoListV2?> {
-        val allToDoList = myDBService.getAllToDoList(token, userId)
-        Log.d("errory", allToDoList.toString())
-        return allToDoList
+        userId: Int
+    ) : Response<APIListResponse<List<ToDoListResponse>>> {
+        val sendData = myDBService.getAllToDoList(token, userId)
+//        Log.d("gabisa", myDBService.getAllToDoList(token).toString())
+        return sendData
     }
 
     suspend fun updateCompleteToDoListToDay(

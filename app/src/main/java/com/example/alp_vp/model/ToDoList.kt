@@ -3,6 +3,7 @@ package com.example.alp_vp.model
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.google.gson.annotations.SerializedName
+import java.math.BigInteger
 import java.sql.Time
 import java.util.Date
 
@@ -25,9 +26,8 @@ data class ToDoList(
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 data class ToDoListV2(
-//    @SerializedName("id") val id: Int,
+    @SerializedName("id") val id: Int,
     @SerializedName("title") val title: String,
 //    @SerializedName("is_group") val is_group: String,
 //    @SerializedName("is_complete") val is_complete: String,
@@ -44,6 +44,25 @@ data class ToDoListV2(
 //    @SerializedName("updated_at") val updated_at: String
 )
 
+//data class ToDoListV3(
+//    val id: Int = 0,
+//    val title: String = "",
+//)
+
+data class ToDoListResponse(
+    val id: Int = 0,
+    val title: String = "",
+    val is_group: String = "0", //harusnya enum? but coba aja dulu
+    val is_complete: String = "0",
+    val description: String? = "",
+    val timer: String? = "", // time haruse?
+    val total_seconds: Int? = 0,
+    val timer_started: String? = "0",
+    val user_id: Int = 0, //haruse bigIn
+    val group_id : Int?, //ini null
+    val date: String = "",
+    val day: String = ""
+)
 
 data class ToDoListCreate(
     @SerializedName("title") val title: String,

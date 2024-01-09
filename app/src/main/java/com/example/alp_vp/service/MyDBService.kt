@@ -5,7 +5,9 @@ import com.example.alp_vp.model.APIResponse
 import com.example.alp_vp.model.Category
 import com.example.alp_vp.model.SignInResponse
 import com.example.alp_vp.model.ToDoListCreate
+import com.example.alp_vp.model.ToDoListResponse
 import com.example.alp_vp.model.ToDoListV2
+import com.example.alp_vp.model.ToDoListV3
 import com.example.alp_vp.model.User
 import retrofit2.Response
 import retrofit2.http.Body
@@ -94,8 +96,8 @@ interface MyDBService {
     @GET("all_toDoList/{userId}")
     suspend fun getAllToDoList(
         @Header("Authorization") token: String,
-        @Path("userId") userId: String
-    ) : List<ToDoListV2?>
+        @Path("userId") userId: Int
+    ) :  Response<APIListResponse<List<ToDoListResponse>>>
 
     @POST("update_toDoList/{toDoList")
     suspend fun updateTDL(

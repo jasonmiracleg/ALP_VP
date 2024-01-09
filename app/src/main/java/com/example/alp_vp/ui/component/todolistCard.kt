@@ -36,7 +36,7 @@ import com.example.alp_vp.viewmodel.to_do_list.HomeViewModel
 @Composable
 fun todoListCard(
     homeViewModel: HomeViewModel = viewModel(),
-    toDoListV2: ToDoListV2
+    data: ToDoListV2
 //    category: ArrayList<Category>
 ) {
 //    val homeUiState by homeViewModel.uiState.collectAsState()
@@ -67,7 +67,7 @@ fun todoListCard(
                         .weight(0.8f)
                 ) {
                     Text(
-                        text = toDoListV2.title,
+                        text = data.title,
                         fontFamily = poppins,
                         fontWeight = FontWeight.Bold,
                         fontSize = 16.sp
@@ -114,7 +114,7 @@ fun todoListCard(
                         .width(1.dp)
                         .clickable {
                             isChecked = false
-                            homeViewModel.updatetoDoList(toDoListV2, isChecked)
+                            homeViewModel.updatetoDoList(data, isChecked)
                         },
                     tint = Color.Gray,
                 )
@@ -127,7 +127,7 @@ fun todoListCard(
                         .width(1.dp)
                         .clickable {
                             isChecked = true;
-                            homeViewModel.updatetoDoList(toDoListV2, isChecked)
+                            homeViewModel.updatetoDoList(data, isChecked)
                         },
                     tint = Color.Gray,
                 )
