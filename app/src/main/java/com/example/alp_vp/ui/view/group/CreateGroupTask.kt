@@ -146,7 +146,7 @@ fun CreateGroupTask(
                 ),
                 modifier = Modifier
                     .height(80.dp),
-                textStyle = androidx.compose.ui.text.TextStyle(
+                textStyle = TextStyle(
                     fontSize = 16.sp,
                     fontFamily = poppins
                 )
@@ -174,7 +174,7 @@ fun CreateGroupTask(
                 ),
                 modifier = Modifier
                     .height(120.dp),
-                textStyle = androidx.compose.ui.text.TextStyle(
+                textStyle = TextStyle(
                     fontSize = 16.sp,
                     fontFamily = poppins
                 )
@@ -196,6 +196,7 @@ fun CreateGroupTask(
                 onExpandedChange = { expanded = !expanded },
 
             ) {
+                val containerColor = Color(android.graphics.Color.parseColor("#C9EFFF"))
                 TextField(
                     readOnly = true,
                     value = selectedOptionText,
@@ -205,19 +206,21 @@ fun CreateGroupTask(
                             expanded = expanded
                         )
                     },
-                    colors = TextFieldDefaults.textFieldColors(
+                    colors = TextFieldDefaults.colors(
                         disabledTextColor = Color.Transparent,
+                        focusedContainerColor = containerColor,
+                        unfocusedContainerColor = containerColor,
+                        disabledContainerColor = containerColor,
                         focusedIndicatorColor = Color.Transparent,
                         unfocusedIndicatorColor = Color.Transparent,
                         disabledIndicatorColor = Color.Transparent,
-                        containerColor = Color(android.graphics.Color.parseColor("#C9EFFF"))
                     ),
                     modifier = Modifier
                         .menuAnchor()
                         .fillMaxWidth()
                         .padding(horizontal = 20.dp),
                     shape = RoundedCornerShape(20.dp),
-                    textStyle = androidx.compose.ui.text.TextStyle(
+                    textStyle = TextStyle(
                         fontSize = 16.sp,
                         fontFamily = poppins,
 
@@ -261,6 +264,7 @@ fun CustomTitleDesc(
     modifier: Modifier = Modifier,
     textStyle: TextStyle
     ) {
+    val containerColor = Color(android.graphics.Color.parseColor("#C9EFFF"))
     TextField(
         value = value,
         onValueChange = onValueChanged,
@@ -270,12 +274,14 @@ fun CustomTitleDesc(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 20.dp),
-        colors = TextFieldDefaults.textFieldColors(
+        colors = TextFieldDefaults.colors(
             disabledTextColor = Color.Transparent,
+            focusedContainerColor = containerColor,
+            unfocusedContainerColor = containerColor,
+            disabledContainerColor = containerColor,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent,
-            containerColor = Color(android.graphics.Color.parseColor("#C9EFFF"))
         ),
     )
 }

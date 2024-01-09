@@ -61,7 +61,7 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-enum class ListScreen() {
+enum class ListScreen {
     Home,
     WeeklyTask,
     FormCreate,

@@ -245,7 +245,7 @@ fun ListGroupCard(
                     textAlign = TextAlign.Center,
                 )
 
-                Row(){
+                Row {
                     ProfileUserLain()
                 }
 

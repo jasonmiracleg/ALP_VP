@@ -12,5 +12,4 @@ data class ToDoListUIState(
             timer = Time.valueOf("12:30:00")
         )
     ),
-) {
-}
+)

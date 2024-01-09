@@ -49,7 +49,7 @@ fun oneWeekCard(
                                     shape = RoundedCornerShape(5.dp, 15.dp, 5.dp, 15.dp)
                                 )
                                 .clickable {
-                                    isclick = true;
+                                    isclick = true
                                 }
 
 
@@ -80,7 +80,7 @@ fun oneWeekCard(
                                     shape = RoundedCornerShape(5.dp, 15.dp, 5.dp, 15.dp)
                                 )
                                 .clickable {
-                                    isclick = true;
+                                    isclick = true
                                 }
 
 

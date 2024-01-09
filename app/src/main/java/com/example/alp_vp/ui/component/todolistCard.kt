@@ -117,7 +117,7 @@ fun todoListCard(
                             .size(45.dp)
                             .width(1.dp)
                             .clickable {
-                                isChecked = false;
+                                isChecked = false
                             },
                         tint = Color.Gray,
                     )
@@ -130,7 +130,7 @@ fun todoListCard(
                             .size(45.dp)
                             .width(1.dp)
                             .clickable {
-                                isChecked = true;
+                                isChecked = true
                             },
                         tint = Color.Gray,
                     )

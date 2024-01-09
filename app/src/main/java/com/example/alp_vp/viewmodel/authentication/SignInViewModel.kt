@@ -26,7 +26,7 @@ class SignInViewModel : ViewModel() {
         context: Context,
         dataStore: DataStoreManager
     ) {
-        viewModelScope.launch() {
+        viewModelScope.launch {
             val token: SignInResponse =
                 MyDBContainer().tiemerDBRepositories.login(email, password)
             when {
