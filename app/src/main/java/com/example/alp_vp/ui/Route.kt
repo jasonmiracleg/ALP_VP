@@ -40,7 +40,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.alp_vp.data.DataStoreManager
-import com.example.alp_vp.navigation.Screen
 import com.example.alp_vp.repository.MyDBContainer
 import com.example.alp_vp.repository.MyDBRepositories
 import com.example.alp_vp.ui.component.BottomNavbar

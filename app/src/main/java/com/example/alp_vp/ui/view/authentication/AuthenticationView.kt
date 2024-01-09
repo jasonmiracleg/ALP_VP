@@ -37,7 +37,6 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.alp_vp.R
-import com.example.alp_vp.navigation.Screen
 import com.example.alp_vp.ui.ListScreen
 import com.example.alp_vp.ui.theme.poppins
 

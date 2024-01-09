@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.alp_vp.R
-import com.example.alp_vp.navigation.Screen
+import com.example.alp_vp.ui.ListScreen
 import kotlinx.coroutines.delay
 
 
@@ -30,7 +30,7 @@ fun SplashScreenView(
 {
     LaunchedEffect(key1 = true) {
         delay(3000)
-        navController.navigate(route = Screen.Authentication.route)
+        navController.navigate(route = ListScreen.Authentication.name)
     }
 
     Column(

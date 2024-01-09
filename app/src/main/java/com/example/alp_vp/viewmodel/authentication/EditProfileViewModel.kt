@@ -3,7 +3,6 @@ package com.example.alp_vp.viewmodel.authentication
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.example.alp_vp.model.User
-import com.example.alp_vp.navigation.Screen
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

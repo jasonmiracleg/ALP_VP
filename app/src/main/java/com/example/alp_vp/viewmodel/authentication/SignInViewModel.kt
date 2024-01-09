@@ -9,7 +9,6 @@ import androidx.navigation.NavController
 import com.example.alp_vp.data.DataStoreManager
 import com.example.alp_vp.model.SignInResponse
 import com.example.alp_vp.model.User
-import com.example.alp_vp.navigation.Screen
 import com.example.alp_vp.repository.MyDBContainer
 import com.example.alp_vp.ui.ListScreen
 import kotlinx.coroutines.Dispatchers

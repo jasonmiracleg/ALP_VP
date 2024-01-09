@@ -29,7 +29,6 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.alp_vp.navigation.Navigation
 import com.example.alp_vp.ui.Route
 import com.example.alp_vp.ui.theme.ALP_VPTheme
 import com.example.alp_vp.ui.view.category.NotificationService
