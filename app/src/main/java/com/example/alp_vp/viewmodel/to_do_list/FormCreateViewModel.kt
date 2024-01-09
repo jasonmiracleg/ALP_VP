@@ -4,10 +4,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.example.alp_vp.model.CategoryUIState
+//import com.example.alp_vp.model.CategoryUIState
 import com.example.alp_vp.model.FormCreateUiState
 import com.example.alp_vp.model.ToDoList
-import com.example.alp_vp.ui.view.to_do_list.category
+
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.asStateFlow
 class FormCreateViewModel: ViewModel(
 
 ){
-    private val _uiState = MutableStateFlow(FormCreateUiState(title = "", category = CategoryUIState(),alarmHours = 0, alarmMinutes = 0, timerHours = 0, timerMinutes = 0, timerSeconds = 0, description = ""))
+    private val _uiState = MutableStateFlow(FormCreateUiState(title = "",alarmHours = 0, alarmMinutes = 0, timerHours = 0, timerMinutes = 0, timerSeconds = 0, description = ""))
 
     val uiState: StateFlow<FormCreateUiState> = _uiState.asStateFlow()
 

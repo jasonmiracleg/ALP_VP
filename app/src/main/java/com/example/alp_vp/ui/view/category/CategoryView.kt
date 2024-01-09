@@ -29,6 +29,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -50,18 +51,50 @@ import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.alp_vp.R
+import com.example.alp_vp.model.APIListResponse
+import com.example.alp_vp.model.Category
 import com.example.alp_vp.ui.theme.BlueOutline
 import com.example.alp_vp.ui.theme.ButtonColor
 import com.example.alp_vp.ui.theme.poppins
+import com.example.alp_vp.viewmodel.category.CategoryUIState
 import com.example.alp_vp.viewmodel.category.CategoryViewModel
 import com.github.skydoves.colorpicker.compose.HsvColorPicker
 import com.github.skydoves.colorpicker.compose.drawColorIndicator
 import com.github.skydoves.colorpicker.compose.rememberColorPickerController
+import retrofit2.Response
 
 @Composable
 fun ViewCategory(categoryViewModel: CategoryViewModel, navController: NavController) {
 //    val categoryUIState by categoryViewModel.data.collectAsState()
-    val categoriesData by categoryViewModel.categoriesData.collectAsState()
+//    val categoriesData by categoryViewModel.categoriesData.collectAsState()
+
+//    if (categoryViewModel != null) {
+//        // Other Composable code...
+//        DisposableEffect(Unit) {
+//            categoryViewModel.initialCategoryUIState()
+//            onDispose { /* Cleanup logic if needed */ }
+//        }
+//        // Other Composable code...
+//    }
+
+    val categoryVM: CategoryUIState = categoryViewModel.categoryUIState
+    var allCategoryBody: Response<APIListResponse<List<Category>>>? = null
+    var userId: Int? = null
+
+    when (categoryVM) {
+        is CategoryUIState.Success -> {
+            userId = categoryVM.user
+            allCategoryBody = categoryVM.listCategory
+        }
+
+        is CategoryUIState.Error -> {
+        }
+
+        CategoryUIState.Loading -> {
+        }
+    }
+
+    val allCategory: APIListResponse<List<Category>>? = allCategoryBody?.body()
 
     var isPopUpVisible by rememberSaveable {
         mutableStateOf(false)
@@ -96,17 +129,29 @@ fun ViewCategory(categoryViewModel: CategoryViewModel, navController: NavControl
                         isPopUpVisible = true
                     }
                 }
-                categoriesData?.data?.let {
-                    items(it.size) {index ->
-                                CategoryCard(
-                                    categoryName = categoriesData?.data!![index].category_title,
-                                    isNewCategory = false,
-                                    colorBackground = Color(android.graphics.Color.parseColor("#${categoriesData?.data!![index].color}"))
-                                ) {
+                if (allCategory != null) {
+                    items(allCategory.data.size) {
+                        CategoryCard(
+                            categoryName = allCategory.data[it].title,
+                            isNewCategory = false,
+                            colorBackground = Color(android.graphics.Color.parseColor("#${allCategory.data[it].color}"))
+                        ) {
 
-                                }
-                            }
+                        }
+                    }
                 }
+
+//                categoriesData?.data?.let {
+//                    items(it.size) {index ->
+//                                CategoryCard(
+//                                    categoryName = categoriesData?.data!![index].category_title,
+//                                    isNewCategory = false,
+//                                    colorBackground = Color(android.graphics.Color.parseColor("#${categoriesData?.data!![index].color}"))
+//                                ) {
+//
+//                                }
+//                            }
+//                }
             }
             if (isPopUpVisible) {
                 Popup(onDismiss = { isPopUpVisible = false }, categoryViewModel)
