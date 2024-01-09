@@ -51,8 +51,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.alp_vp.R
+import com.example.alp_vp.model.APIListResponse
+import com.example.alp_vp.model.Group
+import com.example.alp_vp.ui.ListScreen
+import com.example.alp_vp.viewmodel.group.GroupUIState
 import com.example.alp_vp.viewmodel.group.GroupViewModel
+import retrofit2.Response
 import androidx.compose.material3.Icon as Icon
 
 val poppins = FontFamily(
@@ -62,8 +69,29 @@ val poppins = FontFamily(
     Font(R.font.poppins_semibold, FontWeight.SemiBold),
 )
 @Composable
-fun TeamListView(groupViewModel: GroupViewModel = viewModel()){
-    val groupUIState by groupViewModel.data.collectAsState()
+fun TeamListView(groupViewModel: GroupViewModel, navController: NavController){
+//    val groupUIState by groupViewModel.data.collectAsState()
+
+    val groupVM: GroupUIState = groupViewModel.groupUIState
+    var allGroupBody: Response<APIListResponse<List<Group>>>? = null
+    var userId: Int? = null
+
+    when(groupVM){
+        is GroupUIState.Success -> {
+            userId = groupVM.user
+            allGroupBody = groupVM.listGroup
+        }
+        is GroupUIState.Error -> {
+
+        }
+        GroupUIState.Loading -> {
+
+        }
+    }
+
+    val allGroup: APIListResponse<List<Group>>? = allGroupBody?.body()
+
+
     Column(
         modifier = Modifier
             .padding(20.dp),
@@ -80,7 +108,9 @@ fun TeamListView(groupViewModel: GroupViewModel = viewModel()){
                 fontSize = 20.sp,
                 fontFamily = poppins,
                 fontWeight = FontWeight.ExtraBold,
-                modifier = Modifier.weight(1f).align(Alignment.CenterVertically)
+                modifier = Modifier
+                    .weight(1f)
+                    .align(Alignment.CenterVertically)
             )
             IconButton(onClick = { /*route(team_notif)*/ } ,
                 modifier = Modifier.align(Alignment.Top)) {
@@ -88,7 +118,7 @@ fun TeamListView(groupViewModel: GroupViewModel = viewModel()){
 
             }
         }
-        createTeam(groupViewModel)
+        createTeam(navController, groupViewModel)
         Image(
             painter = painterResource(id = R.drawable.line),
             contentDescription = "divider",
@@ -102,16 +132,34 @@ fun TeamListView(groupViewModel: GroupViewModel = viewModel()){
             verticalArrangement = Arrangement.spacedBy(16.dp),
 
         ){
-            items(groupUIState.groups.size){
-                ListGroupCard(
-                    group_name = groupUIState.groups[it].group_name,
-                    onClick = {
-                        // Define your onClick logic here
-                    },
-                    onDeleteClick = {
-                        groupViewModel.deleteGroup(groupUIState.groups[it])
-                    }
-                )
+//            item{
+//                ListGroupCard(
+//
+//                    "",
+//                    navController = navController,
+//
+////                    onClick = {
+////                        // Define your onClick logic here
+////                    },
+//                    onDeleteClick = {
+//                        groupViewModel.deleteGroup(navController)
+//                    }
+//                ){
+//
+//                }
+//            }
+            if (allGroup != null){
+                items(allGroup.data.size){
+                    ListGroupCard(
+                        group_name = allGroup.data[it].group_name,
+                        navController,
+                        groupViewModel,
+                        allGroup.data[it].id
+                    )
+//                    {
+//                    //routing
+//                    }
+                }
             }
         }
 
@@ -121,12 +169,16 @@ fun TeamListView(groupViewModel: GroupViewModel = viewModel()){
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun createTeam(
+    navController: NavController,
     groupViewModel: GroupViewModel
 ){
 
     var searchusername by rememberSaveable { mutableStateOf("") }
     var description by rememberSaveable { mutableStateOf("") }
     var group_name by rememberSaveable { mutableStateOf("") }
+
+//    val searchResult by groupViewModel.searchResult.collectAsState()
+
     Column (
         modifier = Modifier
             .padding(16.dp),
@@ -156,7 +208,10 @@ fun createTeam(
         }
         CustomSearchUsernameField(
             value = searchusername,
-            onValueChanged = {searchusername = it} ,
+            onValueChanged = {
+                searchusername = it
+//                groupViewModel.searchByUsername(it)
+            },
             text = "Search username...",
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Text,
@@ -203,7 +258,13 @@ fun createTeam(
             )
             Image(
                 modifier = Modifier
-                    .clickable { groupViewModel.addGroup(group_name, description) }
+                    .clickable {
+                        groupViewModel.createGroup(
+                            group_name,
+                            description,
+                            navController
+                        )
+                    }
                     .size(60.dp),
                 painter = painterResource(id = R.drawable.add_group),
                 contentDescription = "Tambah group",
@@ -219,10 +280,13 @@ fun createTeam(
 
 @Composable
 fun ListGroupCard(
-    colorBackground: Color = Color(0xFFEBEBEB),
-    onClick: () -> Unit,
     group_name: String,
-    onDeleteClick: () -> Unit,
+    //colorBackground: Color = Color(0xFFEBEBEB),
+    navController: NavController,
+    //onClick: () -> Unit,
+    groupViewModel: GroupViewModel,
+    index: Int,
+    //onDeleteClick: () -> Unit,
     ) {
     ElevatedCard(
         colors = CardDefaults.cardColors(containerColor = Color.White),
@@ -245,9 +309,18 @@ fun ListGroupCard(
                     textAlign = TextAlign.Center,
                 )
 
-                Row(){
-                    ProfileUserLain()
-                }
+                // Menampilkan gambar profil untuk setiap pengguna
+                Row {
+                    //groupViewModel.allGroup?.data?.get(index)?.members?.forEach { user ->
+                        Image(
+                            painter = painterResource(id = R.drawable.profilepict), // Ganti dengan user.profileImageUrl
+                            contentDescription = "Profile Picture",
+                            contentScale = ContentScale.FillBounds,
+                            modifier = Modifier
+                                .size(35.dp)
+                                .clip(CircleShape)
+                        )
+                    }
 
             }
             Row (modifier = Modifier.align(Alignment.CenterVertically)){
@@ -259,7 +332,7 @@ fun ListGroupCard(
                 ) {
                     Text(text = "Open", fontFamily = poppins)
                 }
-                IconButton(onClick = onDeleteClick ,
+                IconButton(onClick = {  groupViewModel.deleteGroup(index, navController) } ,
                     modifier = Modifier.align(Alignment.Top)) {
                     Icon(Icons.Default.Delete, "delete", tint = Color.Red)
 
@@ -359,6 +432,6 @@ fun CustomTeamDescriptionField(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun TeamListPreView(){
-    TeamListView()
+    TeamListView(groupViewModel = GroupViewModel(), navController = rememberNavController())
 }
 

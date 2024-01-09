@@ -51,14 +51,17 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.alp_vp.R
 import com.example.alp_vp.model.APIListResponse
 import com.example.alp_vp.model.Category
 import com.example.alp_vp.ui.theme.BlueOutline
 import com.example.alp_vp.ui.theme.ButtonColor
 import com.example.alp_vp.ui.theme.poppins
+import com.example.alp_vp.ui.view.group.CreateGroupTask
 import com.example.alp_vp.viewmodel.category.CategoryUIState
 import com.example.alp_vp.viewmodel.category.CategoryViewModel
+import com.example.alp_vp.viewmodel.group.GroupTodolistViewModel
 import com.github.skydoves.colorpicker.compose.HsvColorPicker
 import com.github.skydoves.colorpicker.compose.drawColorIndicator
 import com.github.skydoves.colorpicker.compose.rememberColorPickerController
@@ -371,9 +374,11 @@ fun Popup(
     }
 }
 
+
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun PreviewCategory() {
 //    Popup()
 //    ViewCategory()
+
 }

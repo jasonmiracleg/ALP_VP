@@ -3,6 +3,7 @@ package com.example.alp_vp.service
 import com.example.alp_vp.model.APIListResponse
 import com.example.alp_vp.model.APIResponse
 import com.example.alp_vp.model.Category
+import com.example.alp_vp.model.Group
 import com.example.alp_vp.model.SignInResponse
 import com.example.alp_vp.model.User
 import retrofit2.Response
@@ -12,6 +13,7 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface MyDBService {
 
@@ -46,9 +48,9 @@ interface MyDBService {
 
     @GET("groups/{userId}")
     suspend fun getGroups(
-
-        @Path("userId") userId: String
-    ): APIResponse
+        @Header("Authorization") token: String,
+        @Path("userId") userId: Int
+    ) : Response<APIListResponse<List<Group>>>
 
     @GET("group-members/{group}")
     suspend fun getMembers(
@@ -98,7 +100,11 @@ interface MyDBService {
     ): APIResponse
 
     @POST("create_group")
-    suspend fun createGroup(): APIResponse
+    suspend fun createGroup(
+        @Header("Authorization") token: String,
+        @Body group: Group
+
+    ): APIResponse
 
     @POST("timer_start")
     suspend fun startTimer(): APIResponse
@@ -116,5 +122,8 @@ interface MyDBService {
     suspend fun deleteTDL(): APIResponse
 
     @DELETE("delete_group")
-    suspend fun deleteGroup(): APIResponse
+    suspend fun deleteGroup(
+        @Header("Authorization") token: String,
+        @Query("id") id: Int
+    ): APIResponse
 }

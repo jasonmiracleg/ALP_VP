@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.alp_vp.model.APIListResponse
 import com.example.alp_vp.model.APIResponse
 import com.example.alp_vp.model.Category
+import com.example.alp_vp.model.Group
 import com.example.alp_vp.model.SignInResponse
 import com.example.alp_vp.model.User
 import com.example.alp_vp.service.MyDBService
@@ -62,5 +63,36 @@ class MyDBRepositories(private val myDBService: MyDBService) {
     suspend fun getCategories(token: String, userId: Int): Response<APIListResponse<List<Category>>> {
         Log.d("Category", "${userId.toString()} ${token}")
         return myDBService.getCategories(token, userId)
+    }
+
+    suspend fun createGroup(
+        group_name: String,
+        description: String,
+        user_id: Int,
+        token: String,
+        members: List<User> = emptyList() //atribut untuk menyimpan anggota grup
+    ): APIResponse {
+        val group = Group(group_name = group_name, description = description, user_id = user_id)
+        // Menambahkan daftar pengguna ke dalam data grup
+        group.members = members
+        val result = myDBService.createGroup(token, group)
+        if (result.status.toInt() == HttpURLConnection.HTTP_OK) {
+            return result
+        }
+        return result
+    }
+
+    suspend fun getGroups(token: String, userId: Int): Response<APIListResponse<List<Group>>> {
+        Log.d("Group", "${userId.toString()} ${token}")
+        return myDBService.getGroups(token, userId)
+    }
+
+    suspend fun deleteGroup(token: String, id: Int): APIResponse {
+        Log.d("DeleteGroup", "$id ${token}")
+        val result = myDBService.deleteGroup(token, id)
+        if (result.status.toInt() == HttpURLConnection.HTTP_OK) {
+            return result
+        }
+        return result
     }
 }
