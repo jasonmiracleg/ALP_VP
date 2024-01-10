@@ -49,10 +49,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.alp_vp.R
 import com.example.alp_vp.ui.theme.biru
+import com.example.alp_vp.ui.theme.biruMuda
 import com.example.alp_vp.ui.theme.merah
 import com.example.alp_vp.ui.theme.poppins
-
-private val biruMuda = Color(0xFF41BBF1)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "RememberReturnType")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -66,7 +65,7 @@ fun FormEditView(){
     val snackbarHostState = remember { SnackbarHostState() }
 
     Scaffold(
-        snackbarHost = { SnackbarHost(snackbarHostState) },
+         snackbarHost = { SnackbarHost(snackbarHostState) },
         content = {
             Column {
                 Row(
@@ -482,12 +481,13 @@ fun TextField(
                 fontFamily = poppins,
                 color = Color.Gray,
             )},
-        colors = TextFieldDefaults.textFieldColors(
-            containerColor = Color.Transparent,
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = Color.Transparent,
+            unfocusedContainerColor = Color.Transparent,
+            disabledContainerColor = Color.Transparent,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
-
-            )
+        )
     )
 
 }

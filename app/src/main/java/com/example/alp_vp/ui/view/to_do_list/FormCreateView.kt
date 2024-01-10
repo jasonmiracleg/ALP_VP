@@ -1,10 +1,11 @@
 package com.example.alp_vp.ui.view.to_do_list
 
 import android.annotation.SuppressLint
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,9 +16,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material3.Button
@@ -45,27 +48,32 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.graphics.toColorInt
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.alp_vp.R
-import com.example.alp_vp.ui.theme.biru
-import com.example.alp_vp.ui.theme.merah
+import com.example.alp_vp.model.Category
+import com.example.alp_vp.repository.MyDBContainer
+import com.example.alp_vp.ui.ListScreen
+import com.example.alp_vp.ui.theme.biruMuda
 import com.example.alp_vp.ui.theme.poppins
-import com.example.alp_vp.viewmodel.to_do_list.FormCreateViewModel
+import com.example.alp_vp.viewmodel.category.CategoryViewModel
+import com.example.alp_vp.viewmodel.to_do_list.ToDoListViewModel
 
-private val biruMuda = Color(0xFF41BBF1)
+@RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "RememberReturnType")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FormCreateView(
-    formCreateViewModel: FormCreateViewModel= viewModel ()
+    toDoListViewModel: ToDoListViewModel,
+    categoryViewModel: CategoryViewModel = viewModel(),
+    navController: NavController
 ){
-    val formCreateUiState by formCreateViewModel.uiState.collectAsState()
+//    val toDoList by toDoListViewModel.data.collectAsState()
+
     var title by remember { mutableStateOf("")}
+    var date by remember { mutableStateOf("") }
     var hourse by remember { mutableStateOf("")}
     var minutes by remember { mutableStateOf("")}
     var seconds by remember { mutableStateOf("")}
@@ -74,9 +82,12 @@ fun FormCreateView(
     val snackbarHostState = remember { SnackbarHostState() }
 
     Scaffold(
-        snackbarHost = { SnackbarHost(snackbarHostState) },
+         snackbarHost = { SnackbarHost(snackbarHostState) },
         content = {
-            Column {
+            Column (
+                modifier = Modifier
+                    .verticalScroll(rememberScrollState())
+            ){
                 Row(
                     modifier = Modifier
                         .background(biruMuda, shape = RectangleShape)
@@ -145,8 +156,48 @@ fun FormCreateView(
                             .padding(vertical = 7.dp),
                         fontWeight = FontWeight.Bold
                     )
+//
+//                    val categoryList: List<Category>  = toDoListViewModel.getAllCategoryForToDoList(
+//                        accessToken = MyDBContainer.ACCESS_TOKEN,
+//                        userId = MyDBContainer.USER_ID
+//                    )
+//                    LazyVerticalGrid(
+//                        columns = GridCells.Adaptive(minSize = 85.dp),
+//                        modifier = Modifier
+//                            .height(100.dp)
+//                    ) {
+//                        items(categoryList) {
+//
+//                        }
+//                    }
 
-                    category()
+                    Text(
+                        text = "Date",
+                        fontFamily = poppins,
+                        fontSize = 15.sp,
+                        modifier = Modifier
+                            .padding(vertical = 7.dp),
+                        fontWeight = FontWeight.Bold
+                    )
+                    simpleTextField(
+                        value = date,
+                        onValueChanged = { date = it },
+                        placeholder = "Date",
+                        keyboardOptions =
+                        KeyboardOptions(
+                            keyboardType = KeyboardType.Number,
+                            imeAction = ImeAction.Next
+                        ),
+                        modifier = Modifier
+                            .border(
+                                width = 1.6.dp,
+                                color = Color(0xFFCECECE),
+                                shape = RoundedCornerShape(size = 20.dp)
+                            )
+                            .width(80.dp)
+                            .height(50.dp)
+                    )
+
 
                     Text(
                         text = "Alarm",
@@ -323,7 +374,16 @@ fun FormCreateView(
                     )
 
                     Button(
-                        onClick = { /*TODO*/ },
+                        onClick = {
+                            toDoListViewModel.createToDoList(
+                            title = title,
+                            is_group = "0",
+                            description = description,
+                            date = "2024-01-09",
+                            day = "2024-01-09"
+                        )
+                            navController.navigate(ListScreen.Home.name)
+                                  },
                         modifier = Modifier
                             .padding(vertical = 10.dp)
                             .align(CenterHorizontally)
@@ -374,36 +434,65 @@ fun simpleTextField(
 }
 
 
-@Composable
-fun category(
-    formCreateViewModel: FormCreateViewModel = viewModel()
-) {
-    val formCreateUiState by formCreateViewModel.uiState.collectAsState()
-    LazyVerticalGrid(
-        columns = GridCells.Adaptive(minSize = 85.dp)
-    ) {
-        items (formCreateUiState.category.size){
-            Text(
-                text = formCreateUiState.category[it].todoList[it].listCategory[it].title,
-                modifier = Modifier
-                    .padding(top = 4.dp, bottom = 4.dp, end = 8.dp)
-                    .background(merah, shape = CircleShape)
-                    .padding(5.dp)
-                    .height(20.dp),
-                fontFamily = poppins,
-                fontSize = 12.sp,
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.Bold,
-                color = Color(android.graphics.Color.parseColor("#${formCreateUiState.category.color}"))
-            )
-        }
-    }
-}
+//@Composable
+//fun category(
+//    formCreateViewModel: FormCreateViewModel = viewModel(),
+//    index:Int
+//) {
+//    val formCreateUiState by formCreateViewModel.uiState.collectAsState()
+//    var isClick by remember { mutableStateOf(false) }
+//
+//    if (isClick) {
+//        Text(
+//            text = formCreateUiState.category.categories[index].category_title,
+//            modifier = Modifier
+//                .padding(top = 4.dp, bottom = 4.dp, end = 8.dp)
+//                .background(
+//                    Color(android.graphics.Color.parseColor("#${formCreateUiState.category.categories[index].color}")),
+//                    shape = CircleShape
+//                )
+//                .padding(5.dp)
+//                .height(20.dp)
+//                .clickable(onClick = {
+//                    isClick = false
+//                }),
+//            fontFamily = poppins,
+//            fontSize = 12.sp,
+//            textAlign = TextAlign.Center,
+//            fontWeight = FontWeight.Bold,
+//            color = Color.White
+//        )
+//
+//    } else {
+//        Text(
+//            text = formCreateUiState.category.categories[index].category_title,
+//            modifier = Modifier
+//                .padding(top = 4.dp, bottom = 4.dp, end = 8.dp)
+//                .background(
+//                    Color.Gray,
+//                    shape = CircleShape
+//                )
+//                .padding(5.dp)
+//                .height(20.dp)
+//                .clickable(onClick = {
+//                    isClick = false
+//                }),
+//            fontFamily = poppins,
+//            fontSize = 12.sp,
+//            textAlign = TextAlign.Center,
+//            fontWeight = FontWeight.Bold,
+//            color = Color.White
+//        )
+//    }
+//}
 
 
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun FormCreatePriview(){
-    FormCreateView()
-}
+//@RequiresApi(Build.VERSION_CODES.O)
+//@Preview(showBackground = true, showSystemUi = true)
+//@Composable
+//fun FormCreatePriview(){
+//    FormCreateView(
+//        toDoListViewModel = ToDoListViewModel(),
+//        navController = rememberNavController()
+//    )
+//}
