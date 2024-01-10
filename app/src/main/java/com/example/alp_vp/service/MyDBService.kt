@@ -4,6 +4,7 @@ import com.example.alp_vp.model.APIListResponse
 import com.example.alp_vp.model.APIResponse
 import com.example.alp_vp.model.Category
 import com.example.alp_vp.model.SignInResponse
+import com.example.alp_vp.model.ToDoListComplete
 import com.example.alp_vp.model.ToDoListCreate
 import com.example.alp_vp.model.ToDoListResponse
 import com.example.alp_vp.model.User
@@ -120,6 +121,11 @@ interface MyDBService {
     @POST("timer_stop")
     suspend fun stopTimer(): APIResponse
 
+    @POST("update_tdlComplete")
+    suspend fun updateComplete(
+        @Header("Authorization") token: String,
+        @Body request : ToDoListComplete
+    )
     @DELETE("logout")
     suspend fun logout(): APIResponse
 

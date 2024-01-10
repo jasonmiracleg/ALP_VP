@@ -29,14 +29,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.alp_vp.R
-import com.example.alp_vp.model.ToDoListV2
+import com.example.alp_vp.model.ToDoListResponse
 import com.example.alp_vp.ui.theme.poppins
 import com.example.alp_vp.viewmodel.to_do_list.HomeViewModel
+import java.sql.Time
 
 @Composable
 fun todoListCard(
     homeViewModel: HomeViewModel = viewModel(),
-    data: ToDoListV2
+    data: ToDoListResponse
 //    category: ArrayList<Category>
 ) {
 //    val homeUiState by homeViewModel.uiState.collectAsState()
@@ -103,35 +104,49 @@ fun todoListCard(
 //                            )
                     }
                 }
-            }
-
-            if (isChecked) {
-                Icon(
-                    painterResource(id = R.drawable.checkbox_selesai),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(45.dp)
-                        .width(1.dp)
-                        .clickable {
-                            isChecked = false
-                            homeViewModel.updatetoDoList(data, isChecked)
-                        },
-                    tint = Color.Gray,
-                )
-            } else {
-                Icon(
-                    painterResource(id = R.drawable.checkbox_blank),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(45.dp)
-                        .width(1.dp)
-                        .clickable {
-                            isChecked = true;
-                            homeViewModel.updatetoDoList(data, isChecked)
-                        },
-                    tint = Color.Gray,
-                )
+                if (isChecked) {
+                    Icon(
+                        painterResource(id = R.drawable.checkbox_selesai),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(45.dp)
+                            .width(1.dp)
+                            .clickable {
+                                isChecked = false
+//                            homeViewModel.updatetoDoList(data, isChecked)
+                            },
+                        tint = Color.Gray,
+                    )
+                } else {
+                    Icon(
+                        painterResource(id = R.drawable.checkbox_blank),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(45.dp)
+                            .width(1.dp)
+                            .clickable {
+                                isChecked = true;
+//                            homeViewModel.updatetoDoList(data, isChecked)
+                            },
+                        tint = Color.Gray,
+                    )
+                }
             }
         }
     }
 }
+
+//@Preview(showBackground = true, showSystemUi = false)
+//@Composable
+//fun PreviewTDL() {
+//    todoListCard(
+//        data = ToDoList(
+//            "Coba Makan",
+//            ArrayList(),
+//            "",
+//            isGroup.group,
+//            isComplete.done,
+//            Time.valueOf("12:15:00")
+//        )
+//    )
+//}

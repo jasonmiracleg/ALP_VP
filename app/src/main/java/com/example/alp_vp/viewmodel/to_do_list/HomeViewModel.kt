@@ -1,5 +1,6 @@
 package com.example.alp_vp.viewmodel.to_do_list
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -23,13 +24,17 @@ import kotlinx.coroutines.launch
 import retrofit2.Response
 
 sealed interface HomeUIState {
-    data class Success(val user: Int, val listCategory: Response<APIListResponse<List<ToDoListResponse>>>) : HomeUIState
-    object Error: HomeUIState
-    object Loading: HomeUIState
+    data class Success(
+        val user: Int,
+        val listToDo: Response<APIListResponse<List<ToDoListResponse>>>
+    ) : HomeUIState
+
+    object Error : HomeUIState
+    object Loading : HomeUIState
 }
 
-class HomeViewModel :ViewModel(){
-     private val _uiState = MutableStateFlow(HomeUiState())
+class HomeViewModel : ViewModel() {
+    private val _uiState = MutableStateFlow(HomeUiState())
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
 
@@ -48,10 +53,10 @@ class HomeViewModel :ViewModel(){
                 data = MyDBContainer().tiemerDBRepositories.getAllToDoList(
                     MyDBContainer.ACCESS_TOKEN, MyDBContainer.USER_ID
                 )
+                Log.d("data", data.toString())
                 homeuiState = HomeUIState.Success(MyDBContainer.USER_ID, data)
 
-            }
-            catch(e: Exception){
+            } catch (e: Exception) {
 //                Log.d("FAILED", e.message.toString())
                 homeuiState = HomeUIState.Error
             }
@@ -59,12 +64,12 @@ class HomeViewModel :ViewModel(){
     }
 
     fun logout(
-        dataStore : DataStoreManager,
+        dataStore: DataStoreManager,
         navController: NavController
-    ){
+    ) {
         viewModelScope.launch {
             MyDBContainer().tiemerDBRepositories.logout()
-            dataStore.saveToken("",-1)
+            dataStore.saveToken("", -1)
             MyDBContainer.USER_ID = -1
             MyDBContainer.ACCESS_TOKEN = ""
             navController.navigate(ListScreen.SplashScreen.name)
@@ -72,29 +77,14 @@ class HomeViewModel :ViewModel(){
     }
 
     private val todoListLiveData = MutableLiveData<List<ToDoListV2>>()
-    fun getAllToDoList() {
+
+    fun updatetoDoList(data: ToDoListResponse, result: Boolean) {
         viewModelScope.launch {
-//            todoListLiveData.value = array
-            MyDBContainer().tiemerDBRepositories.createToDoList(
-                token = MyDBContainer.ACCESS_TOKEN,
-                title= "ha",
-                is_group ="0" ,
-                description = "String",
-                date = "2024-02-01",
-                day = "2024-02-01"
+            MyDBContainer().tiemerDBRepositories.updateCompleteToDoListToDay(
+                MyDBContainer.ACCESS_TOKEN,
+                data,
+                result
             )
-//            MyDBContainer().tiemerDBRepositories.getAllToDoList(
-//                MyDBContainer.ACCESS_TOKEN
-//            )
         }
-    }
-
-    fun updatetoDoList(toDoListV2: ToDoListV2, result: Boolean) {
-
-//        viewModelScope.launch {
-//            MyDBContainer().tiemerDBRepositories.updateCompleteToDoListToDay(
-//
-//            )
-//        }
     }
 }

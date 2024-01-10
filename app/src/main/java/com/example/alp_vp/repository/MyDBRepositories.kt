@@ -5,6 +5,7 @@ import com.example.alp_vp.model.APIListResponse
 import com.example.alp_vp.model.APIResponse
 import com.example.alp_vp.model.Category
 import com.example.alp_vp.model.SignInResponse
+import com.example.alp_vp.model.ToDoListComplete
 import com.example.alp_vp.model.ToDoListCreate
 import com.example.alp_vp.model.ToDoListResponse
 import com.example.alp_vp.model.ToDoListV2
@@ -86,13 +87,14 @@ class MyDBRepositories(private val myDBService: MyDBService) {
         description: String,
         date: String,
         day: String
-        ) {
+    ) {
         val toDoListCreateVar = ToDoListCreate(
             title = title,
             is_group = is_group,
             description = description,
             date = date,
-            day = day)
+            day = day
+        )
         val createToDoList = myDBService.createToDoList(token, toDoListCreateVar)
         Log.d("coba1", createToDoList.toString())
         return createToDoList
@@ -101,7 +103,7 @@ class MyDBRepositories(private val myDBService: MyDBService) {
     suspend fun getAllToDoList(
         token: String,
         userId: Int
-    ) : Response<APIListResponse<List<ToDoListResponse>>> {
+    ): Response<APIListResponse<List<ToDoListResponse>>> {
         val sendData = myDBService.getAllToDoList(token, userId)
 //        Log.d("gabisa", myDBService.getAllToDoList(token).toString())
         return sendData
@@ -109,10 +111,25 @@ class MyDBRepositories(private val myDBService: MyDBService) {
 
     suspend fun updateCompleteToDoListToDay(
         token: String,
-        toDoListV2: ToDoListV2
+        data: ToDoListResponse,
+        result: Boolean
     ) {
-//        val updateComplete = myDBService.updateComplete()
+        var toDoList = data.id
+
+        if (result) {
+            val is_complete_tdl = ToDoListComplete(
+                id = toDoList,
+                is_complete = "1"
+            )
+            return myDBService.updateComplete(token, is_complete_tdl)
+        } else {
+            val is_complete_tdl = ToDoListComplete(
+                id = toDoList,
+                is_complete = "0"
+            )
+            return myDBService.updateComplete(token, is_complete_tdl)
+
+        }
+
     }
-
-
 }

@@ -71,3 +71,8 @@ data class ToDoListCreate(
     @SerializedName("date") val date: String,
     @SerializedName("day") val day: String
 )
+
+data class ToDoListComplete(
+    @SerializedName("id") val id: Int,
+    @SerializedName("is_complete") val is_complete: String
+)

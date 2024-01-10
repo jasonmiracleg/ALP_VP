@@ -1,5 +1,6 @@
 package com.example.alp_vp.ui.view.to_do_list
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -41,19 +42,20 @@ import retrofit2.Response
 @Composable
 fun HomeView(
     navController: NavController,
-    dataStore : DataStoreManager,
+    dataStore: DataStoreManager,
     homeViewModel: HomeViewModel,
-    ) {
+) {
 //    val homeUiState by homeViewModel.uiState.collectAsState()
 
     val homeVM: HomeUIState = homeViewModel.homeuiState
     var allToDoListBody: Response<APIListResponse<List<ToDoListResponse>>>? = null
     var userId: Int? = null
-    when (val status = homeViewModel.homeuiState) {
+
+    when (homeVM) {
 
         is HomeUIState.Success -> {
-//            userId = homeVM.user
-//            allToDoListBody = homeVM.listToDO
+            userId = homeVM.user
+            allToDoListBody = homeVM.listToDo
         }
 
         is HomeUIState.Error -> {}
@@ -64,83 +66,88 @@ fun HomeView(
 
     }
 
-    Column {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .padding(20.dp, 25.dp)
-        ) {
+    val allToDo: APIListResponse<List<ToDoListResponse>>? = allToDoListBody?.body()
+    LazyColumn {
+        item {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .padding(20.dp, 25.dp)
+            ) {
+                Text(
+                    text = "Tiemer",
+                    fontFamily = poppins
+                )
+                Spacer(modifier = Modifier.weight(1f))
+                Icon(
+                    imageVector = Icons.Filled.Add,
+                    contentDescription = null,
+                    modifier = Modifier.clickable {
+                        navController.navigate(ListScreen.FormCreate.name)
+                    }
+                )
+                Icon(
+                    imageVector = Icons.Outlined.Logout,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(30.dp)
+                        .clickable {
+                            homeViewModel.logout(dataStore, navController)
+                        },
+                    tint = Color.Gray
+
+                )
+            }
             Text(
-                text = "Tiemer",
+                text = "Hi " + " !",
+                modifier = Modifier
+                    .padding(horizontal = 20.dp),
+                fontSize = 25.sp,
                 fontFamily = poppins,
                 fontWeight = FontWeight.Bold
             )
-            Spacer(modifier = Modifier.weight(1f))
-            Icon(
-                imageVector = Icons.Filled.Add,
-                contentDescription = null,
-                modifier = Modifier.clickable {
-                    navController.navigate(ListScreen.FormCreate.name)
-                }
-            )
-            Icon(
-                imageVector = Icons.Outlined.Logout,
-                contentDescription = null,
+            Text(
+                text = "Ready to finish your task for today",
                 modifier = Modifier
-                    .size(30.dp)
-                    .clickable {
-                        homeViewModel.logout(dataStore, navController)
-                    },
-                tint = Color.Gray
-
+                    .padding(horizontal = 20.dp),
+                color = Color.Gray,
+                fontSize = 16.sp,
+                fontFamily = poppins,
+                fontWeight = FontWeight.Bold
             )
         }
-        Text(
-            text = "Hi " + " !",
-            modifier = Modifier
-                .padding(horizontal = 20.dp),
-            fontSize = 25.sp,
-            fontFamily = poppins,
-            fontWeight = FontWeight.Bold
-        )
-        Text(
-            text = "Ready to finish your task for today",
-            modifier = Modifier
-                .padding(horizontal = 20.dp),
-            color = Color.Gray,
-            fontSize = 16.sp,
-            fontFamily = poppins,
-            fontWeight = FontWeight.Bold
-        )
+
 //        Button(
 //            onClick = { homeViewModel.getAllToDoList() }
 //        ) {
 //            Text("coba")
 //        }
-        LazyColumn(
-            modifier = Modifier
-                .padding(vertical = 15.dp)
-        ) {
-//            if (listData != null) {
-//                items(listData.size) {
-//                    todoListCard(
-//                        homeViewModel = homeViewModel,
-//                        data = listData[it]
-////                                homeUiState.todoList[it],
-////                        homeUiState.todoList[it].listCategory
-//                    )
-//                }
-//            }
-//            homeViewModel.getAllToDoList()?.let {
-//                items(it) {
-//                    todoListCard(
-//                        homeViewModel,
-//                        it
-//                        homeUiState.todoList[it],
+        if (allToDo != null) {
+            items(allToDo.data.size) {
+                todoListCard(
+                    homeViewModel = homeViewModel,
+                    data = allToDo.data[it]
+//                                homeUiState.todoList[it],
 //                        homeUiState.todoList[it].listCategory
-//                    )
-//                }
+                )
+            }
         }
+//        items
+//        LazyColumn(
+//            modifier = Modifier
+//                .padding(vertical = 15.dp)
+//        ) {
+//
+////            homeViewModel.getAllToDoList()?.let {
+////                items(it) {
+////                    todoListCard(
+////                        homeViewModel,
+////                        it
+////                        homeUiState.todoList[it],
+////                        homeUiState.todoList[it].listCategory
+////                    )
+////                }
+//        }
     }
 }
 
