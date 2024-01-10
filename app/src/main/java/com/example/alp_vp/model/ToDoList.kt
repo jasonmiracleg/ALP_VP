@@ -9,6 +9,7 @@ import java.util.Date
 
 @Suppress("DEPRECATION")
 data class ToDoList(
+    val id: Int = 0,
     val title: String,
     val listCategory: ArrayList<Category> = arrayListOf(),
     val description: String?,

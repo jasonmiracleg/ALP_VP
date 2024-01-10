@@ -34,15 +34,12 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.alp_vp.data.DataStoreManager
 import com.example.alp_vp.repository.MyDBContainer
-import com.example.alp_vp.repository.MyDBRepositories
-import com.example.alp_vp.ui.component.BottomNavbar
 import com.example.alp_vp.ui.theme.BlueTheme
 import com.example.alp_vp.ui.view.authentication.AuthenticationView
 import com.example.alp_vp.ui.view.authentication.EditProfileView
@@ -50,12 +47,14 @@ import com.example.alp_vp.ui.view.authentication.SignInView
 import com.example.alp_vp.ui.view.authentication.SignUpView
 import com.example.alp_vp.ui.view.authentication.SplashScreenView
 import com.example.alp_vp.ui.view.category.ViewCategory
+import com.example.alp_vp.ui.view.group.TeamListView
 import com.example.alp_vp.ui.view.to_do_list.FormCreateView
 import com.example.alp_vp.ui.view.to_do_list.HomeView
+import com.example.alp_vp.ui.view.to_do_list.WeeklyTaskView
 import com.example.alp_vp.viewmodel.authentication.SignInViewModel
 import com.example.alp_vp.viewmodel.authentication.SignUpViewModel
 import com.example.alp_vp.viewmodel.category.CategoryViewModel
-import com.example.alp_vp.viewmodel.to_do_list.FormCreateViewModel
+import com.example.alp_vp.viewmodel.group.GroupViewModel
 import com.example.alp_vp.viewmodel.to_do_list.HomeViewModel
 import com.example.alp_vp.viewmodel.to_do_list.ToDoListViewModel
 import com.example.alp_vp.viewmodel.to_do_list.WeeklyTaskViewModel
@@ -186,6 +185,7 @@ fun Route(
             composable(ListScreen.WeeklyTask.name) {
                 canNavigate = true
                 val weeklyTaskViewModel: WeeklyTaskViewModel = viewModel()
+                WeeklyTaskView(weeklyTaskViewModel = weeklyTaskViewModel)
             }
 
             composable(ListScreen.FormCreate.name) {
@@ -204,7 +204,7 @@ fun Route(
             }
 
             composable(ListScreen.SignIn.name) {
-                if (MyDBContainer.ACCESS_TOKEN.isEmpty()) {
+                if (MyDBContainer.ACCESS_TOKEN.isEmpty() || MyDBContainer.USER_ID == -1) {
                     canNavigate = false
                     val signInViewModel: SignInViewModel = viewModel()
                     SignInView(
@@ -248,7 +248,11 @@ fun Route(
                 val categoryViewModel: CategoryViewModel = viewModel()
                 ViewCategory(categoryViewModel = categoryViewModel, navController = navController)
             }
-
+            composable(ListScreen.Group.name) {
+                canNavigate = true
+                val groupViewModel: GroupViewModel = viewModel()
+                TeamListView(groupViewModel)
+            }
         }
 
     }

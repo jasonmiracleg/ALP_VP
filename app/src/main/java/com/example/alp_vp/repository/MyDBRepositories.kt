@@ -5,10 +5,9 @@ import com.example.alp_vp.model.APIListResponse
 import com.example.alp_vp.model.APIResponse
 import com.example.alp_vp.model.Category
 import com.example.alp_vp.model.SignInResponse
+import com.example.alp_vp.model.ToDoList
 import com.example.alp_vp.model.ToDoListComplete
 import com.example.alp_vp.model.ToDoListCreate
-import com.example.alp_vp.model.ToDoListResponse
-import com.example.alp_vp.model.ToDoListV2
 import com.example.alp_vp.model.User
 import com.example.alp_vp.service.MyDBService
 import retrofit2.Response
@@ -103,19 +102,18 @@ class MyDBRepositories(private val myDBService: MyDBService) {
     suspend fun getAllToDoList(
         token: String,
         userId: Int
-    ): Response<APIListResponse<List<ToDoListResponse>>> {
-        val sendData = myDBService.getAllToDoList(token, userId)
-//        Log.d("gabisa", myDBService.getAllToDoList(token).toString())
-        return sendData
+    ): Response<APIListResponse<List<ToDoList>>> {
+        //        Log.d("gabisa", myDBService.getAllToDoList(token).toString())
+        return myDBService.getAllToDoList(token, userId)
     }
 
     suspend fun updateCompleteToDoListToDay(
         token: String,
-        data: ToDoListResponse,
+        data: ToDoList,
         result: Boolean
     ) {
         var toDoList = data.id
-
+        Log.d("tdl",toDoList.toString())
         if (result) {
             val is_complete_tdl = ToDoListComplete(
                 id = toDoList,

@@ -8,6 +8,7 @@ class WeeklyTaskUiState (
             day = "Mon",
             arrayListOf(
                 ToDoList(
+                    id= 0,
                     title =  "Pemrograman Android",
                     listCategory = arrayListOf(
                         Category(title = "Group", color = "FFDC2626"),
@@ -21,6 +22,7 @@ class WeeklyTaskUiState (
                     totalSeconds = 1
                 ),
                 ToDoList(
+                    id= 0,
                     title = "Kerja Progress ALP VP",
                     listCategory = arrayListOf(
                         Category(title = "Individual", color = "FFFFC107"),
@@ -33,6 +35,7 @@ class WeeklyTaskUiState (
                     totalSeconds = 1
                 ),
                 ToDoList(
+                    id= 0,
                     title = "WebProg",
                     listCategory = arrayListOf(
                         Category(title = "Group", color = "FFDC2626"),
@@ -51,6 +54,7 @@ class WeeklyTaskUiState (
             day = "Tue",
             arrayListOf(
                 ToDoList(
+                    id= 0,
                     title = "Mancing",
                     listCategory = arrayListOf(
                         Category(title = "Individual", color = "FFFFC107")
@@ -67,6 +71,7 @@ class WeeklyTaskUiState (
             day = "Wed",
             arrayListOf(
                 ToDoList(
+                    id= 0,
                     title = "Ethics",
                     listCategory = arrayListOf(
                         Category(title = "Individual", color = "FFFFC107")
@@ -78,6 +83,7 @@ class WeeklyTaskUiState (
                     totalSeconds = 1
                 ),
                 ToDoList(
+                    id= 0,
                     title = "MathDesc",
                     listCategory = arrayListOf(
                         Category(title = "Shoping", color = "FF673AB7"),
@@ -97,6 +103,7 @@ class WeeklyTaskUiState (
             day = "Fri",
             arrayListOf(
                 ToDoList(
+                    id= 0,
                     title = "Bisnis",
                     listCategory = arrayListOf(
                         Category(title = "Shoping", color = "FF3F51B5"),

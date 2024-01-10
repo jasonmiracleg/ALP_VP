@@ -30,7 +30,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.alp_vp.R
 import com.example.alp_vp.ui.component.oneWeekCard
 import com.example.alp_vp.ui.component.todolistOneweekCard
@@ -38,7 +37,7 @@ import com.example.alp_vp.viewmodel.to_do_list.WeeklyTaskViewModel
 
 @Composable
 fun WeeklyTaskView(
-    weeklyTaskViewModel: WeeklyTaskViewModel = viewModel()
+    weeklyTaskViewModel: WeeklyTaskViewModel
 ){
      val weeklyTaskUiState by weeklyTaskViewModel.uiState.collectAsState()
      Column (
@@ -90,7 +89,7 @@ fun WeeklyTaskView(
                      horizontalArrangement = Arrangement.spacedBy(11.dp)
                  ){
                      items(weeklyTaskUiState.listDay.size) {
-                         oneWeekCard(WeeklyTaskViewModel(), weeklyTaskUiState.listDay[it])
+                         oneWeekCard(weeklyTaskViewModel, weeklyTaskUiState.listDay[it])
                      }
                  }
              }
@@ -104,8 +103,8 @@ fun WeeklyTaskView(
 }
 
 
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun WeeklyTaskPreview(){
-    WeeklyTaskView()
-}
+//@Preview(showBackground = true, showSystemUi = true)
+//@Composable
+//fun WeeklyTaskPreview(){
+//    WeeklyTaskView()
+//}

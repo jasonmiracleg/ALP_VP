@@ -10,12 +10,9 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.example.alp_vp.data.DataStoreManager
 import com.example.alp_vp.model.APIListResponse
-import com.example.alp_vp.model.Category
-import com.example.alp_vp.model.HomeUiState
-import com.example.alp_vp.model.ToDoListResponse
+import com.example.alp_vp.model.ToDoList
 import com.example.alp_vp.model.ToDoListV2
 import com.example.alp_vp.repository.MyDBContainer
-import com.example.alp_vp.repository.MyDBRepositories
 import com.example.alp_vp.ui.ListScreen
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -26,7 +23,7 @@ import retrofit2.Response
 sealed interface HomeUIState {
     data class Success(
         val user: Int,
-        val listToDo: Response<APIListResponse<List<ToDoListResponse>>>
+        val listToDo: Response<APIListResponse<List<ToDoList>>>
     ) : HomeUIState
 
     object Error : HomeUIState
@@ -34,14 +31,14 @@ sealed interface HomeUIState {
 }
 
 class HomeViewModel : ViewModel() {
-    private val _uiState = MutableStateFlow(HomeUiState())
-    val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
+//    private val _uiState = MutableStateFlow(HomeUiState())
+//    val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
 
     var homeuiState: HomeUIState by mutableStateOf(HomeUIState.Loading)
         private set
 
-    lateinit var data: Response<APIListResponse<List<ToDoListResponse>>>
+    lateinit var data: Response<APIListResponse<List<ToDoList>>>
 
     init {
         loadKonten()
@@ -78,8 +75,9 @@ class HomeViewModel : ViewModel() {
 
     private val todoListLiveData = MutableLiveData<List<ToDoListV2>>()
 
-    fun updatetoDoList(data: ToDoListResponse, result: Boolean) {
+    fun updatetoDoList(data: ToDoList, result: Boolean) {
         viewModelScope.launch {
+            Log.d("tdl", data.toString())
             MyDBContainer().tiemerDBRepositories.updateCompleteToDoListToDay(
                 MyDBContainer.ACCESS_TOKEN,
                 data,

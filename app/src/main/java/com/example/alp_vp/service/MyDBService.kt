@@ -4,6 +4,7 @@ import com.example.alp_vp.model.APIListResponse
 import com.example.alp_vp.model.APIResponse
 import com.example.alp_vp.model.Category
 import com.example.alp_vp.model.SignInResponse
+import com.example.alp_vp.model.ToDoList
 import com.example.alp_vp.model.ToDoListComplete
 import com.example.alp_vp.model.ToDoListCreate
 import com.example.alp_vp.model.ToDoListResponse
@@ -96,7 +97,7 @@ interface MyDBService {
     suspend fun getAllToDoList(
         @Header("Authorization") token: String,
         @Path("userId") userId: Int
-    ) :  Response<APIListResponse<List<ToDoListResponse>>>
+    ) :  Response<APIListResponse<List<ToDoList>>>
 
     @POST("update_toDoList/{toDoList")
     suspend fun updateTDL(
@@ -124,7 +125,7 @@ interface MyDBService {
     @POST("update_tdlComplete")
     suspend fun updateComplete(
         @Header("Authorization") token: String,
-        @Body request : ToDoListComplete
+        @Body complete_tdl : ToDoListComplete
     )
     @DELETE("logout")
     suspend fun logout(): APIResponse
